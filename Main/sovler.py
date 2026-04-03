@@ -15,7 +15,7 @@ class FLUID:
         return max(min(val , max_val), min_val)
 
     # numX,Y are the no of cells and h is the grid spacing
-    def __init__(self, density ,numX, numY , h):
+    def __init__(self, density ,numX, numY , h, overRel):
         self.density = density
         self.numX = numX + 2 #these are the boundary cells used to calculate for the edge cells (one - one row for each)
         self.numY = numY + 2
@@ -30,6 +30,7 @@ class FLUID:
         self.m = np.zeros(self.numCells, dtype=np.float32)
         self.nM = np.ones(self.numCells, dtype=np.float32) # used np.ones to fill this array with value "1"
         num = numX * numY
+        self.overRel = overRel
 
     def integrate_g(self, dt, gravity):
         n = self.numY
@@ -62,7 +63,7 @@ class FLUID:
                         continue
                     divergence = self.u[(i+1)*n+j] - self.u[i*n + j]+ self.v[i*n + (j+1)]- self.v[i*n + j]
                     p = -divergence / s
-                    p = p * visualizer.cur_SEC.cur_sec["OverRelax"] #updating the presusre current with overelaxation in it. here its 1.9 i think
+                    p = p * self.overRel #updating the presusre current with overelaxation in it. here its 1.9 i think
                     self.p[i*n + j] += cp * p;
                     # updating the values
                     self.u[i*n + j] -= Sx0 *p

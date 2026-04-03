@@ -1,0 +1,9 @@
+repeat N times:
+    apply inlet
+    add forces
+    advect velocity
+    solve pressure
+    fix boundaries
+    advect smoke
+    apply inlet again
+this should be the loop

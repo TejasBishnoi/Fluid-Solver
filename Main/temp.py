@@ -1,11 +1,19 @@
-from Main.airfoilgen import apply_naca_airfoil
-from sovler import FLUID
 import sys
 import time
+
 import numpy as np
+
 sys.modules.setdefault("visualizer", sys.modules[__name__])
 
-class wt:
+
+class cur_SEC:
+    cur_sec = {"OverRelax": 1.9}
+
+
+from sovler import FLUID
+
+
+class HeadlessWindTunnel:
     def __init__(
             self,
             grid_w=200,
@@ -17,7 +25,7 @@ class wt:
             dt=0.08,
             iterations=30,
             over_relax=1.9,
-            inlet_columns=5,
+            inlet_columns=3,
     ):
         self.grid_w = grid_w
         self.grid_h = grid_h
@@ -29,26 +37,27 @@ class wt:
         self.iterations = iterations
         self.over_relax = over_relax
         self.inlet_columns = inlet_columns
-        self.create_scene()
 
-    def id_flat(self,i,j):
-        return i* self.fluid.numY + j
+        self._create_scene()
 
-    def create_scene(self):
+    def _idx(self, i, j):
+        return i * self.fluid.numY + j
+
+    def _create_scene(self):
         self.fluid = FLUID(self.density, self.grid_w, self.grid_h, 1.0)
         self.fluid.s.fill(0.0)
         self.fluid.m.fill(0.0)
         self.fluid.u.fill(0.0)
         self.fluid.v.fill(0.0)
         self.fluid.p.fill(0.0)
-        #apply inlet here
+
         self.apply_inlet()
 
     def apply_inlet(self):
-        center = self.grid_w / 2 + 1
-        half_h = max(4, self.grid_h // 6)
-        low = center - half_h
-        high = center + half_h
+        center = self.grid_h // 2 + 1
+        half_height = max(4, self.grid_h // 6)
+        low = center - half_height
+        high = center + half_height
 
         for i in range(1, self.inlet_columns + 1):
             for j in range(1, self.fluid.numY - 1):
@@ -62,12 +71,24 @@ class wt:
                     self.fluid.m[idx] = self.smoke_strength * 0.08
                 self.fluid.v[idx] = 0.0
 
-
-    def set_obstacle_airfoil(self, cx, cy, radius, solid=False):
-        apply_naca_airfoil(self.fluid, 2412, 30, 70,51)
+    def set_obstacle_circle(self, cx, cy, radius, solid=True):
+        for i in range(max(1, cx - radius), min(self.fluid.numX - 1, cx + radius + 1)):
+            for j in range(max(1, cy - radius), min(self.fluid.numY - 1, cy + radius + 1)):
+                if (i - cx) * (i - cx) + (j - cy) * (j - cy) > radius * radius:
+                    continue
+                if i <= self.inlet_columns + 1:
+                    continue
+                idx = self._idx(i, j)
+                if solid:
+                    self.fluid.s[idx] = 0.0
+                    self.fluid.m[idx] = 0.0
+                    self.fluid.u[idx] = 0.0
+                    self.fluid.v[idx] = 0.0
+                else:
+                    self.fluid.s[idx] = 1.0
 
     def step(self, steps=1):
-        self.fluid.overRel = self.over_relax
+        cur_SEC.cur_sec["OverRelax"] = self.over_relax
 
         for _ in range(steps):
             self.apply_inlet()
@@ -111,62 +132,8 @@ class wt:
         return pressure
 
 
-
-    ##test code
-    def solid_field(self):
-        solid = np.zeros((self.grid_h, self.grid_w), dtype=np.float32)
-
-        for i in range(1, self.fluid.numX - 1):
-            for j in range(1, self.fluid.numY - 1):
-                solid[j - 1, i - 1] = 1.0 - self.fluid.s[self._idx(i, j)]
-
-        return solid
-
-    def export_cell_data(self):
-        n = self.fluid.numY
-        rows = []
-
-        for i in range(1, self.fluid.numX - 1):
-            for j in range(1, self.fluid.numY - 1):
-                idx = i * n + j
-                u_center = 0.5 * (self.fluid.u[idx] + self.fluid.u[(i + 1) * n + j])
-                v_center = 0.5 * (self.fluid.v[idx] + self.fluid.v[i * n + (j + 1)])
-                rows.append(
-                    (
-                        idx,
-                        i,
-                        j,
-                        self.fluid.s[idx],
-                        self.fluid.u[idx],
-                        self.fluid.v[idx],
-                        u_center,
-                        v_center,
-                        float(np.sqrt(u_center * u_center + v_center * v_center)),
-                        self.fluid.m[idx],
-                        self.fluid.p[idx],
-                    )
-                )
-
-        return np.array(
-            rows,
-            dtype=[
-                ("cell_id", np.int32),
-                ("i", np.int32),
-                ("j", np.int32),
-                ("s", np.float32),
-                ("u_face", np.float32),
-                ("v_face", np.float32),
-                ("u_center", np.float32),
-                ("v_center", np.float32),
-                ("speed", np.float32),
-                ("smoke", np.float32),
-                ("pressure", np.float32),
-            ],
-        )
-
-
 def main():
-    sim = wt(grid_w=80, grid_h=40, iterations=20)
+    sim = HeadlessWindTunnel(grid_w=80, grid_h=40, iterations=20)
     sim.set_obstacle_circle(cx=30, cy=20, radius=5, solid=True)
 
     total_steps = 5
@@ -182,6 +149,7 @@ def main():
     print(f"steps_per_second: {total_steps / elapsed:.2f}")
     print(f"max_speed: {float(np.max(speed)):.3f}")
     print(f"mean_smoke: {float(np.mean(smoke)):.3f}")
+
 
 if __name__ == "__main__":
     main()
