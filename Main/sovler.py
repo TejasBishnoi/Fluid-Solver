@@ -12,10 +12,12 @@ class FIELDS:
 class FLUID:
     #used for clamping the values of what ever is in here, is used in the sample field function
     def clamp(self ,val , min_val , max_val):
+        if not np.isfinite(val):
+            return min_val
         return max(min(val , max_val), min_val)
 
     # numX,Y are the no of cells and h is the grid spacing
-    def __init__(self, density ,numX, numY , h, overRel):
+    def __init__(self, density ,numX, numY , h):
         self.density = density
         self.numX = numX + 2 #these are the boundary cells used to calculate for the edge cells (one - one row for each)
         self.numY = numY + 2
@@ -30,7 +32,6 @@ class FLUID:
         self.m = np.zeros(self.numCells, dtype=np.float32)
         self.nM = np.ones(self.numCells, dtype=np.float32) # used np.ones to fill this array with value "1"
         num = numX * numY
-        self.overRel = overRel
 
     def integrate_g(self, dt, gravity):
         n = self.numY
@@ -54,16 +55,16 @@ class FLUID:
                     #for checking the boundary S condition
                     if self.s[i*n + j] == 0:
                         continue
-                    s = self.s[i*n + j] #making the stuff local here
                     Sx0 = self.s[(i-1)*n + j]
                     Sx1 = self.s[(i+1)*n + j]
                     Sy0 = self.s[i*n + (j-1)]   #id_ing the cells or the boundaries persay
                     Sy1 = self.s[i*n + (j+1)]
-                    if s == Sx0 + Sx1 + Sy0 + Sy1:
+                    s = Sx0 + Sx1 + Sy0 + Sy1
+                    if s == 0.0:
                         continue
                     divergence = self.u[(i+1)*n+j] - self.u[i*n + j]+ self.v[i*n + (j+1)]- self.v[i*n + j]
                     p = -divergence / s
-                    p = p * self.overRel #updating the presusre current with overelaxation in it. here its 1.9 i think
+                    p = p * visualizer.cur_SEC.cur_sec["OverRelax"] #updating the presusre current with overelaxation in it. here its 1.9 i think
                     self.p[i*n + j] += cp * p;
                     # updating the values
                     self.u[i*n + j] -= Sx0 *p
@@ -89,6 +90,11 @@ class FLUID:
         h = self.h
         h1 = 1.0/h
         h2 = 0.5 * h
+
+        if not np.isfinite(x):
+            x = h
+        if not np.isfinite(y):
+            y = h
 
         #to prevent the values from going out of bounds so that positon comes out accureate
         x = self.clamp(x, h, self.numX*h)
@@ -130,7 +136,7 @@ class FLUID:
 
     def avg_U(self, i, j):
         n = self.numY
-        u = (self.u[i*n + j-1]+ self.u[i*n + j]+ self.u[(i+1)*n + j-1]+ self.u[(i+1)*n + j+1])*0.25 #0.25 for 1/4
+        u = (self.u[i*n + j-1]+ self.u[i*n + j]+ self.u[(i+1)*n + j-1]+ self.u[(i+1)*n + j])*0.25 #0.25 for 1/4
         return u
 
     def avg_V(self, i, j):
@@ -162,6 +168,10 @@ class FLUID:
                     #backtracing
                     x = x - dt*u
                     y = y - dt*v
+                    if not np.isfinite(x):
+                        x = i * h
+                    if not np.isfinite(y):
+                        y = j * h + h2
                     u = self.sampleFields(x,y, FIELDS.U_field)
                     self.nU[i*n + j] = u
 
@@ -173,6 +183,10 @@ class FLUID:
                     v = self.v[i*n + j]
                     x = x - dt*u
                     y = y - dt*v
+                    if not np.isfinite(x):
+                        x = i * h + h2
+                    if not np.isfinite(y):
+                        y = j * h
                     v = self.sampleFields(x,y, FIELDS.V_field)
                     self.nV[i*n + j] = v
 
@@ -182,7 +196,7 @@ class FLUID:
 
     #for smoke boi
     def advection_smoke(self,dt):
-        self.nU[:] = self.m
+        self.nM[:] = self.m
         n = self.numY
         h = self.h
         h2 = 0.5*h
@@ -194,14 +208,13 @@ class FLUID:
                     v = (self.v[i*n + j] + self.v[i*n + j+1]) * 0.5
                     x = i * h + h2 - dt * u
                     y = j * h + h2 - dt * v
-                self.nM[i*n + j] = self.sampleFields(x,y, FIELDS.S_field)
+                    self.nM[i*n + j] = self.sampleFields(x,y, FIELDS.S_field)
+                else:
+                    self.nM[i*n + j] = 0.0
 
         self.m[:] = self.nM
 
 # -----------SOLVER ENDED-----------
-
-
-
 
 
 
