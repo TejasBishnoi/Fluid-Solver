@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from airfoilgen import apply_naca_airfoil
-
+print("Made By - Tejas Bishnoi. Github: github.com/TejasBishnoi . instagram: @whoistejas")
 sys.modules.setdefault("visualizer", sys.modules[__name__])
 
 

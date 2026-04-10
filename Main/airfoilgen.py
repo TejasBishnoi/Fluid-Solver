@@ -2,7 +2,7 @@ import numpy as np
 
 
 def point_in_polygon(x, y, polygon):
-    """Return True when point (x, y) lies inside a closed polygon."""
+
     inside = False
     count = len(polygon)
 
@@ -25,12 +25,7 @@ def point_in_polygon(x, y, polygon):
 
 
 def generate_naca4_coordinates(naca_code, num_points=200):
-    """
-    Generate a closed polygon for a NACA 4-digit airfoil in unit-chord space.
 
-    The returned coordinates span x in [0, 1] with the airfoil centered
-    vertically around y = 0.
-    """
     if len(naca_code) != 4 or not naca_code.isdigit():
         raise ValueError("naca_code must be a 4-digit string such as '0012' or '2412'")
 
@@ -79,12 +74,7 @@ def generate_naca4_coordinates(naca_code, num_points=200):
 
 
 def apply_naca_airfoil(fluid, naca_code, chord_length, center_x, center_y):
-    """
-    Rasterize a NACA 4-digit airfoil into the structured CFD grid.
 
-    Cells inside the airfoil are marked solid and their velocity/smoke values
-    are zeroed. Inlet cells with i <= 3 are preserved.
-    """
     if chord_length <= 0.0:
         raise ValueError("chord_length must be positive")
 
