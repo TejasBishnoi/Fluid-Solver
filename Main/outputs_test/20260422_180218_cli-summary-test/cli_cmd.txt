@@ -1,0 +1,48 @@
+Command used
+------------
+/Library/Frameworks/Python.framework/Versions/3.14/bin/python3 simplified.py --hardstep 1 --min-steps 1 --run-name cli-summary-test --solid-shape square --output-dir outputs_test
+
+Selected values
+---------------
+angle_of_attack = 0.0
+center = (70.0, 51.0)
+chord_length = 30.0
+circle_radius = 12
+dt = 0.08
+flow_speed = 9.0
+gravity = 0.0
+hardstep = 1
+inlet_columns = 3
+iterations = 30
+min_steps = 1
+naca_code = '2412'
+output_dir = 'outputs_test'
+over_relax = 1.9
+resolution = (200, 100)
+run_name = 'cli-summary-test'
+smoke_strength = 1.0
+solid_shape = 'square'
+steady_tol = 0.0001
+
+Available CLI arguments
+-----------------------
+--resolution | metavar=('NX', 'NY') | default=(200, 100)
+--hardstep | default=400
+--min-steps | default=100
+--steady-tol | default=0.0001
+--iterations | default=30
+--dt | default=0.08
+--flow-speed | default=9.0
+--smoke-strength | default=1.0
+--gravity | default=0.0
+--over-relax | default=1.9
+--inlet-columns | default=3
+--solid-shape | default='airfoil' | choices=('airfoil', 'circle', 'ellipse', 'square', 'rectangle', 'diamond', 'triangle', 'triangle_up', 'triangle_down', 'trapezoid', 'capsule', 'twin_circle', 'plus', 'diamond_cut', 'notched_square', 'venturi')
+--naca-code | default='2412'
+--chord-length | default=30.0
+--circle-radius | default=12
+--center | metavar=('X', 'Y') | default=(70.0, 51.0)
+--angle-of-attack | default=0.0
+--run-name | default=None
+--output-dir | default='outputs'
+

@@ -1,0 +1,48 @@
+Command used
+------------
+/Library/Frameworks/Python.framework/Versions/3.14/bin/python3 simplified.py --run-name cover-airfoil --resolution 480 240 --hardstep 900 --min-steps 250 --steady-tol 5e-5 --iterations 40 --flow-speed 10.0 --solid-shape airfoil --naca-code 2412 --chord-length 72 --center 170 121 --angle-of-attack -12
+
+Selected values
+---------------
+angle_of_attack = -12.0
+center = [170.0, 121.0]
+chord_length = 72.0
+circle_radius = 12
+dt = 0.08
+flow_speed = 10.0
+gravity = 0.0
+hardstep = 900
+inlet_columns = 3
+iterations = 40
+min_steps = 250
+naca_code = '2412'
+output_dir = 'outputs'
+over_relax = 1.9
+resolution = [480, 240]
+run_name = 'cover-airfoil'
+smoke_strength = 1.0
+solid_shape = 'airfoil'
+steady_tol = 5e-05
+
+Available CLI arguments
+-----------------------
+--resolution | metavar=('NX', 'NY') | default=(200, 100)
+--hardstep | default=400
+--min-steps | default=100
+--steady-tol | default=0.0001
+--iterations | default=30
+--dt | default=0.08
+--flow-speed | default=9.0
+--smoke-strength | default=1.0
+--gravity | default=0.0
+--over-relax | default=1.9
+--inlet-columns | default=3
+--solid-shape | default='airfoil' | choices=('airfoil', 'circle', 'ellipse', 'square', 'rectangle', 'diamond', 'triangle', 'triangle_up', 'triangle_down', 'trapezoid', 'capsule', 'twin_circle', 'plus', 'diamond_cut', 'notched_square', 'venturi')
+--naca-code | default='2412'
+--chord-length | default=30.0
+--circle-radius | default=12
+--center | metavar=('X', 'Y') | default=(70.0, 51.0)
+--angle-of-attack | default=0.0
+--run-name | default=None
+--output-dir | default='outputs'
+

@@ -1,0 +1,7269 @@
+def HeadlessWindTunnel.__init__(self, grid_w, grid_h, density, flow_speed, smoke_strength, gravity, dt, iterations, over_relax, inlet_columns, __bitmap):
+    self :: simplified.HeadlessWindTunnel
+    grid_w, grid_h :: int
+    density, flow_speed, smoke_strength, gravity, dt :: float
+    iterations :: int
+    over_relax :: float
+    inlet_columns :: int
+    __bitmap, r0 :: u32
+    r1 :: bit
+    r2 :: u32
+    r3 :: bit
+    r4 :: u32
+    r5 :: bit
+    r6 :: u32
+    r7 :: bit
+    r8 :: u32
+    r9 :: bit
+    r10 :: u32
+    r11 :: bit
+    r12, r13 :: None
+L0:
+    if is_error(grid_w) goto L1 else goto L23
+L1:
+    grid_w = 400
+L2:
+    if is_error(grid_h) goto L3 else goto L24
+L3:
+    grid_h = 200
+L4:
+    r0 = __bitmap & 1
+    r1 = r0 == 0
+    if r1 goto L5 else goto L6 :: bool
+L5:
+    density = 1.0
+L6:
+    r2 = __bitmap & 2
+    r3 = r2 == 0
+    if r3 goto L7 else goto L8 :: bool
+L7:
+    flow_speed = 9.0
+L8:
+    r4 = __bitmap & 4
+    r5 = r4 == 0
+    if r5 goto L9 else goto L10 :: bool
+L9:
+    smoke_strength = 1.0
+L10:
+    r6 = __bitmap & 8
+    r7 = r6 == 0
+    if r7 goto L11 else goto L12 :: bool
+L11:
+    gravity = 0.0
+L12:
+    r8 = __bitmap & 16
+    r9 = r8 == 0
+    if r9 goto L13 else goto L14 :: bool
+L13:
+    dt = 0.08
+L14:
+    if is_error(iterations) goto L15 else goto L25
+L15:
+    iterations = 60
+L16:
+    r10 = __bitmap & 32
+    r11 = r10 == 0
+    if r11 goto L17 else goto L18 :: bool
+L17:
+    over_relax = 1.9
+L18:
+    if is_error(inlet_columns) goto L19 else goto L26
+L19:
+    inlet_columns = 6
+L20:
+    self.grid_w = grid_w
+    self.grid_h = grid_h
+    self.density = density
+    self.flow_speed = flow_speed
+    self.smoke_strength = smoke_strength
+    self.gravity = gravity
+    self.dt = dt
+    self.iterations = iterations
+    self.over_relax = over_relax
+    self.inlet_columns = inlet_columns
+    r12 = self._create_scene()
+    if is_error(r12) goto L22 (error at __init__:49) else goto L21
+L21:
+    return 1
+L22:
+    r13 = <error> :: None
+    return r13
+L23:
+    inc_ref grid_w :: int
+    goto L2
+L24:
+    inc_ref grid_h :: int
+    goto L4
+L25:
+    inc_ref iterations :: int
+    goto L16
+L26:
+    inc_ref inlet_columns :: int
+    goto L20
+
+def HeadlessWindTunnel._idx(self, i, j):
+    self :: simplified.HeadlessWindTunnel
+    i, j :: int
+    r0 :: object
+    r1 :: str
+    r2 :: object
+    r3, r4, r5, r6 :: int
+L0:
+    r0 = self.fluid
+    if is_error(r0) goto L4 (error at _idx:52) else goto L1
+L1:
+    r1 = 'numY'
+    r2 = CPyObject_GetAttr(r0, r1)
+    dec_ref r0
+    if is_error(r2) goto L4 (error at _idx:52) else goto L2
+L2:
+    r3 = unbox(int, r2)
+    dec_ref r2
+    if is_error(r3) goto L4 (error at _idx:52) else goto L3
+L3:
+    r4 = CPyTagged_Multiply(i, r3)
+    dec_ref r3 :: int
+    r5 = CPyTagged_Add(r4, j)
+    dec_ref r4 :: int
+    return r5
+L4:
+    r6 = <error> :: int
+    return r6
+
+def HeadlessWindTunnel._create_scene(self):
+    self :: simplified.HeadlessWindTunnel
+    r0 :: float
+    r1, r2 :: int
+    r3 :: dict
+    r4 :: str
+    r5, r6, r7, r8, r9 :: object
+    r10 :: object[4]
+    r11 :: object_ptr
+    r12 :: object
+    r13 :: bool
+    r14 :: object
+    r15 :: str
+    r16 :: object
+    r17 :: str
+    r18 :: object
+    r19 :: object[2]
+    r20 :: object_ptr
+    r21, r22 :: object
+    r23 :: str
+    r24 :: object
+    r25 :: str
+    r26 :: object
+    r27 :: object[2]
+    r28 :: object_ptr
+    r29, r30 :: object
+    r31 :: str
+    r32 :: object
+    r33 :: str
+    r34 :: object
+    r35 :: object[2]
+    r36 :: object_ptr
+    r37, r38 :: object
+    r39 :: str
+    r40 :: object
+    r41 :: str
+    r42 :: object
+    r43 :: object[2]
+    r44 :: object_ptr
+    r45, r46 :: object
+    r47 :: str
+    r48 :: object
+    r49 :: str
+    r50 :: object
+    r51 :: object[2]
+    r52 :: object_ptr
+    r53, r54 :: object
+    r55 :: str
+    r56 :: object
+    r57, r58, r59, i :: int
+    r60 :: native_int
+    r61 :: bit
+    r62 :: native_int
+    r63, r64, r65 :: bit
+    r66 :: object
+    r67 :: str
+    r68 :: object
+    r69, r70, r71, j :: int
+    r72 :: native_int
+    r73 :: bit
+    r74 :: native_int
+    r75, r76, r77 :: bit
+    r78 :: object
+    r79 :: str
+    r80 :: object
+    r81 :: int
+    r82, r83 :: object
+    r84 :: i32
+    r85 :: bit
+    r86, r87 :: int
+    r88, r89 :: None
+L0:
+    r0 = self.density
+    r1 = self.grid_w
+    r2 = self.grid_h
+    r3 = simplified.globals :: static
+    r4 = 'FLUID'
+    r5 = CPyDict_GetItem(r3, r4)
+    if is_error(r5) goto L43 (error at _create_scene:55) else goto L1
+L1:
+    r6 = box(float, r0)
+    r7 = box(int, r1)
+    r8 = box(int, r2)
+    r9 = box(float, 1.0)
+    r10 = [r6, r7, r8, r9]
+    r11 = load_address r10
+    r12 = PyObject_Vectorcall(r5, r11, 4, 0)
+    dec_ref r5
+    if is_error(r12) goto L44 (error at _create_scene:55) else goto L2
+L2:
+    dec_ref r6
+    dec_ref r7
+    dec_ref r8
+    dec_ref r9
+    self.fluid = r12; r13 = is_error
+    if not r13 goto L42 (error at _create_scene:55) else goto L3 :: bool
+L3:
+    r14 = self.fluid
+    if is_error(r14) goto L42 (error at _create_scene:56) else goto L4
+L4:
+    r15 = 's'
+    r16 = CPyObject_GetAttr(r14, r15)
+    dec_ref r14
+    if is_error(r16) goto L42 (error at _create_scene:56) else goto L5
+L5:
+    r17 = 'fill'
+    r18 = box(float, 0.0)
+    r19 = [r16, r18]
+    r20 = load_address r19
+    r21 = PyObject_VectorcallMethod(r17, r20, 9223372036854775810, 0)
+    if is_error(r21) goto L45 (error at _create_scene:56) else goto L46
+L6:
+    dec_ref r16
+    dec_ref r18
+    r22 = self.fluid
+    if is_error(r22) goto L42 (error at _create_scene:57) else goto L7
+L7:
+    r23 = 'm'
+    r24 = CPyObject_GetAttr(r22, r23)
+    dec_ref r22
+    if is_error(r24) goto L42 (error at _create_scene:57) else goto L8
+L8:
+    r25 = 'fill'
+    r26 = box(float, 0.0)
+    r27 = [r24, r26]
+    r28 = load_address r27
+    r29 = PyObject_VectorcallMethod(r25, r28, 9223372036854775810, 0)
+    if is_error(r29) goto L47 (error at _create_scene:57) else goto L48
+L9:
+    dec_ref r24
+    dec_ref r26
+    r30 = self.fluid
+    if is_error(r30) goto L42 (error at _create_scene:58) else goto L10
+L10:
+    r31 = 'u'
+    r32 = CPyObject_GetAttr(r30, r31)
+    dec_ref r30
+    if is_error(r32) goto L42 (error at _create_scene:58) else goto L11
+L11:
+    r33 = 'fill'
+    r34 = box(float, 0.0)
+    r35 = [r32, r34]
+    r36 = load_address r35
+    r37 = PyObject_VectorcallMethod(r33, r36, 9223372036854775810, 0)
+    if is_error(r37) goto L49 (error at _create_scene:58) else goto L50
+L12:
+    dec_ref r32
+    dec_ref r34
+    r38 = self.fluid
+    if is_error(r38) goto L42 (error at _create_scene:59) else goto L13
+L13:
+    r39 = 'v'
+    r40 = CPyObject_GetAttr(r38, r39)
+    dec_ref r38
+    if is_error(r40) goto L42 (error at _create_scene:59) else goto L14
+L14:
+    r41 = 'fill'
+    r42 = box(float, 0.0)
+    r43 = [r40, r42]
+    r44 = load_address r43
+    r45 = PyObject_VectorcallMethod(r41, r44, 9223372036854775810, 0)
+    if is_error(r45) goto L51 (error at _create_scene:59) else goto L52
+L15:
+    dec_ref r40
+    dec_ref r42
+    r46 = self.fluid
+    if is_error(r46) goto L42 (error at _create_scene:60) else goto L16
+L16:
+    r47 = 'p'
+    r48 = CPyObject_GetAttr(r46, r47)
+    dec_ref r46
+    if is_error(r48) goto L42 (error at _create_scene:60) else goto L17
+L17:
+    r49 = 'fill'
+    r50 = box(float, 0.0)
+    r51 = [r48, r50]
+    r52 = load_address r51
+    r53 = PyObject_VectorcallMethod(r49, r52, 9223372036854775810, 0)
+    if is_error(r53) goto L53 (error at _create_scene:60) else goto L54
+L18:
+    dec_ref r48
+    dec_ref r50
+    r54 = self.fluid
+    if is_error(r54) goto L42 (error at _create_scene:62) else goto L19
+L19:
+    r55 = 'numX'
+    r56 = CPyObject_GetAttr(r54, r55)
+    dec_ref r54
+    if is_error(r56) goto L42 (error at _create_scene:62) else goto L20
+L20:
+    r57 = unbox(int, r56)
+    dec_ref r56
+    if is_error(r57) goto L42 (error at _create_scene:62) else goto L21
+L21:
+    r58 = CPyTagged_Subtract(r57, 2)
+    dec_ref r57 :: int
+    r59 = 2
+    inc_ref r59 :: int
+    i = r59
+    dec_ref i :: int
+L22:
+    r60 = r59 & 1
+    r61 = r60 != 0
+    if r61 goto L24 else goto L23 :: bool
+L23:
+    r62 = r58 & 1
+    r63 = r62 != 0
+    if r63 goto L24 else goto L25 :: bool
+L24:
+    r64 = CPyTagged_IsLt_(r59, r58)
+    if r64 goto L26 else goto L55 :: bool
+L25:
+    r65 = r59 < r58 :: signed
+    if r65 goto L26 else goto L55 :: bool
+L26:
+    inc_ref r59 :: int
+    i = r59
+    r66 = self.fluid
+    if is_error(r66) goto L56 (error at _create_scene:63) else goto L27
+L27:
+    r67 = 'numY'
+    r68 = CPyObject_GetAttr(r66, r67)
+    dec_ref r66
+    if is_error(r68) goto L56 (error at _create_scene:63) else goto L28
+L28:
+    r69 = unbox(int, r68)
+    dec_ref r68
+    if is_error(r69) goto L56 (error at _create_scene:63) else goto L29
+L29:
+    r70 = CPyTagged_Subtract(r69, 2)
+    dec_ref r69 :: int
+    r71 = 2
+    inc_ref r71 :: int
+    j = r71
+    dec_ref j :: int
+L30:
+    r72 = r71 & 1
+    r73 = r72 != 0
+    if r73 goto L32 else goto L31 :: bool
+L31:
+    r74 = r70 & 1
+    r75 = r74 != 0
+    if r75 goto L32 else goto L33 :: bool
+L32:
+    r76 = CPyTagged_IsLt_(r71, r70)
+    if r76 goto L34 else goto L57 :: bool
+L33:
+    r77 = r71 < r70 :: signed
+    if r77 goto L34 else goto L57 :: bool
+L34:
+    inc_ref r71 :: int
+    j = r71
+    r78 = self.fluid
+    if is_error(r78) goto L58 (error at _create_scene:64) else goto L35
+L35:
+    r79 = 's'
+    r80 = CPyObject_GetAttr(r78, r79)
+    dec_ref r78
+    if is_error(r80) goto L58 (error at _create_scene:64) else goto L36
+L36:
+    r81 = self._idx(i, j)
+    dec_ref j :: int
+    if is_error(r81) goto L59 (error at _create_scene:64) else goto L37
+L37:
+    r82 = box(int, r81)
+    r83 = box(float, 1.0)
+    r84 = PyObject_SetItem(r80, r82, r83)
+    dec_ref r80
+    dec_ref r82
+    dec_ref r83
+    r85 = r84 >= 0 :: signed
+    if not r85 goto L60 (error at _create_scene:64) else goto L38 :: bool
+L38:
+    r86 = CPyTagged_Add(r71, 2)
+    dec_ref r71 :: int
+    r71 = r86
+    goto L30
+L39:
+    r87 = CPyTagged_Add(r59, 2)
+    dec_ref r59 :: int
+    r59 = r87
+    goto L22
+L40:
+    r88 = self.apply_inlet()
+    if is_error(r88) goto L42 (error at _create_scene:66) else goto L41
+L41:
+    return 1
+L42:
+    r89 = <error> :: None
+    return r89
+L43:
+    dec_ref r1 :: int
+    dec_ref r2 :: int
+    goto L42
+L44:
+    dec_ref r6
+    dec_ref r7
+    dec_ref r8
+    dec_ref r9
+    goto L42
+L45:
+    dec_ref r16
+    dec_ref r18
+    goto L42
+L46:
+    dec_ref r21
+    goto L6
+L47:
+    dec_ref r24
+    dec_ref r26
+    goto L42
+L48:
+    dec_ref r29
+    goto L9
+L49:
+    dec_ref r32
+    dec_ref r34
+    goto L42
+L50:
+    dec_ref r37
+    goto L12
+L51:
+    dec_ref r40
+    dec_ref r42
+    goto L42
+L52:
+    dec_ref r45
+    goto L15
+L53:
+    dec_ref r48
+    dec_ref r50
+    goto L42
+L54:
+    dec_ref r53
+    goto L18
+L55:
+    dec_ref r58 :: int
+    dec_ref r59 :: int
+    goto L40
+L56:
+    dec_ref r58 :: int
+    dec_ref r59 :: int
+    dec_ref i :: int
+    goto L42
+L57:
+    dec_ref i :: int
+    dec_ref r70 :: int
+    dec_ref r71 :: int
+    goto L39
+L58:
+    dec_ref r58 :: int
+    dec_ref r59 :: int
+    dec_ref i :: int
+    dec_ref r70 :: int
+    dec_ref r71 :: int
+    dec_ref j :: int
+    goto L42
+L59:
+    dec_ref r58 :: int
+    dec_ref r59 :: int
+    dec_ref i :: int
+    dec_ref r70 :: int
+    dec_ref r71 :: int
+    dec_ref r80
+    goto L42
+L60:
+    dec_ref r58 :: int
+    dec_ref r59 :: int
+    dec_ref i :: int
+    dec_ref r70 :: int
+    dec_ref r71 :: int
+    goto L42
+
+def HeadlessWindTunnel.apply_inlet(self):
+    self :: simplified.HeadlessWindTunnel
+    r0, r1, r2, r3, r4 :: int
+    r5 :: native_int
+    r6 :: bit
+    r7 :: native_int
+    r8, r9, r10 :: bit
+    r11, half_height, r12, r13, r14, r15, r16, i :: int
+    r17 :: native_int
+    r18 :: bit
+    r19 :: native_int
+    r20, r21, r22 :: bit
+    r23 :: object
+    r24 :: str
+    r25 :: object
+    r26, r27, r28, j :: int
+    r29 :: native_int
+    r30 :: bit
+    r31 :: native_int
+    r32, r33, r34 :: bit
+    r35 :: int
+    r36 :: object
+    r37 :: str
+    r38, r39, r40 :: object
+    r41 :: i32
+    r42 :: bit
+    r43 :: native_int
+    r44 :: bit
+    r45 :: native_int
+    r46, r47, r48 :: bit
+    r49 :: bool
+    r50 :: bit
+    r51 :: native_int
+    r52 :: bit
+    r53 :: native_int
+    r54, r55, r56 :: bit
+    r57 :: bool
+    r58 :: bit
+    r59 :: float
+    r60 :: object
+    r61 :: str
+    r62, r63, r64 :: object
+    r65 :: i32
+    r66 :: bit
+    r67 :: float
+    r68 :: object
+    r69 :: str
+    r70, r71, r72 :: object
+    r73 :: i32
+    r74 :: bit
+    r75, r76 :: float
+    r77 :: object
+    r78 :: str
+    r79, r80, r81 :: object
+    r82 :: i32
+    r83 :: bit
+    r84, r85 :: float
+    r86 :: object
+    r87 :: str
+    r88, r89, r90 :: object
+    r91 :: i32
+    r92 :: bit
+    r93 :: object
+    r94 :: str
+    r95, r96, r97 :: object
+    r98 :: i32
+    r99 :: bit
+    r100, r101 :: int
+    r102 :: None
+L0:
+    r0 = self.grid_h
+    r1 = CPyTagged_Rshift(r0, 2)
+    dec_ref r0 :: int
+    if is_error(r1) goto L54 (error at apply_inlet:69) else goto L1
+L1:
+    r2 = CPyTagged_Add(r1, 2)
+    dec_ref r1 :: int
+    r3 = self.grid_h
+    r4 = CPyTagged_FloorDivide(r3, 12)
+    dec_ref r3 :: int
+    if is_error(r4) goto L55 (error at apply_inlet:70) else goto L2
+L2:
+    r5 = r4 & 1
+    r6 = r5 != 0
+    if r6 goto L4 else goto L3 :: bool
+L3:
+    r7 = 8 & 1
+    r8 = r7 != 0
+    if r8 goto L4 else goto L5 :: bool
+L4:
+    r9 = CPyTagged_IsLt_(8, r4)
+    if r9 goto L6 else goto L56 :: bool
+L5:
+    r10 = r4 > 8 :: signed
+    if r10 goto L6 else goto L56 :: bool
+L6:
+    r11 = r4
+    goto L8
+L7:
+    r11 = 8
+L8:
+    half_height = r11
+    r12 = CPyTagged_Subtract(r2, half_height)
+    r13 = CPyTagged_Add(r2, half_height)
+    dec_ref r2 :: int
+    dec_ref half_height :: int
+    r14 = borrow self.inlet_columns
+    r15 = CPyTagged_Add(r14, 2)
+    r16 = 2
+    inc_ref r16 :: int
+    i = r16
+    dec_ref i :: int
+L9:
+    r17 = r16 & 1
+    r18 = r17 != 0
+    if r18 goto L11 else goto L10 :: bool
+L10:
+    r19 = r15 & 1
+    r20 = r19 != 0
+    if r20 goto L11 else goto L12 :: bool
+L11:
+    r21 = CPyTagged_IsLt_(r16, r15)
+    if r21 goto L13 else goto L57 :: bool
+L12:
+    r22 = r16 < r15 :: signed
+    if r22 goto L13 else goto L57 :: bool
+L13:
+    inc_ref r16 :: int
+    i = r16
+    r23 = self.fluid
+    if is_error(r23) goto L58 (error at apply_inlet:75) else goto L14
+L14:
+    r24 = 'numY'
+    r25 = CPyObject_GetAttr(r23, r24)
+    dec_ref r23
+    if is_error(r25) goto L58 (error at apply_inlet:75) else goto L15
+L15:
+    r26 = unbox(int, r25)
+    dec_ref r25
+    if is_error(r26) goto L58 (error at apply_inlet:75) else goto L16
+L16:
+    r27 = CPyTagged_Subtract(r26, 2)
+    dec_ref r26 :: int
+    r28 = 2
+    inc_ref r28 :: int
+    j = r28
+    dec_ref j :: int
+L17:
+    r29 = r28 & 1
+    r30 = r29 != 0
+    if r30 goto L19 else goto L18 :: bool
+L18:
+    r31 = r27 & 1
+    r32 = r31 != 0
+    if r32 goto L19 else goto L20 :: bool
+L19:
+    r33 = CPyTagged_IsLt_(r28, r27)
+    if r33 goto L21 else goto L59 :: bool
+L20:
+    r34 = r28 < r27 :: signed
+    if r34 goto L21 else goto L59 :: bool
+L21:
+    inc_ref r28 :: int
+    j = r28
+    r35 = self._idx(i, j)
+    if is_error(r35) goto L60 (error at apply_inlet:76) else goto L22
+L22:
+    r36 = self.fluid
+    if is_error(r36) goto L61 (error at apply_inlet:77) else goto L23
+L23:
+    r37 = 's'
+    r38 = CPyObject_GetAttr(r36, r37)
+    dec_ref r36
+    if is_error(r38) goto L61 (error at apply_inlet:77) else goto L24
+L24:
+    inc_ref r35 :: int
+    r39 = box(int, r35)
+    r40 = box(float, 1.0)
+    r41 = PyObject_SetItem(r38, r39, r40)
+    dec_ref r38
+    dec_ref r39
+    dec_ref r40
+    r42 = r41 >= 0 :: signed
+    if not r42 goto L61 (error at apply_inlet:77) else goto L25 :: bool
+L25:
+    r43 = r12 & 1
+    r44 = r43 != 0
+    if r44 goto L27 else goto L26 :: bool
+L26:
+    r45 = j & 1
+    r46 = r45 != 0
+    if r46 goto L27 else goto L28 :: bool
+L27:
+    r47 = CPyTagged_IsLt_(j, r12)
+    r48 = r47 ^ 1
+    r49 = r48
+    goto L29
+L28:
+    r50 = r12 <= j :: signed
+    r49 = r50
+L29:
+    if r49 goto L31 else goto L62 :: bool
+L30:
+    if r49 goto L36 else goto L42 :: bool
+L31:
+    r51 = j & 1
+    r52 = r51 != 0
+    if r52 goto L33 else goto L32 :: bool
+L32:
+    r53 = r13 & 1
+    r54 = r53 != 0
+    if r54 goto L33 else goto L34 :: bool
+L33:
+    r55 = CPyTagged_IsLt_(r13, j)
+    r56 = r55 ^ 1
+    r57 = r56
+    goto L35
+L34:
+    r58 = j <= r13 :: signed
+    r57 = r58
+L35:
+    dec_ref j :: int
+    if r57 goto L36 else goto L42 :: bool
+L36:
+    r59 = self.flow_speed
+    r60 = self.fluid
+    if is_error(r60) goto L63 (error at apply_inlet:79) else goto L37
+L37:
+    r61 = 'u'
+    r62 = CPyObject_GetAttr(r60, r61)
+    dec_ref r60
+    if is_error(r62) goto L63 (error at apply_inlet:79) else goto L38
+L38:
+    inc_ref r35 :: int
+    r63 = box(int, r35)
+    r64 = box(float, r59)
+    r65 = PyObject_SetItem(r62, r63, r64)
+    dec_ref r62
+    dec_ref r63
+    dec_ref r64
+    r66 = r65 >= 0 :: signed
+    if not r66 goto L63 (error at apply_inlet:79) else goto L39 :: bool
+L39:
+    r67 = self.smoke_strength
+    r68 = self.fluid
+    if is_error(r68) goto L63 (error at apply_inlet:80) else goto L40
+L40:
+    r69 = 'm'
+    r70 = CPyObject_GetAttr(r68, r69)
+    dec_ref r68
+    if is_error(r70) goto L63 (error at apply_inlet:80) else goto L41
+L41:
+    inc_ref r35 :: int
+    r71 = box(int, r35)
+    r72 = box(float, r67)
+    r73 = PyObject_SetItem(r70, r71, r72)
+    dec_ref r70
+    dec_ref r71
+    dec_ref r72
+    r74 = r73 >= 0 :: signed
+    if not r74 goto L63 (error at apply_inlet:80) else goto L48 :: bool
+L42:
+    r75 = self.flow_speed
+    r76 = r75 * 0.25
+    r77 = self.fluid
+    if is_error(r77) goto L63 (error at apply_inlet:82) else goto L43
+L43:
+    r78 = 'u'
+    r79 = CPyObject_GetAttr(r77, r78)
+    dec_ref r77
+    if is_error(r79) goto L63 (error at apply_inlet:82) else goto L44
+L44:
+    inc_ref r35 :: int
+    r80 = box(int, r35)
+    r81 = box(float, r76)
+    r82 = PyObject_SetItem(r79, r80, r81)
+    dec_ref r79
+    dec_ref r80
+    dec_ref r81
+    r83 = r82 >= 0 :: signed
+    if not r83 goto L63 (error at apply_inlet:82) else goto L45 :: bool
+L45:
+    r84 = self.smoke_strength
+    r85 = r84 * 0.08
+    r86 = self.fluid
+    if is_error(r86) goto L63 (error at apply_inlet:83) else goto L46
+L46:
+    r87 = 'm'
+    r88 = CPyObject_GetAttr(r86, r87)
+    dec_ref r86
+    if is_error(r88) goto L63 (error at apply_inlet:83) else goto L47
+L47:
+    inc_ref r35 :: int
+    r89 = box(int, r35)
+    r90 = box(float, r85)
+    r91 = PyObject_SetItem(r88, r89, r90)
+    dec_ref r88
+    dec_ref r89
+    dec_ref r90
+    r92 = r91 >= 0 :: signed
+    if not r92 goto L63 (error at apply_inlet:83) else goto L48 :: bool
+L48:
+    r93 = self.fluid
+    if is_error(r93) goto L63 (error at apply_inlet:84) else goto L49
+L49:
+    r94 = 'v'
+    r95 = CPyObject_GetAttr(r93, r94)
+    dec_ref r93
+    if is_error(r95) goto L63 (error at apply_inlet:84) else goto L50
+L50:
+    r96 = box(int, r35)
+    r97 = box(float, 0.0)
+    r98 = PyObject_SetItem(r95, r96, r97)
+    dec_ref r95
+    dec_ref r96
+    dec_ref r97
+    r99 = r98 >= 0 :: signed
+    if not r99 goto L64 (error at apply_inlet:84) else goto L51 :: bool
+L51:
+    r100 = CPyTagged_Add(r28, 2)
+    dec_ref r28 :: int
+    r28 = r100
+    goto L17
+L52:
+    r101 = CPyTagged_Add(r16, 2)
+    dec_ref r16 :: int
+    r16 = r101
+    goto L9
+L53:
+    return 1
+L54:
+    r102 = <error> :: None
+    return r102
+L55:
+    dec_ref r2 :: int
+    goto L54
+L56:
+    dec_ref r4 :: int
+    goto L7
+L57:
+    dec_ref r12 :: int
+    dec_ref r13 :: int
+    dec_ref r15 :: int
+    dec_ref r16 :: int
+    goto L53
+L58:
+    dec_ref r12 :: int
+    dec_ref r13 :: int
+    dec_ref r15 :: int
+    dec_ref r16 :: int
+    dec_ref i :: int
+    goto L54
+L59:
+    dec_ref i :: int
+    dec_ref r27 :: int
+    dec_ref r28 :: int
+    goto L52
+L60:
+    dec_ref r12 :: int
+    dec_ref r13 :: int
+    dec_ref r15 :: int
+    dec_ref r16 :: int
+    dec_ref i :: int
+    dec_ref r27 :: int
+    dec_ref r28 :: int
+    dec_ref j :: int
+    goto L54
+L61:
+    dec_ref r12 :: int
+    dec_ref r13 :: int
+    dec_ref r15 :: int
+    dec_ref r16 :: int
+    dec_ref i :: int
+    dec_ref r27 :: int
+    dec_ref r28 :: int
+    dec_ref j :: int
+    dec_ref r35 :: int
+    goto L54
+L62:
+    dec_ref j :: int
+    goto L30
+L63:
+    dec_ref r12 :: int
+    dec_ref r13 :: int
+    dec_ref r15 :: int
+    dec_ref r16 :: int
+    dec_ref i :: int
+    dec_ref r27 :: int
+    dec_ref r28 :: int
+    dec_ref r35 :: int
+    goto L54
+L64:
+    dec_ref r12 :: int
+    dec_ref r13 :: int
+    dec_ref r15 :: int
+    dec_ref r16 :: int
+    dec_ref i :: int
+    dec_ref r27 :: int
+    dec_ref r28 :: int
+    goto L54
+
+def HeadlessWindTunnel.set_obstacle_circle(self, cx, cy, radius, solid):
+    self :: simplified.HeadlessWindTunnel
+    cx, cy, radius :: int
+    solid :: bool
+    r0 :: int
+    r1 :: native_int
+    r2 :: bit
+    r3 :: native_int
+    r4, r5, r6 :: bit
+    r7 :: int
+    r8 :: object
+    r9 :: str
+    r10 :: object
+    r11, r12, r13, r14 :: int
+    r15 :: native_int
+    r16 :: bit
+    r17 :: native_int
+    r18, r19, r20 :: bit
+    r21, r22, i :: int
+    r23 :: native_int
+    r24 :: bit
+    r25 :: native_int
+    r26, r27, r28 :: bit
+    r29 :: int
+    r30 :: native_int
+    r31 :: bit
+    r32 :: native_int
+    r33, r34, r35 :: bit
+    r36 :: int
+    r37 :: object
+    r38 :: str
+    r39 :: object
+    r40, r41, r42, r43 :: int
+    r44 :: native_int
+    r45 :: bit
+    r46 :: native_int
+    r47, r48, r49 :: bit
+    r50, r51, j :: int
+    r52 :: native_int
+    r53 :: bit
+    r54 :: native_int
+    r55, r56, r57 :: bit
+    r58, r59, r60, r61, r62, r63, r64, r65 :: int
+    r66 :: native_int
+    r67 :: bit
+    r68 :: native_int
+    r69, r70 :: bit
+    r71 :: bool
+    r72 :: bit
+    r73, r74 :: int
+    r75 :: native_int
+    r76 :: bit
+    r77 :: native_int
+    r78, r79, r80 :: bit
+    r81 :: bool
+    r82 :: bit
+    r83 :: int
+    r84 :: object
+    r85 :: str
+    r86, r87, r88 :: object
+    r89 :: i32
+    r90 :: bit
+    r91 :: object
+    r92 :: str
+    r93, r94, r95 :: object
+    r96 :: i32
+    r97 :: bit
+    r98 :: object
+    r99 :: str
+    r100, r101, r102 :: object
+    r103 :: i32
+    r104 :: bit
+    r105 :: object
+    r106 :: str
+    r107, r108, r109 :: object
+    r110 :: i32
+    r111 :: bit
+    r112 :: object
+    r113 :: str
+    r114, r115, r116 :: object
+    r117 :: i32
+    r118 :: bit
+    r119, r120 :: int
+    r121 :: None
+L0:
+    if is_error(solid) goto L1 else goto L2
+L1:
+    solid = 1
+L2:
+    r0 = CPyTagged_Subtract(cx, radius)
+    r1 = r0 & 1
+    r2 = r1 != 0
+    if r2 goto L4 else goto L3 :: bool
+L3:
+    r3 = 2 & 1
+    r4 = r3 != 0
+    if r4 goto L4 else goto L5 :: bool
+L4:
+    r5 = CPyTagged_IsLt_(2, r0)
+    if r5 goto L6 else goto L73 :: bool
+L5:
+    r6 = r0 > 2 :: signed
+    if r6 goto L6 else goto L73 :: bool
+L6:
+    r7 = r0
+    goto L8
+L7:
+    r7 = 2
+L8:
+    r8 = self.fluid
+    if is_error(r8) goto L74 (error at set_obstacle_circle:87) else goto L9
+L9:
+    r9 = 'numX'
+    r10 = CPyObject_GetAttr(r8, r9)
+    dec_ref r8
+    if is_error(r10) goto L74 (error at set_obstacle_circle:87) else goto L10
+L10:
+    r11 = unbox(int, r10)
+    dec_ref r10
+    if is_error(r11) goto L74 (error at set_obstacle_circle:87) else goto L11
+L11:
+    r12 = CPyTagged_Subtract(r11, 2)
+    dec_ref r11 :: int
+    r13 = CPyTagged_Add(cx, radius)
+    r14 = CPyTagged_Add(r13, 2)
+    dec_ref r13 :: int
+    r15 = r14 & 1
+    r16 = r15 != 0
+    if r16 goto L13 else goto L12 :: bool
+L12:
+    r17 = r12 & 1
+    r18 = r17 != 0
+    if r18 goto L13 else goto L14 :: bool
+L13:
+    r19 = CPyTagged_IsLt_(r14, r12)
+    if r19 goto L75 else goto L76 :: bool
+L14:
+    r20 = r14 < r12 :: signed
+    if r20 goto L75 else goto L76 :: bool
+L15:
+    r21 = r14
+    goto L17
+L16:
+    r21 = r12
+L17:
+    r22 = r7
+    inc_ref r22 :: int
+    i = r22
+    dec_ref i :: int
+L18:
+    r23 = r22 & 1
+    r24 = r23 != 0
+    if r24 goto L20 else goto L19 :: bool
+L19:
+    r25 = r21 & 1
+    r26 = r25 != 0
+    if r26 goto L20 else goto L21 :: bool
+L20:
+    r27 = CPyTagged_IsLt_(r22, r21)
+    if r27 goto L22 else goto L77 :: bool
+L21:
+    r28 = r22 < r21 :: signed
+    if r28 goto L22 else goto L77 :: bool
+L22:
+    inc_ref r22 :: int
+    i = r22
+    r29 = CPyTagged_Subtract(cy, radius)
+    r30 = r29 & 1
+    r31 = r30 != 0
+    if r31 goto L24 else goto L23 :: bool
+L23:
+    r32 = 2 & 1
+    r33 = r32 != 0
+    if r33 goto L24 else goto L25 :: bool
+L24:
+    r34 = CPyTagged_IsLt_(2, r29)
+    if r34 goto L26 else goto L78 :: bool
+L25:
+    r35 = r29 > 2 :: signed
+    if r35 goto L26 else goto L78 :: bool
+L26:
+    r36 = r29
+    goto L28
+L27:
+    r36 = 2
+L28:
+    r37 = self.fluid
+    if is_error(r37) goto L79 (error at set_obstacle_circle:88) else goto L29
+L29:
+    r38 = 'numY'
+    r39 = CPyObject_GetAttr(r37, r38)
+    dec_ref r37
+    if is_error(r39) goto L79 (error at set_obstacle_circle:88) else goto L30
+L30:
+    r40 = unbox(int, r39)
+    dec_ref r39
+    if is_error(r40) goto L79 (error at set_obstacle_circle:88) else goto L31
+L31:
+    r41 = CPyTagged_Subtract(r40, 2)
+    dec_ref r40 :: int
+    r42 = CPyTagged_Add(cy, radius)
+    r43 = CPyTagged_Add(r42, 2)
+    dec_ref r42 :: int
+    r44 = r43 & 1
+    r45 = r44 != 0
+    if r45 goto L33 else goto L32 :: bool
+L32:
+    r46 = r41 & 1
+    r47 = r46 != 0
+    if r47 goto L33 else goto L34 :: bool
+L33:
+    r48 = CPyTagged_IsLt_(r43, r41)
+    if r48 goto L80 else goto L81 :: bool
+L34:
+    r49 = r43 < r41 :: signed
+    if r49 goto L80 else goto L81 :: bool
+L35:
+    r50 = r43
+    goto L37
+L36:
+    r50 = r41
+L37:
+    r51 = r36
+    inc_ref r51 :: int
+    j = r51
+    dec_ref j :: int
+L38:
+    r52 = r51 & 1
+    r53 = r52 != 0
+    if r53 goto L40 else goto L39 :: bool
+L39:
+    r54 = r50 & 1
+    r55 = r54 != 0
+    if r55 goto L40 else goto L41 :: bool
+L40:
+    r56 = CPyTagged_IsLt_(r51, r50)
+    if r56 goto L42 else goto L82 :: bool
+L41:
+    r57 = r51 < r50 :: signed
+    if r57 goto L42 else goto L82 :: bool
+L42:
+    inc_ref r51 :: int
+    j = r51
+    r58 = CPyTagged_Subtract(i, cx)
+    r59 = CPyTagged_Subtract(i, cx)
+    r60 = CPyTagged_Multiply(r58, r59)
+    dec_ref r58 :: int
+    dec_ref r59 :: int
+    r61 = CPyTagged_Subtract(j, cy)
+    r62 = CPyTagged_Subtract(j, cy)
+    r63 = CPyTagged_Multiply(r61, r62)
+    dec_ref r61 :: int
+    dec_ref r62 :: int
+    r64 = CPyTagged_Add(r60, r63)
+    dec_ref r60 :: int
+    dec_ref r63 :: int
+    r65 = CPyTagged_Multiply(radius, radius)
+    r66 = r64 & 1
+    r67 = r66 != 0
+    if r67 goto L44 else goto L43 :: bool
+L43:
+    r68 = r65 & 1
+    r69 = r68 != 0
+    if r69 goto L44 else goto L45 :: bool
+L44:
+    r70 = CPyTagged_IsLt_(r65, r64)
+    r71 = r70
+    goto L46
+L45:
+    r72 = r64 > r65 :: signed
+    r71 = r72
+L46:
+    dec_ref r64 :: int
+    dec_ref r65 :: int
+    if r71 goto L83 else goto L47 :: bool
+L47:
+    r73 = borrow self.inlet_columns
+    r74 = CPyTagged_Add(r73, 2)
+    r75 = i & 1
+    r76 = r75 != 0
+    if r76 goto L49 else goto L48 :: bool
+L48:
+    r77 = r74 & 1
+    r78 = r77 != 0
+    if r78 goto L49 else goto L50 :: bool
+L49:
+    r79 = CPyTagged_IsLt_(r74, i)
+    r80 = r79 ^ 1
+    r81 = r80
+    goto L51
+L50:
+    r82 = i <= r74 :: signed
+    r81 = r82
+L51:
+    dec_ref r74 :: int
+    if r81 goto L83 else goto L52 :: bool
+L52:
+    r83 = self._idx(i, j)
+    dec_ref j :: int
+    if is_error(r83) goto L84 (error at set_obstacle_circle:93) else goto L53
+L53:
+    if solid goto L54 else goto L66 :: bool
+L54:
+    r84 = self.fluid
+    if is_error(r84) goto L85 (error at set_obstacle_circle:95) else goto L55
+L55:
+    r85 = 's'
+    r86 = CPyObject_GetAttr(r84, r85)
+    dec_ref r84
+    if is_error(r86) goto L85 (error at set_obstacle_circle:95) else goto L56
+L56:
+    inc_ref r83 :: int
+    r87 = box(int, r83)
+    r88 = box(float, 0.0)
+    r89 = PyObject_SetItem(r86, r87, r88)
+    dec_ref r86
+    dec_ref r87
+    dec_ref r88
+    r90 = r89 >= 0 :: signed
+    if not r90 goto L85 (error at set_obstacle_circle:95) else goto L57 :: bool
+L57:
+    r91 = self.fluid
+    if is_error(r91) goto L85 (error at set_obstacle_circle:96) else goto L58
+L58:
+    r92 = 'm'
+    r93 = CPyObject_GetAttr(r91, r92)
+    dec_ref r91
+    if is_error(r93) goto L85 (error at set_obstacle_circle:96) else goto L59
+L59:
+    inc_ref r83 :: int
+    r94 = box(int, r83)
+    r95 = box(float, 0.0)
+    r96 = PyObject_SetItem(r93, r94, r95)
+    dec_ref r93
+    dec_ref r94
+    dec_ref r95
+    r97 = r96 >= 0 :: signed
+    if not r97 goto L85 (error at set_obstacle_circle:96) else goto L60 :: bool
+L60:
+    r98 = self.fluid
+    if is_error(r98) goto L85 (error at set_obstacle_circle:97) else goto L61
+L61:
+    r99 = 'u'
+    r100 = CPyObject_GetAttr(r98, r99)
+    dec_ref r98
+    if is_error(r100) goto L85 (error at set_obstacle_circle:97) else goto L62
+L62:
+    inc_ref r83 :: int
+    r101 = box(int, r83)
+    r102 = box(float, 0.0)
+    r103 = PyObject_SetItem(r100, r101, r102)
+    dec_ref r100
+    dec_ref r101
+    dec_ref r102
+    r104 = r103 >= 0 :: signed
+    if not r104 goto L85 (error at set_obstacle_circle:97) else goto L63 :: bool
+L63:
+    r105 = self.fluid
+    if is_error(r105) goto L85 (error at set_obstacle_circle:98) else goto L64
+L64:
+    r106 = 'v'
+    r107 = CPyObject_GetAttr(r105, r106)
+    dec_ref r105
+    if is_error(r107) goto L85 (error at set_obstacle_circle:98) else goto L65
+L65:
+    r108 = box(int, r83)
+    r109 = box(float, 0.0)
+    r110 = PyObject_SetItem(r107, r108, r109)
+    dec_ref r107
+    dec_ref r108
+    dec_ref r109
+    r111 = r110 >= 0 :: signed
+    if not r111 goto L84 (error at set_obstacle_circle:98) else goto L69 :: bool
+L66:
+    r112 = self.fluid
+    if is_error(r112) goto L85 (error at set_obstacle_circle:100) else goto L67
+L67:
+    r113 = 's'
+    r114 = CPyObject_GetAttr(r112, r113)
+    dec_ref r112
+    if is_error(r114) goto L85 (error at set_obstacle_circle:100) else goto L68
+L68:
+    r115 = box(int, r83)
+    r116 = box(float, 1.0)
+    r117 = PyObject_SetItem(r114, r115, r116)
+    dec_ref r114
+    dec_ref r115
+    dec_ref r116
+    r118 = r117 >= 0 :: signed
+    if not r118 goto L84 (error at set_obstacle_circle:100) else goto L69 :: bool
+L69:
+    r119 = CPyTagged_Add(r51, 2)
+    dec_ref r51 :: int
+    r51 = r119
+    goto L38
+L70:
+    r120 = CPyTagged_Add(r22, 2)
+    dec_ref r22 :: int
+    r22 = r120
+    goto L18
+L71:
+    return 1
+L72:
+    r121 = <error> :: None
+    return r121
+L73:
+    dec_ref r0 :: int
+    goto L7
+L74:
+    dec_ref r7 :: int
+    goto L72
+L75:
+    dec_ref r12 :: int
+    goto L15
+L76:
+    dec_ref r14 :: int
+    goto L16
+L77:
+    dec_ref r21 :: int
+    dec_ref r22 :: int
+    goto L71
+L78:
+    dec_ref r29 :: int
+    goto L27
+L79:
+    dec_ref r21 :: int
+    dec_ref r22 :: int
+    dec_ref i :: int
+    dec_ref r36 :: int
+    goto L72
+L80:
+    dec_ref r41 :: int
+    goto L35
+L81:
+    dec_ref r43 :: int
+    goto L36
+L82:
+    dec_ref i :: int
+    dec_ref r50 :: int
+    dec_ref r51 :: int
+    goto L70
+L83:
+    dec_ref j :: int
+    goto L69
+L84:
+    dec_ref r21 :: int
+    dec_ref r22 :: int
+    dec_ref i :: int
+    dec_ref r50 :: int
+    dec_ref r51 :: int
+    goto L72
+L85:
+    dec_ref r21 :: int
+    dec_ref r22 :: int
+    dec_ref i :: int
+    dec_ref r50 :: int
+    dec_ref r51 :: int
+    dec_ref r83 :: int
+    goto L72
+
+def HeadlessWindTunnel.set_obstacle_airfoil(self, naca_code, chord_length, center_x, center_y):
+    self :: simplified.HeadlessWindTunnel
+    naca_code :: str
+    chord_length, center_x, center_y :: float
+    r0 :: object
+    r1 :: dict
+    r2 :: str
+    r3, r4, r5, r6 :: object
+    r7 :: object[5]
+    r8 :: object_ptr
+    r9, r10, r11 :: object
+L0:
+    r0 = self.fluid
+    if is_error(r0) goto L4 (error at set_obstacle_airfoil:110) else goto L1
+L1:
+    r1 = simplified.globals :: static
+    r2 = 'apply_naca_airfoil'
+    r3 = CPyDict_GetItem(r1, r2)
+    if is_error(r3) goto L5 (error at set_obstacle_airfoil:109) else goto L2
+L2:
+    r4 = box(float, chord_length)
+    r5 = box(float, center_x)
+    r6 = box(float, center_y)
+    r7 = [r0, naca_code, r4, r5, r6]
+    r8 = load_address r7
+    r9 = ('naca_code', 'chord_length', 'center_x', 'center_y')
+    r10 = PyObject_Vectorcall(r3, r8, 1, r9)
+    dec_ref r3
+    if is_error(r10) goto L6 (error at set_obstacle_airfoil:109) else goto L3
+L3:
+    dec_ref r0
+    dec_ref r4
+    dec_ref r5
+    dec_ref r6
+    return r10
+L4:
+    r11 = <error> :: object
+    return r11
+L5:
+    dec_ref r0
+    goto L4
+L6:
+    dec_ref r0
+    dec_ref r4
+    dec_ref r5
+    dec_ref r6
+    goto L4
+
+def HeadlessWindTunnel.step(self, steps):
+    self :: simplified.HeadlessWindTunnel
+    steps :: int
+    r0 :: float
+    r1 :: dict
+    r2 :: str
+    r3, r4 :: object
+    r5 :: object[1]
+    r6 :: object_ptr
+    r7 :: object
+    r8 :: int
+    r9, _ :: object
+    r10 :: native_int
+    r11 :: bit
+    r12 :: native_int
+    r13, r14, r15 :: bit
+    r16 :: object
+    r17 :: None
+    r18 :: object
+    r19, r20 :: float
+    r21 :: str
+    r22, r23 :: object
+    r24 :: object[3]
+    r25 :: object_ptr
+    r26, r27 :: object
+    r28 :: str
+    r29 :: object
+    r30 :: str
+    r31 :: object
+    r32 :: object[2]
+    r33 :: object_ptr
+    r34, r35 :: object
+    r36 :: int
+    r37 :: float
+    r38 :: str
+    r39, r40 :: object
+    r41 :: object[3]
+    r42 :: object_ptr
+    r43, r44 :: object
+    r45 :: str
+    r46 :: object[1]
+    r47 :: object_ptr
+    r48, r49 :: object
+    r50 :: float
+    r51 :: str
+    r52 :: object
+    r53 :: object[2]
+    r54 :: object_ptr
+    r55, r56 :: object
+    r57 :: float
+    r58 :: str
+    r59 :: object
+    r60 :: object[2]
+    r61 :: object_ptr
+    r62 :: object
+    r63 :: None
+    r64 :: int
+    r65 :: None
+L0:
+    if is_error(steps) goto L1 else goto L27
+L1:
+    steps = 2
+L2:
+    r0 = self.over_relax
+    r1 = simplified.globals :: static
+    r2 = 'set_over_relaxation'
+    r3 = CPyDict_GetItem(r1, r2)
+    if is_error(r3) goto L28 (error at step:118) else goto L3
+L3:
+    r4 = box(float, r0)
+    r5 = [r4]
+    r6 = load_address r5
+    r7 = PyObject_Vectorcall(r3, r6, 1, 0)
+    dec_ref r3
+    if is_error(r7) goto L29 (error at step:118) else goto L30
+L4:
+    dec_ref r4
+    r8 = 0
+    inc_ref r8 :: int
+    r9 = box(int, r8)
+    _ = r9
+    dec_ref _
+L5:
+    r10 = r8 & 1
+    r11 = r10 != 0
+    if r11 goto L7 else goto L6 :: bool
+L6:
+    r12 = steps & 1
+    r13 = r12 != 0
+    if r13 goto L7 else goto L8 :: bool
+L7:
+    r14 = CPyTagged_IsLt_(r8, steps)
+    if r14 goto L9 else goto L31 :: bool
+L8:
+    r15 = r8 < steps :: signed
+    if r15 goto L9 else goto L31 :: bool
+L9:
+    inc_ref r8 :: int
+    r16 = box(int, r8)
+    _ = r16
+    dec_ref _
+    r17 = self.apply_inlet()
+    if is_error(r17) goto L32 (error at step:121) else goto L10
+L10:
+    r18 = self.fluid
+    if is_error(r18) goto L32 (error at step:122) else goto L11
+L11:
+    r19 = self.dt
+    r20 = self.gravity
+    r21 = 'integrate_g'
+    r22 = box(float, r19)
+    r23 = box(float, r20)
+    r24 = [r18, r22, r23]
+    r25 = load_address r24
+    r26 = PyObject_VectorcallMethod(r21, r25, 9223372036854775811, 0)
+    if is_error(r26) goto L33 (error at step:122) else goto L34
+L12:
+    dec_ref r18
+    dec_ref r22
+    dec_ref r23
+    r27 = self.fluid
+    if is_error(r27) goto L32 (error at step:123) else goto L13
+L13:
+    r28 = 'p'
+    r29 = CPyObject_GetAttr(r27, r28)
+    dec_ref r27
+    if is_error(r29) goto L32 (error at step:123) else goto L14
+L14:
+    r30 = 'fill'
+    r31 = box(float, 0.0)
+    r32 = [r29, r31]
+    r33 = load_address r32
+    r34 = PyObject_VectorcallMethod(r30, r33, 9223372036854775810, 0)
+    if is_error(r34) goto L35 (error at step:123) else goto L36
+L15:
+    dec_ref r29
+    dec_ref r31
+    r35 = self.fluid
+    if is_error(r35) goto L32 (error at step:124) else goto L16
+L16:
+    r36 = self.iterations
+    r37 = self.dt
+    r38 = 'incompressibility_solve'
+    r39 = box(int, r36)
+    r40 = box(float, r37)
+    r41 = [r35, r39, r40]
+    r42 = load_address r41
+    r43 = PyObject_VectorcallMethod(r38, r42, 9223372036854775811, 0)
+    if is_error(r43) goto L37 (error at step:124) else goto L38
+L17:
+    dec_ref r35
+    dec_ref r39
+    dec_ref r40
+    r44 = self.fluid
+    if is_error(r44) goto L32 (error at step:125) else goto L18
+L18:
+    r45 = 'Extrapolate'
+    r46 = [r44]
+    r47 = load_address r46
+    r48 = PyObject_VectorcallMethod(r45, r47, 9223372036854775809, 0)
+    if is_error(r48) goto L39 (error at step:125) else goto L40
+L19:
+    dec_ref r44
+    r49 = self.fluid
+    if is_error(r49) goto L32 (error at step:126) else goto L20
+L20:
+    r50 = self.dt
+    r51 = 'advection_vel'
+    r52 = box(float, r50)
+    r53 = [r49, r52]
+    r54 = load_address r53
+    r55 = PyObject_VectorcallMethod(r51, r54, 9223372036854775810, 0)
+    if is_error(r55) goto L41 (error at step:126) else goto L42
+L21:
+    dec_ref r49
+    dec_ref r52
+    r56 = self.fluid
+    if is_error(r56) goto L32 (error at step:127) else goto L22
+L22:
+    r57 = self.dt
+    r58 = 'advection_smoke'
+    r59 = box(float, r57)
+    r60 = [r56, r59]
+    r61 = load_address r60
+    r62 = PyObject_VectorcallMethod(r58, r61, 9223372036854775810, 0)
+    if is_error(r62) goto L43 (error at step:127) else goto L44
+L23:
+    dec_ref r56
+    dec_ref r59
+    r63 = self.apply_inlet()
+    if is_error(r63) goto L32 (error at step:128) else goto L24
+L24:
+    r64 = CPyTagged_Add(r8, 2)
+    dec_ref r8 :: int
+    r8 = r64
+    goto L5
+L25:
+    return 1
+L26:
+    r65 = <error> :: None
+    return r65
+L27:
+    inc_ref steps :: int
+    goto L2
+L28:
+    dec_ref steps :: int
+    goto L26
+L29:
+    dec_ref steps :: int
+    dec_ref r4
+    goto L26
+L30:
+    dec_ref r7
+    goto L4
+L31:
+    dec_ref steps :: int
+    dec_ref r8 :: int
+    goto L25
+L32:
+    dec_ref steps :: int
+    dec_ref r8 :: int
+    goto L26
+L33:
+    dec_ref steps :: int
+    dec_ref r8 :: int
+    dec_ref r18
+    dec_ref r22
+    dec_ref r23
+    goto L26
+L34:
+    dec_ref r26
+    goto L12
+L35:
+    dec_ref steps :: int
+    dec_ref r8 :: int
+    dec_ref r29
+    dec_ref r31
+    goto L26
+L36:
+    dec_ref r34
+    goto L15
+L37:
+    dec_ref steps :: int
+    dec_ref r8 :: int
+    dec_ref r35
+    dec_ref r39
+    dec_ref r40
+    goto L26
+L38:
+    dec_ref r43
+    goto L17
+L39:
+    dec_ref steps :: int
+    dec_ref r8 :: int
+    dec_ref r44
+    goto L26
+L40:
+    dec_ref r48
+    goto L19
+L41:
+    dec_ref steps :: int
+    dec_ref r8 :: int
+    dec_ref r49
+    dec_ref r52
+    goto L26
+L42:
+    dec_ref r55
+    goto L21
+L43:
+    dec_ref steps :: int
+    dec_ref r8 :: int
+    dec_ref r56
+    dec_ref r59
+    goto L26
+L44:
+    dec_ref r62
+    goto L23
+
+def HeadlessWindTunnel.speed_field(self):
+    self :: simplified.HeadlessWindTunnel
+    r0 :: object
+    r1 :: str
+    r2 :: object
+    r3, r4, r5 :: int
+    r6 :: tuple[int, int]
+    r7 :: object
+    r8 :: str
+    r9, r10 :: object
+    r11 :: str
+    r12, r13 :: object
+    r14 :: object[2]
+    r15 :: object_ptr
+    r16, r17, r18 :: object
+    r19 :: str
+    r20 :: object
+    r21, r22, r23, i :: int
+    r24 :: native_int
+    r25 :: bit
+    r26 :: native_int
+    r27, r28, r29 :: bit
+    r30 :: object
+    r31 :: str
+    r32 :: object
+    r33, r34, r35, j :: int
+    r36 :: native_int
+    r37 :: bit
+    r38 :: native_int
+    r39, r40, r41 :: bit
+    r42, r43 :: int
+    r44 :: object
+    r45 :: str
+    r46, r47, r48, r49 :: object
+    r50 :: str
+    r51 :: object
+    r52, r53, r54 :: int
+    r55, r56, r57, r58, r59, r60 :: object
+    r61 :: str
+    r62, r63, r64, r65 :: object
+    r66 :: str
+    r67 :: object
+    r68, r69, r70 :: int
+    r71, r72, r73, r74, r75, r76, r77, r78, r79 :: object
+    r80 :: str
+    r81 :: object
+    r82 :: object[1]
+    r83 :: object_ptr
+    r84, r85 :: object
+    r86 :: str
+    r87 :: object
+    r88 :: object[1]
+    r89 :: object_ptr
+    r90 :: object
+    r91, r92 :: int
+    r93 :: tuple[int, int]
+    r94 :: object
+    r95 :: i32
+    r96 :: bit
+    r97, r98 :: int
+    r99 :: object
+L0:
+    r0 = self.fluid
+    if is_error(r0) goto L49 (error at speed_field:131) else goto L1
+L1:
+    r1 = 'numY'
+    r2 = CPyObject_GetAttr(r0, r1)
+    dec_ref r0
+    if is_error(r2) goto L49 (error at speed_field:131) else goto L2
+L2:
+    r3 = unbox(int, r2)
+    dec_ref r2
+    if is_error(r3) goto L49 (error at speed_field:131) else goto L3
+L3:
+    r4 = self.grid_h
+    r5 = self.grid_w
+    r6 = (r4, r5)
+    r7 = numpy :: module
+    r8 = 'float32'
+    r9 = CPyObject_GetAttr(r7, r8)
+    if is_error(r9) goto L50 (error at speed_field:132) else goto L4
+L4:
+    r10 = numpy :: module
+    r11 = 'zeros'
+    r12 = CPyObject_GetAttr(r10, r11)
+    if is_error(r12) goto L51 (error at speed_field:132) else goto L5
+L5:
+    r13 = box(tuple[int, int], r6)
+    r14 = [r13, r9]
+    r15 = load_address r14
+    r16 = ('dtype',)
+    r17 = PyObject_Vectorcall(r12, r15, 1, r16)
+    dec_ref r12
+    if is_error(r17) goto L52 (error at speed_field:132) else goto L6
+L6:
+    dec_ref r13
+    dec_ref r9
+    r18 = self.fluid
+    if is_error(r18) goto L53 (error at speed_field:134) else goto L7
+L7:
+    r19 = 'numX'
+    r20 = CPyObject_GetAttr(r18, r19)
+    dec_ref r18
+    if is_error(r20) goto L53 (error at speed_field:134) else goto L8
+L8:
+    r21 = unbox(int, r20)
+    dec_ref r20
+    if is_error(r21) goto L53 (error at speed_field:134) else goto L9
+L9:
+    r22 = CPyTagged_Subtract(r21, 2)
+    dec_ref r21 :: int
+    r23 = 2
+    inc_ref r23 :: int
+    i = r23
+    dec_ref i :: int
+L10:
+    r24 = r23 & 1
+    r25 = r24 != 0
+    if r25 goto L12 else goto L11 :: bool
+L11:
+    r26 = r22 & 1
+    r27 = r26 != 0
+    if r27 goto L12 else goto L13 :: bool
+L12:
+    r28 = CPyTagged_IsLt_(r23, r22)
+    if r28 goto L14 else goto L54 :: bool
+L13:
+    r29 = r23 < r22 :: signed
+    if r29 goto L14 else goto L54 :: bool
+L14:
+    inc_ref r23 :: int
+    i = r23
+    r30 = self.fluid
+    if is_error(r30) goto L55 (error at speed_field:135) else goto L15
+L15:
+    r31 = 'numY'
+    r32 = CPyObject_GetAttr(r30, r31)
+    dec_ref r30
+    if is_error(r32) goto L55 (error at speed_field:135) else goto L16
+L16:
+    r33 = unbox(int, r32)
+    dec_ref r32
+    if is_error(r33) goto L55 (error at speed_field:135) else goto L17
+L17:
+    r34 = CPyTagged_Subtract(r33, 2)
+    dec_ref r33 :: int
+    r35 = 2
+    inc_ref r35 :: int
+    j = r35
+    dec_ref j :: int
+L18:
+    r36 = r35 & 1
+    r37 = r36 != 0
+    if r37 goto L20 else goto L19 :: bool
+L19:
+    r38 = r34 & 1
+    r39 = r38 != 0
+    if r39 goto L20 else goto L21 :: bool
+L20:
+    r40 = CPyTagged_IsLt_(r35, r34)
+    if r40 goto L22 else goto L56 :: bool
+L21:
+    r41 = r35 < r34 :: signed
+    if r41 goto L22 else goto L56 :: bool
+L22:
+    inc_ref r35 :: int
+    j = r35
+    r42 = CPyTagged_Multiply(i, r3)
+    r43 = CPyTagged_Add(r42, j)
+    dec_ref r42 :: int
+    r44 = self.fluid
+    if is_error(r44) goto L57 (error at speed_field:137) else goto L23
+L23:
+    r45 = 'u'
+    r46 = CPyObject_GetAttr(r44, r45)
+    dec_ref r44
+    if is_error(r46) goto L57 (error at speed_field:137) else goto L24
+L24:
+    inc_ref r43 :: int
+    r47 = box(int, r43)
+    r48 = PyObject_GetItem(r46, r47)
+    dec_ref r46
+    dec_ref r47
+    if is_error(r48) goto L57 (error at speed_field:137) else goto L25
+L25:
+    r49 = self.fluid
+    if is_error(r49) goto L58 (error at speed_field:137) else goto L26
+L26:
+    r50 = 'u'
+    r51 = CPyObject_GetAttr(r49, r50)
+    dec_ref r49
+    if is_error(r51) goto L58 (error at speed_field:137) else goto L27
+L27:
+    r52 = CPyTagged_Add(i, 2)
+    r53 = CPyTagged_Multiply(r52, r3)
+    dec_ref r52 :: int
+    r54 = CPyTagged_Add(r53, j)
+    dec_ref r53 :: int
+    r55 = box(int, r54)
+    r56 = PyObject_GetItem(r51, r55)
+    dec_ref r51
+    dec_ref r55
+    if is_error(r56) goto L58 (error at speed_field:137) else goto L28
+L28:
+    r57 = PyNumber_Add(r48, r56)
+    dec_ref r48
+    dec_ref r56
+    if is_error(r57) goto L57 (error at speed_field:137) else goto L29
+L29:
+    r58 = box(float, 0.5)
+    r59 = PyNumber_Multiply(r58, r57)
+    dec_ref r58
+    dec_ref r57
+    if is_error(r59) goto L57 (error at speed_field:137) else goto L30
+L30:
+    r60 = self.fluid
+    if is_error(r60) goto L59 (error at speed_field:138) else goto L31
+L31:
+    r61 = 'v'
+    r62 = CPyObject_GetAttr(r60, r61)
+    dec_ref r60
+    if is_error(r62) goto L59 (error at speed_field:138) else goto L32
+L32:
+    r63 = box(int, r43)
+    r64 = PyObject_GetItem(r62, r63)
+    dec_ref r62
+    dec_ref r63
+    if is_error(r64) goto L60 (error at speed_field:138) else goto L33
+L33:
+    r65 = self.fluid
+    if is_error(r65) goto L61 (error at speed_field:138) else goto L34
+L34:
+    r66 = 'v'
+    r67 = CPyObject_GetAttr(r65, r66)
+    dec_ref r65
+    if is_error(r67) goto L61 (error at speed_field:138) else goto L35
+L35:
+    r68 = CPyTagged_Multiply(i, r3)
+    r69 = CPyTagged_Add(j, 2)
+    r70 = CPyTagged_Add(r68, r69)
+    dec_ref r68 :: int
+    dec_ref r69 :: int
+    r71 = box(int, r70)
+    r72 = PyObject_GetItem(r67, r71)
+    dec_ref r67
+    dec_ref r71
+    if is_error(r72) goto L61 (error at speed_field:138) else goto L36
+L36:
+    r73 = PyNumber_Add(r64, r72)
+    dec_ref r64
+    dec_ref r72
+    if is_error(r73) goto L60 (error at speed_field:138) else goto L37
+L37:
+    r74 = box(float, 0.5)
+    r75 = PyNumber_Multiply(r74, r73)
+    dec_ref r74
+    dec_ref r73
+    if is_error(r75) goto L60 (error at speed_field:138) else goto L38
+L38:
+    r76 = PyNumber_Multiply(r59, r59)
+    dec_ref r59
+    if is_error(r76) goto L62 (error at speed_field:139) else goto L39
+L39:
+    r77 = PyNumber_Multiply(r75, r75)
+    dec_ref r75
+    if is_error(r77) goto L63 (error at speed_field:139) else goto L40
+L40:
+    r78 = PyNumber_Add(r76, r77)
+    dec_ref r76
+    dec_ref r77
+    if is_error(r78) goto L64 (error at speed_field:139) else goto L41
+L41:
+    r79 = numpy :: module
+    r80 = 'sqrt'
+    r81 = CPyObject_GetAttr(r79, r80)
+    if is_error(r81) goto L65 (error at speed_field:139) else goto L42
+L42:
+    r82 = [r78]
+    r83 = load_address r82
+    r84 = PyObject_Vectorcall(r81, r83, 1, 0)
+    dec_ref r81
+    if is_error(r84) goto L65 (error at speed_field:139) else goto L43
+L43:
+    dec_ref r78
+    r85 = numpy :: module
+    r86 = 'float32'
+    r87 = CPyObject_GetAttr(r85, r86)
+    if is_error(r87) goto L66 (error at speed_field:139) else goto L44
+L44:
+    r88 = [r84]
+    r89 = load_address r88
+    r90 = PyObject_Vectorcall(r87, r89, 1, 0)
+    dec_ref r87
+    if is_error(r90) goto L66 (error at speed_field:139) else goto L45
+L45:
+    dec_ref r84
+    r91 = CPyTagged_Subtract(j, 2)
+    dec_ref j :: int
+    r92 = CPyTagged_Subtract(i, 2)
+    r93 = (r91, r92)
+    r94 = box(tuple[int, int], r93)
+    r95 = PyObject_SetItem(r17, r94, r90)
+    dec_ref r94
+    dec_ref r90
+    r96 = r95 >= 0 :: signed
+    if not r96 goto L67 (error at speed_field:139) else goto L46 :: bool
+L46:
+    r97 = CPyTagged_Add(r35, 2)
+    dec_ref r35 :: int
+    r35 = r97
+    goto L18
+L47:
+    r98 = CPyTagged_Add(r23, 2)
+    dec_ref r23 :: int
+    r23 = r98
+    goto L10
+L48:
+    return r17
+L49:
+    r99 = <error> :: object
+    return r99
+L50:
+    dec_ref r3 :: int
+    dec_ref r6
+    goto L49
+L51:
+    dec_ref r3 :: int
+    dec_ref r6
+    dec_ref r9
+    goto L49
+L52:
+    dec_ref r3 :: int
+    dec_ref r9
+    dec_ref r13
+    goto L49
+L53:
+    dec_ref r3 :: int
+    dec_ref r17
+    goto L49
+L54:
+    dec_ref r3 :: int
+    dec_ref r22 :: int
+    dec_ref r23 :: int
+    goto L48
+L55:
+    dec_ref r3 :: int
+    dec_ref r17
+    dec_ref r22 :: int
+    dec_ref r23 :: int
+    dec_ref i :: int
+    goto L49
+L56:
+    dec_ref i :: int
+    dec_ref r34 :: int
+    dec_ref r35 :: int
+    goto L47
+L57:
+    dec_ref r3 :: int
+    dec_ref r17
+    dec_ref r22 :: int
+    dec_ref r23 :: int
+    dec_ref i :: int
+    dec_ref r34 :: int
+    dec_ref r35 :: int
+    dec_ref j :: int
+    dec_ref r43 :: int
+    goto L49
+L58:
+    dec_ref r3 :: int
+    dec_ref r17
+    dec_ref r22 :: int
+    dec_ref r23 :: int
+    dec_ref i :: int
+    dec_ref r34 :: int
+    dec_ref r35 :: int
+    dec_ref j :: int
+    dec_ref r43 :: int
+    dec_ref r48
+    goto L49
+L59:
+    dec_ref r3 :: int
+    dec_ref r17
+    dec_ref r22 :: int
+    dec_ref r23 :: int
+    dec_ref i :: int
+    dec_ref r34 :: int
+    dec_ref r35 :: int
+    dec_ref j :: int
+    dec_ref r43 :: int
+    dec_ref r59
+    goto L49
+L60:
+    dec_ref r3 :: int
+    dec_ref r17
+    dec_ref r22 :: int
+    dec_ref r23 :: int
+    dec_ref i :: int
+    dec_ref r34 :: int
+    dec_ref r35 :: int
+    dec_ref j :: int
+    dec_ref r59
+    goto L49
+L61:
+    dec_ref r3 :: int
+    dec_ref r17
+    dec_ref r22 :: int
+    dec_ref r23 :: int
+    dec_ref i :: int
+    dec_ref r34 :: int
+    dec_ref r35 :: int
+    dec_ref j :: int
+    dec_ref r59
+    dec_ref r64
+    goto L49
+L62:
+    dec_ref r3 :: int
+    dec_ref r17
+    dec_ref r22 :: int
+    dec_ref r23 :: int
+    dec_ref i :: int
+    dec_ref r34 :: int
+    dec_ref r35 :: int
+    dec_ref j :: int
+    dec_ref r75
+    goto L49
+L63:
+    dec_ref r3 :: int
+    dec_ref r17
+    dec_ref r22 :: int
+    dec_ref r23 :: int
+    dec_ref i :: int
+    dec_ref r34 :: int
+    dec_ref r35 :: int
+    dec_ref j :: int
+    dec_ref r76
+    goto L49
+L64:
+    dec_ref r3 :: int
+    dec_ref r17
+    dec_ref r22 :: int
+    dec_ref r23 :: int
+    dec_ref i :: int
+    dec_ref r34 :: int
+    dec_ref r35 :: int
+    dec_ref j :: int
+    goto L49
+L65:
+    dec_ref r3 :: int
+    dec_ref r17
+    dec_ref r22 :: int
+    dec_ref r23 :: int
+    dec_ref i :: int
+    dec_ref r34 :: int
+    dec_ref r35 :: int
+    dec_ref j :: int
+    dec_ref r78
+    goto L49
+L66:
+    dec_ref r3 :: int
+    dec_ref r17
+    dec_ref r22 :: int
+    dec_ref r23 :: int
+    dec_ref i :: int
+    dec_ref r34 :: int
+    dec_ref r35 :: int
+    dec_ref j :: int
+    dec_ref r84
+    goto L49
+L67:
+    dec_ref r3 :: int
+    dec_ref r17
+    dec_ref r22 :: int
+    dec_ref r23 :: int
+    dec_ref i :: int
+    dec_ref r34 :: int
+    dec_ref r35 :: int
+    goto L49
+
+def HeadlessWindTunnel.smoke_field(self):
+    self :: simplified.HeadlessWindTunnel
+    r0, r1 :: int
+    r2 :: tuple[int, int]
+    r3 :: object
+    r4 :: str
+    r5, r6 :: object
+    r7 :: str
+    r8, r9 :: object
+    r10 :: object[2]
+    r11 :: object_ptr
+    r12, r13, r14 :: object
+    r15 :: str
+    r16 :: object
+    r17, r18, r19, i :: int
+    r20 :: native_int
+    r21 :: bit
+    r22 :: native_int
+    r23, r24, r25 :: bit
+    r26 :: object
+    r27 :: str
+    r28 :: object
+    r29, r30, r31, j :: int
+    r32 :: native_int
+    r33 :: bit
+    r34 :: native_int
+    r35, r36, r37 :: bit
+    r38 :: object
+    r39 :: str
+    r40 :: object
+    r41 :: int
+    r42, r43 :: object
+    r44, r45 :: int
+    r46 :: tuple[int, int]
+    r47 :: object
+    r48 :: i32
+    r49 :: bit
+    r50, r51 :: int
+    r52 :: object
+L0:
+    r0 = self.grid_h
+    r1 = self.grid_w
+    r2 = (r0, r1)
+    r3 = numpy :: module
+    r4 = 'float32'
+    r5 = CPyObject_GetAttr(r3, r4)
+    if is_error(r5) goto L28 (error at smoke_field:144) else goto L1
+L1:
+    r6 = numpy :: module
+    r7 = 'zeros'
+    r8 = CPyObject_GetAttr(r6, r7)
+    if is_error(r8) goto L29 (error at smoke_field:144) else goto L2
+L2:
+    r9 = box(tuple[int, int], r2)
+    r10 = [r9, r5]
+    r11 = load_address r10
+    r12 = ('dtype',)
+    r13 = PyObject_Vectorcall(r8, r11, 1, r12)
+    dec_ref r8
+    if is_error(r13) goto L30 (error at smoke_field:144) else goto L3
+L3:
+    dec_ref r9
+    dec_ref r5
+    r14 = self.fluid
+    if is_error(r14) goto L31 (error at smoke_field:146) else goto L4
+L4:
+    r15 = 'numX'
+    r16 = CPyObject_GetAttr(r14, r15)
+    dec_ref r14
+    if is_error(r16) goto L31 (error at smoke_field:146) else goto L5
+L5:
+    r17 = unbox(int, r16)
+    dec_ref r16
+    if is_error(r17) goto L31 (error at smoke_field:146) else goto L6
+L6:
+    r18 = CPyTagged_Subtract(r17, 2)
+    dec_ref r17 :: int
+    r19 = 2
+    inc_ref r19 :: int
+    i = r19
+    dec_ref i :: int
+L7:
+    r20 = r19 & 1
+    r21 = r20 != 0
+    if r21 goto L9 else goto L8 :: bool
+L8:
+    r22 = r18 & 1
+    r23 = r22 != 0
+    if r23 goto L9 else goto L10 :: bool
+L9:
+    r24 = CPyTagged_IsLt_(r19, r18)
+    if r24 goto L11 else goto L32 :: bool
+L10:
+    r25 = r19 < r18 :: signed
+    if r25 goto L11 else goto L32 :: bool
+L11:
+    inc_ref r19 :: int
+    i = r19
+    r26 = self.fluid
+    if is_error(r26) goto L33 (error at smoke_field:147) else goto L12
+L12:
+    r27 = 'numY'
+    r28 = CPyObject_GetAttr(r26, r27)
+    dec_ref r26
+    if is_error(r28) goto L33 (error at smoke_field:147) else goto L13
+L13:
+    r29 = unbox(int, r28)
+    dec_ref r28
+    if is_error(r29) goto L33 (error at smoke_field:147) else goto L14
+L14:
+    r30 = CPyTagged_Subtract(r29, 2)
+    dec_ref r29 :: int
+    r31 = 2
+    inc_ref r31 :: int
+    j = r31
+    dec_ref j :: int
+L15:
+    r32 = r31 & 1
+    r33 = r32 != 0
+    if r33 goto L17 else goto L16 :: bool
+L16:
+    r34 = r30 & 1
+    r35 = r34 != 0
+    if r35 goto L17 else goto L18 :: bool
+L17:
+    r36 = CPyTagged_IsLt_(r31, r30)
+    if r36 goto L19 else goto L34 :: bool
+L18:
+    r37 = r31 < r30 :: signed
+    if r37 goto L19 else goto L34 :: bool
+L19:
+    inc_ref r31 :: int
+    j = r31
+    r38 = self.fluid
+    if is_error(r38) goto L35 (error at smoke_field:148) else goto L20
+L20:
+    r39 = 'm'
+    r40 = CPyObject_GetAttr(r38, r39)
+    dec_ref r38
+    if is_error(r40) goto L35 (error at smoke_field:148) else goto L21
+L21:
+    r41 = self._idx(i, j)
+    if is_error(r41) goto L36 (error at smoke_field:148) else goto L22
+L22:
+    r42 = box(int, r41)
+    r43 = PyObject_GetItem(r40, r42)
+    dec_ref r40
+    dec_ref r42
+    if is_error(r43) goto L35 (error at smoke_field:148) else goto L23
+L23:
+    r44 = CPyTagged_Subtract(j, 2)
+    dec_ref j :: int
+    r45 = CPyTagged_Subtract(i, 2)
+    r46 = (r44, r45)
+    r47 = box(tuple[int, int], r46)
+    r48 = PyObject_SetItem(r13, r47, r43)
+    dec_ref r47
+    dec_ref r43
+    r49 = r48 >= 0 :: signed
+    if not r49 goto L37 (error at smoke_field:148) else goto L24 :: bool
+L24:
+    r50 = CPyTagged_Add(r31, 2)
+    dec_ref r31 :: int
+    r31 = r50
+    goto L15
+L25:
+    r51 = CPyTagged_Add(r19, 2)
+    dec_ref r19 :: int
+    r19 = r51
+    goto L7
+L26:
+    return r13
+L27:
+    r52 = <error> :: object
+    return r52
+L28:
+    dec_ref r2
+    goto L27
+L29:
+    dec_ref r2
+    dec_ref r5
+    goto L27
+L30:
+    dec_ref r5
+    dec_ref r9
+    goto L27
+L31:
+    dec_ref r13
+    goto L27
+L32:
+    dec_ref r18 :: int
+    dec_ref r19 :: int
+    goto L26
+L33:
+    dec_ref r13
+    dec_ref r18 :: int
+    dec_ref r19 :: int
+    dec_ref i :: int
+    goto L27
+L34:
+    dec_ref i :: int
+    dec_ref r30 :: int
+    dec_ref r31 :: int
+    goto L25
+L35:
+    dec_ref r13
+    dec_ref r18 :: int
+    dec_ref r19 :: int
+    dec_ref i :: int
+    dec_ref r30 :: int
+    dec_ref r31 :: int
+    dec_ref j :: int
+    goto L27
+L36:
+    dec_ref r13
+    dec_ref r18 :: int
+    dec_ref r19 :: int
+    dec_ref i :: int
+    dec_ref r30 :: int
+    dec_ref r31 :: int
+    dec_ref j :: int
+    dec_ref r40
+    goto L27
+L37:
+    dec_ref r13
+    dec_ref r18 :: int
+    dec_ref r19 :: int
+    dec_ref i :: int
+    dec_ref r30 :: int
+    dec_ref r31 :: int
+    goto L27
+
+def HeadlessWindTunnel.pressure_field(self):
+    self :: simplified.HeadlessWindTunnel
+    r0, r1 :: int
+    r2 :: tuple[int, int]
+    r3 :: object
+    r4 :: str
+    r5, r6 :: object
+    r7 :: str
+    r8, r9 :: object
+    r10 :: object[2]
+    r11 :: object_ptr
+    r12, r13, r14 :: object
+    r15 :: str
+    r16 :: object
+    r17, r18, r19, i :: int
+    r20 :: native_int
+    r21 :: bit
+    r22 :: native_int
+    r23, r24, r25 :: bit
+    r26 :: object
+    r27 :: str
+    r28 :: object
+    r29, r30, r31, j :: int
+    r32 :: native_int
+    r33 :: bit
+    r34 :: native_int
+    r35, r36, r37 :: bit
+    r38 :: object
+    r39 :: str
+    r40 :: object
+    r41 :: int
+    r42, r43 :: object
+    r44, r45 :: int
+    r46 :: tuple[int, int]
+    r47 :: object
+    r48 :: i32
+    r49 :: bit
+    r50, r51 :: int
+    r52 :: object
+L0:
+    r0 = self.grid_h
+    r1 = self.grid_w
+    r2 = (r0, r1)
+    r3 = numpy :: module
+    r4 = 'float32'
+    r5 = CPyObject_GetAttr(r3, r4)
+    if is_error(r5) goto L28 (error at pressure_field:153) else goto L1
+L1:
+    r6 = numpy :: module
+    r7 = 'zeros'
+    r8 = CPyObject_GetAttr(r6, r7)
+    if is_error(r8) goto L29 (error at pressure_field:153) else goto L2
+L2:
+    r9 = box(tuple[int, int], r2)
+    r10 = [r9, r5]
+    r11 = load_address r10
+    r12 = ('dtype',)
+    r13 = PyObject_Vectorcall(r8, r11, 1, r12)
+    dec_ref r8
+    if is_error(r13) goto L30 (error at pressure_field:153) else goto L3
+L3:
+    dec_ref r9
+    dec_ref r5
+    r14 = self.fluid
+    if is_error(r14) goto L31 (error at pressure_field:155) else goto L4
+L4:
+    r15 = 'numX'
+    r16 = CPyObject_GetAttr(r14, r15)
+    dec_ref r14
+    if is_error(r16) goto L31 (error at pressure_field:155) else goto L5
+L5:
+    r17 = unbox(int, r16)
+    dec_ref r16
+    if is_error(r17) goto L31 (error at pressure_field:155) else goto L6
+L6:
+    r18 = CPyTagged_Subtract(r17, 2)
+    dec_ref r17 :: int
+    r19 = 2
+    inc_ref r19 :: int
+    i = r19
+    dec_ref i :: int
+L7:
+    r20 = r19 & 1
+    r21 = r20 != 0
+    if r21 goto L9 else goto L8 :: bool
+L8:
+    r22 = r18 & 1
+    r23 = r22 != 0
+    if r23 goto L9 else goto L10 :: bool
+L9:
+    r24 = CPyTagged_IsLt_(r19, r18)
+    if r24 goto L11 else goto L32 :: bool
+L10:
+    r25 = r19 < r18 :: signed
+    if r25 goto L11 else goto L32 :: bool
+L11:
+    inc_ref r19 :: int
+    i = r19
+    r26 = self.fluid
+    if is_error(r26) goto L33 (error at pressure_field:156) else goto L12
+L12:
+    r27 = 'numY'
+    r28 = CPyObject_GetAttr(r26, r27)
+    dec_ref r26
+    if is_error(r28) goto L33 (error at pressure_field:156) else goto L13
+L13:
+    r29 = unbox(int, r28)
+    dec_ref r28
+    if is_error(r29) goto L33 (error at pressure_field:156) else goto L14
+L14:
+    r30 = CPyTagged_Subtract(r29, 2)
+    dec_ref r29 :: int
+    r31 = 2
+    inc_ref r31 :: int
+    j = r31
+    dec_ref j :: int
+L15:
+    r32 = r31 & 1
+    r33 = r32 != 0
+    if r33 goto L17 else goto L16 :: bool
+L16:
+    r34 = r30 & 1
+    r35 = r34 != 0
+    if r35 goto L17 else goto L18 :: bool
+L17:
+    r36 = CPyTagged_IsLt_(r31, r30)
+    if r36 goto L19 else goto L34 :: bool
+L18:
+    r37 = r31 < r30 :: signed
+    if r37 goto L19 else goto L34 :: bool
+L19:
+    inc_ref r31 :: int
+    j = r31
+    r38 = self.fluid
+    if is_error(r38) goto L35 (error at pressure_field:157) else goto L20
+L20:
+    r39 = 'p'
+    r40 = CPyObject_GetAttr(r38, r39)
+    dec_ref r38
+    if is_error(r40) goto L35 (error at pressure_field:157) else goto L21
+L21:
+    r41 = self._idx(i, j)
+    if is_error(r41) goto L36 (error at pressure_field:157) else goto L22
+L22:
+    r42 = box(int, r41)
+    r43 = PyObject_GetItem(r40, r42)
+    dec_ref r40
+    dec_ref r42
+    if is_error(r43) goto L35 (error at pressure_field:157) else goto L23
+L23:
+    r44 = CPyTagged_Subtract(j, 2)
+    dec_ref j :: int
+    r45 = CPyTagged_Subtract(i, 2)
+    r46 = (r44, r45)
+    r47 = box(tuple[int, int], r46)
+    r48 = PyObject_SetItem(r13, r47, r43)
+    dec_ref r47
+    dec_ref r43
+    r49 = r48 >= 0 :: signed
+    if not r49 goto L37 (error at pressure_field:157) else goto L24 :: bool
+L24:
+    r50 = CPyTagged_Add(r31, 2)
+    dec_ref r31 :: int
+    r31 = r50
+    goto L15
+L25:
+    r51 = CPyTagged_Add(r19, 2)
+    dec_ref r19 :: int
+    r19 = r51
+    goto L7
+L26:
+    return r13
+L27:
+    r52 = <error> :: object
+    return r52
+L28:
+    dec_ref r2
+    goto L27
+L29:
+    dec_ref r2
+    dec_ref r5
+    goto L27
+L30:
+    dec_ref r5
+    dec_ref r9
+    goto L27
+L31:
+    dec_ref r13
+    goto L27
+L32:
+    dec_ref r18 :: int
+    dec_ref r19 :: int
+    goto L26
+L33:
+    dec_ref r13
+    dec_ref r18 :: int
+    dec_ref r19 :: int
+    dec_ref i :: int
+    goto L27
+L34:
+    dec_ref i :: int
+    dec_ref r30 :: int
+    dec_ref r31 :: int
+    goto L25
+L35:
+    dec_ref r13
+    dec_ref r18 :: int
+    dec_ref r19 :: int
+    dec_ref i :: int
+    dec_ref r30 :: int
+    dec_ref r31 :: int
+    dec_ref j :: int
+    goto L27
+L36:
+    dec_ref r13
+    dec_ref r18 :: int
+    dec_ref r19 :: int
+    dec_ref i :: int
+    dec_ref r30 :: int
+    dec_ref r31 :: int
+    dec_ref j :: int
+    dec_ref r40
+    goto L27
+L37:
+    dec_ref r13
+    dec_ref r18 :: int
+    dec_ref r19 :: int
+    dec_ref i :: int
+    dec_ref r30 :: int
+    dec_ref r31 :: int
+    goto L27
+
+def HeadlessWindTunnel.solid_field(self):
+    self :: simplified.HeadlessWindTunnel
+    r0, r1 :: int
+    r2 :: tuple[int, int]
+    r3 :: object
+    r4 :: str
+    r5, r6 :: object
+    r7 :: str
+    r8, r9 :: object
+    r10 :: object[2]
+    r11 :: object_ptr
+    r12, r13, r14 :: object
+    r15 :: str
+    r16 :: object
+    r17, r18, r19, i :: int
+    r20 :: native_int
+    r21 :: bit
+    r22 :: native_int
+    r23, r24, r25 :: bit
+    r26 :: object
+    r27 :: str
+    r28 :: object
+    r29, r30, r31, j :: int
+    r32 :: native_int
+    r33 :: bit
+    r34 :: native_int
+    r35, r36, r37 :: bit
+    r38 :: object
+    r39 :: str
+    r40 :: object
+    r41 :: int
+    r42, r43, r44, r45 :: object
+    r46, r47 :: int
+    r48 :: tuple[int, int]
+    r49 :: object
+    r50 :: i32
+    r51 :: bit
+    r52, r53 :: int
+    r54 :: object
+L0:
+    r0 = self.grid_h
+    r1 = self.grid_w
+    r2 = (r0, r1)
+    r3 = numpy :: module
+    r4 = 'float32'
+    r5 = CPyObject_GetAttr(r3, r4)
+    if is_error(r5) goto L29 (error at solid_field:162) else goto L1
+L1:
+    r6 = numpy :: module
+    r7 = 'zeros'
+    r8 = CPyObject_GetAttr(r6, r7)
+    if is_error(r8) goto L30 (error at solid_field:162) else goto L2
+L2:
+    r9 = box(tuple[int, int], r2)
+    r10 = [r9, r5]
+    r11 = load_address r10
+    r12 = ('dtype',)
+    r13 = PyObject_Vectorcall(r8, r11, 1, r12)
+    dec_ref r8
+    if is_error(r13) goto L31 (error at solid_field:162) else goto L3
+L3:
+    dec_ref r9
+    dec_ref r5
+    r14 = self.fluid
+    if is_error(r14) goto L32 (error at solid_field:164) else goto L4
+L4:
+    r15 = 'numX'
+    r16 = CPyObject_GetAttr(r14, r15)
+    dec_ref r14
+    if is_error(r16) goto L32 (error at solid_field:164) else goto L5
+L5:
+    r17 = unbox(int, r16)
+    dec_ref r16
+    if is_error(r17) goto L32 (error at solid_field:164) else goto L6
+L6:
+    r18 = CPyTagged_Subtract(r17, 2)
+    dec_ref r17 :: int
+    r19 = 2
+    inc_ref r19 :: int
+    i = r19
+    dec_ref i :: int
+L7:
+    r20 = r19 & 1
+    r21 = r20 != 0
+    if r21 goto L9 else goto L8 :: bool
+L8:
+    r22 = r18 & 1
+    r23 = r22 != 0
+    if r23 goto L9 else goto L10 :: bool
+L9:
+    r24 = CPyTagged_IsLt_(r19, r18)
+    if r24 goto L11 else goto L33 :: bool
+L10:
+    r25 = r19 < r18 :: signed
+    if r25 goto L11 else goto L33 :: bool
+L11:
+    inc_ref r19 :: int
+    i = r19
+    r26 = self.fluid
+    if is_error(r26) goto L34 (error at solid_field:165) else goto L12
+L12:
+    r27 = 'numY'
+    r28 = CPyObject_GetAttr(r26, r27)
+    dec_ref r26
+    if is_error(r28) goto L34 (error at solid_field:165) else goto L13
+L13:
+    r29 = unbox(int, r28)
+    dec_ref r28
+    if is_error(r29) goto L34 (error at solid_field:165) else goto L14
+L14:
+    r30 = CPyTagged_Subtract(r29, 2)
+    dec_ref r29 :: int
+    r31 = 2
+    inc_ref r31 :: int
+    j = r31
+    dec_ref j :: int
+L15:
+    r32 = r31 & 1
+    r33 = r32 != 0
+    if r33 goto L17 else goto L16 :: bool
+L16:
+    r34 = r30 & 1
+    r35 = r34 != 0
+    if r35 goto L17 else goto L18 :: bool
+L17:
+    r36 = CPyTagged_IsLt_(r31, r30)
+    if r36 goto L19 else goto L35 :: bool
+L18:
+    r37 = r31 < r30 :: signed
+    if r37 goto L19 else goto L35 :: bool
+L19:
+    inc_ref r31 :: int
+    j = r31
+    r38 = self.fluid
+    if is_error(r38) goto L36 (error at solid_field:166) else goto L20
+L20:
+    r39 = 's'
+    r40 = CPyObject_GetAttr(r38, r39)
+    dec_ref r38
+    if is_error(r40) goto L36 (error at solid_field:166) else goto L21
+L21:
+    r41 = self._idx(i, j)
+    if is_error(r41) goto L37 (error at solid_field:166) else goto L22
+L22:
+    r42 = box(int, r41)
+    r43 = PyObject_GetItem(r40, r42)
+    dec_ref r40
+    dec_ref r42
+    if is_error(r43) goto L36 (error at solid_field:166) else goto L23
+L23:
+    r44 = box(float, 1.0)
+    r45 = PyNumber_Subtract(r44, r43)
+    dec_ref r44
+    dec_ref r43
+    if is_error(r45) goto L36 (error at solid_field:166) else goto L24
+L24:
+    r46 = CPyTagged_Subtract(j, 2)
+    dec_ref j :: int
+    r47 = CPyTagged_Subtract(i, 2)
+    r48 = (r46, r47)
+    r49 = box(tuple[int, int], r48)
+    r50 = PyObject_SetItem(r13, r49, r45)
+    dec_ref r49
+    dec_ref r45
+    r51 = r50 >= 0 :: signed
+    if not r51 goto L38 (error at solid_field:166) else goto L25 :: bool
+L25:
+    r52 = CPyTagged_Add(r31, 2)
+    dec_ref r31 :: int
+    r31 = r52
+    goto L15
+L26:
+    r53 = CPyTagged_Add(r19, 2)
+    dec_ref r19 :: int
+    r19 = r53
+    goto L7
+L27:
+    return r13
+L28:
+    r54 = <error> :: object
+    return r54
+L29:
+    dec_ref r2
+    goto L28
+L30:
+    dec_ref r2
+    dec_ref r5
+    goto L28
+L31:
+    dec_ref r5
+    dec_ref r9
+    goto L28
+L32:
+    dec_ref r13
+    goto L28
+L33:
+    dec_ref r18 :: int
+    dec_ref r19 :: int
+    goto L27
+L34:
+    dec_ref r13
+    dec_ref r18 :: int
+    dec_ref r19 :: int
+    dec_ref i :: int
+    goto L28
+L35:
+    dec_ref i :: int
+    dec_ref r30 :: int
+    dec_ref r31 :: int
+    goto L26
+L36:
+    dec_ref r13
+    dec_ref r18 :: int
+    dec_ref r19 :: int
+    dec_ref i :: int
+    dec_ref r30 :: int
+    dec_ref r31 :: int
+    dec_ref j :: int
+    goto L28
+L37:
+    dec_ref r13
+    dec_ref r18 :: int
+    dec_ref r19 :: int
+    dec_ref i :: int
+    dec_ref r30 :: int
+    dec_ref r31 :: int
+    dec_ref j :: int
+    dec_ref r40
+    goto L28
+L38:
+    dec_ref r13
+    dec_ref r18 :: int
+    dec_ref r19 :: int
+    dec_ref i :: int
+    dec_ref r30 :: int
+    dec_ref r31 :: int
+    goto L28
+
+def HeadlessWindTunnel.export_cell_data(self):
+    self :: simplified.HeadlessWindTunnel
+    r0 :: object
+    r1 :: str
+    r2 :: object
+    r3 :: int
+    r4 :: list
+    r5 :: object
+    r6 :: str
+    r7 :: object
+    r8, r9, r10, i :: int
+    r11 :: native_int
+    r12 :: bit
+    r13 :: native_int
+    r14, r15, r16 :: bit
+    r17 :: object
+    r18 :: str
+    r19 :: object
+    r20, r21, r22, j :: int
+    r23 :: native_int
+    r24 :: bit
+    r25 :: native_int
+    r26, r27, r28 :: bit
+    r29, r30 :: int
+    r31 :: object
+    r32 :: str
+    r33, r34, r35, r36 :: object
+    r37 :: str
+    r38 :: object
+    r39, r40, r41 :: int
+    r42, r43, r44, r45, r46, r47 :: object
+    r48 :: object[1]
+    r49 :: object_ptr
+    r50 :: object
+    r51 :: float
+    r52 :: bit
+    r53, r54 :: object
+    r55 :: str
+    r56, r57, r58, r59 :: object
+    r60 :: str
+    r61 :: object
+    r62, r63, r64 :: int
+    r65, r66, r67, r68, r69, r70 :: object
+    r71 :: object[1]
+    r72 :: object_ptr
+    r73 :: object
+    r74 :: float
+    r75 :: bit
+    r76, r77 :: object
+    r78 :: str
+    r79, r80, r81, r82 :: object
+    r83 :: object[1]
+    r84 :: object_ptr
+    r85 :: object
+    r86 :: float
+    r87 :: bit
+    r88, r89 :: object
+    r90 :: str
+    r91, r92, r93, r94 :: object
+    r95 :: object[1]
+    r96 :: object_ptr
+    r97 :: object
+    r98 :: float
+    r99 :: bit
+    r100, r101 :: object
+    r102 :: str
+    r103, r104, r105, r106 :: object
+    r107 :: object[1]
+    r108 :: object_ptr
+    r109 :: object
+    r110 :: float
+    r111 :: bit
+    r112, r113, r114 :: float
+    r115 :: object
+    r116 :: str
+    r117, r118, r119 :: object
+    r120 :: object[1]
+    r121 :: object_ptr
+    r122, r123 :: object
+    r124 :: object[1]
+    r125 :: object_ptr
+    r126 :: object
+    r127 :: float
+    r128 :: bit
+    r129, r130 :: object
+    r131 :: str
+    r132, r133, r134, r135 :: object
+    r136 :: object[1]
+    r137 :: object_ptr
+    r138 :: object
+    r139 :: float
+    r140 :: bit
+    r141, r142 :: object
+    r143 :: str
+    r144, r145, r146, r147 :: object
+    r148 :: object[1]
+    r149 :: object_ptr
+    r150 :: object
+    r151 :: float
+    r152 :: bit
+    r153 :: tuple[int, int, int, float, float, float, float, float, float, float, float]
+    r154 :: object
+    r155 :: i32
+    r156 :: bit
+    r157 :: object
+    r158, r159 :: int
+    r160 :: str
+    r161 :: object
+    r162 :: str
+    r163 :: object
+    r164 :: tuple[str, object]
+    r165 :: str
+    r166 :: object
+    r167 :: str
+    r168 :: object
+    r169 :: tuple[str, object]
+    r170 :: str
+    r171 :: object
+    r172 :: str
+    r173 :: object
+    r174 :: tuple[str, object]
+    r175 :: str
+    r176 :: object
+    r177 :: str
+    r178 :: object
+    r179 :: tuple[str, object]
+    r180 :: str
+    r181 :: object
+    r182 :: str
+    r183 :: object
+    r184 :: tuple[str, object]
+    r185 :: str
+    r186 :: object
+    r187 :: str
+    r188 :: object
+    r189 :: tuple[str, object]
+    r190 :: str
+    r191 :: object
+    r192 :: str
+    r193 :: object
+    r194 :: tuple[str, object]
+    r195 :: str
+    r196 :: object
+    r197 :: str
+    r198 :: object
+    r199 :: tuple[str, object]
+    r200 :: str
+    r201 :: object
+    r202 :: str
+    r203 :: object
+    r204 :: tuple[str, object]
+    r205 :: str
+    r206 :: object
+    r207 :: str
+    r208 :: object
+    r209 :: tuple[str, object]
+    r210 :: str
+    r211 :: object
+    r212 :: str
+    r213 :: object
+    r214 :: tuple[str, object]
+    r215, r216, r217, r218, r219, r220, r221, r222, r223, r224, r225 :: object
+    r226 :: list
+    r227 :: object
+    r228 :: str
+    r229 :: object
+    r230 :: object[2]
+    r231 :: object_ptr
+    r232, r233, r234 :: object
+L0:
+    r0 = self.fluid
+    if is_error(r0) goto L95 (error at export_cell_data:171) else goto L1
+L1:
+    r1 = 'numY'
+    r2 = CPyObject_GetAttr(r0, r1)
+    dec_ref r0
+    if is_error(r2) goto L95 (error at export_cell_data:171) else goto L2
+L2:
+    r3 = unbox(int, r2)
+    dec_ref r2
+    if is_error(r3) goto L95 (error at export_cell_data:171) else goto L3
+L3:
+    r4 = PyList_New(0)
+    if is_error(r4) goto L96 (error at export_cell_data:172) else goto L4
+L4:
+    r5 = self.fluid
+    if is_error(r5) goto L97 (error at export_cell_data:174) else goto L5
+L5:
+    r6 = 'numX'
+    r7 = CPyObject_GetAttr(r5, r6)
+    dec_ref r5
+    if is_error(r7) goto L97 (error at export_cell_data:174) else goto L6
+L6:
+    r8 = unbox(int, r7)
+    dec_ref r7
+    if is_error(r8) goto L97 (error at export_cell_data:174) else goto L7
+L7:
+    r9 = CPyTagged_Subtract(r8, 2)
+    dec_ref r8 :: int
+    r10 = 2
+    inc_ref r10 :: int
+    i = r10
+    dec_ref i :: int
+L8:
+    r11 = r10 & 1
+    r12 = r11 != 0
+    if r12 goto L10 else goto L9 :: bool
+L9:
+    r13 = r9 & 1
+    r14 = r13 != 0
+    if r14 goto L10 else goto L11 :: bool
+L10:
+    r15 = CPyTagged_IsLt_(r10, r9)
+    if r15 goto L12 else goto L98 :: bool
+L11:
+    r16 = r10 < r9 :: signed
+    if r16 goto L12 else goto L98 :: bool
+L12:
+    inc_ref r10 :: int
+    i = r10
+    r17 = self.fluid
+    if is_error(r17) goto L99 (error at export_cell_data:175) else goto L13
+L13:
+    r18 = 'numY'
+    r19 = CPyObject_GetAttr(r17, r18)
+    dec_ref r17
+    if is_error(r19) goto L99 (error at export_cell_data:175) else goto L14
+L14:
+    r20 = unbox(int, r19)
+    dec_ref r19
+    if is_error(r20) goto L99 (error at export_cell_data:175) else goto L15
+L15:
+    r21 = CPyTagged_Subtract(r20, 2)
+    dec_ref r20 :: int
+    r22 = 2
+    inc_ref r22 :: int
+    j = r22
+    dec_ref j :: int
+L16:
+    r23 = r22 & 1
+    r24 = r23 != 0
+    if r24 goto L18 else goto L17 :: bool
+L17:
+    r25 = r21 & 1
+    r26 = r25 != 0
+    if r26 goto L18 else goto L19 :: bool
+L18:
+    r27 = CPyTagged_IsLt_(r22, r21)
+    if r27 goto L20 else goto L100 :: bool
+L19:
+    r28 = r22 < r21 :: signed
+    if r28 goto L20 else goto L100 :: bool
+L20:
+    inc_ref r22 :: int
+    j = r22
+    r29 = CPyTagged_Multiply(i, r3)
+    r30 = CPyTagged_Add(r29, j)
+    dec_ref r29 :: int
+    r31 = self.fluid
+    if is_error(r31) goto L101 (error at export_cell_data:177) else goto L21
+L21:
+    r32 = 'u'
+    r33 = CPyObject_GetAttr(r31, r32)
+    dec_ref r31
+    if is_error(r33) goto L101 (error at export_cell_data:177) else goto L22
+L22:
+    inc_ref r30 :: int
+    r34 = box(int, r30)
+    r35 = PyObject_GetItem(r33, r34)
+    dec_ref r33
+    dec_ref r34
+    if is_error(r35) goto L101 (error at export_cell_data:177) else goto L23
+L23:
+    r36 = self.fluid
+    if is_error(r36) goto L102 (error at export_cell_data:177) else goto L24
+L24:
+    r37 = 'u'
+    r38 = CPyObject_GetAttr(r36, r37)
+    dec_ref r36
+    if is_error(r38) goto L102 (error at export_cell_data:177) else goto L25
+L25:
+    r39 = CPyTagged_Add(i, 2)
+    r40 = CPyTagged_Multiply(r39, r3)
+    dec_ref r39 :: int
+    r41 = CPyTagged_Add(r40, j)
+    dec_ref r40 :: int
+    r42 = box(int, r41)
+    r43 = PyObject_GetItem(r38, r42)
+    dec_ref r38
+    dec_ref r42
+    if is_error(r43) goto L102 (error at export_cell_data:177) else goto L26
+L26:
+    r44 = PyNumber_Add(r35, r43)
+    dec_ref r35
+    dec_ref r43
+    if is_error(r44) goto L101 (error at export_cell_data:177) else goto L27
+L27:
+    r45 = box(float, 0.5)
+    r46 = PyNumber_Multiply(r45, r44)
+    dec_ref r45
+    dec_ref r44
+    if is_error(r46) goto L101 (error at export_cell_data:177) else goto L28
+L28:
+    r47 = load_address PyFloat_Type
+    r48 = [r46]
+    r49 = load_address r48
+    r50 = PyObject_Vectorcall(r47, r49, 1, 0)
+    if is_error(r50) goto L103 (error at export_cell_data:177) else goto L29
+L29:
+    dec_ref r46
+    r51 = unbox(float, r50)
+    dec_ref r50
+    r52 = r51 == -113.0
+    if r52 goto L31 else goto L30 :: bool
+L30:
+    r53 = self.fluid
+    if is_error(r53) goto L101 (error at export_cell_data:178) else goto L32
+L31:
+    r54 = PyErr_Occurred()
+    if not is_error(r54) goto L101 (error at export_cell_data:177) else goto L30
+L32:
+    r55 = 'v'
+    r56 = CPyObject_GetAttr(r53, r55)
+    dec_ref r53
+    if is_error(r56) goto L101 (error at export_cell_data:178) else goto L33
+L33:
+    inc_ref r30 :: int
+    r57 = box(int, r30)
+    r58 = PyObject_GetItem(r56, r57)
+    dec_ref r56
+    dec_ref r57
+    if is_error(r58) goto L101 (error at export_cell_data:178) else goto L34
+L34:
+    r59 = self.fluid
+    if is_error(r59) goto L104 (error at export_cell_data:178) else goto L35
+L35:
+    r60 = 'v'
+    r61 = CPyObject_GetAttr(r59, r60)
+    dec_ref r59
+    if is_error(r61) goto L104 (error at export_cell_data:178) else goto L36
+L36:
+    r62 = CPyTagged_Multiply(i, r3)
+    r63 = CPyTagged_Add(j, 2)
+    r64 = CPyTagged_Add(r62, r63)
+    dec_ref r62 :: int
+    dec_ref r63 :: int
+    r65 = box(int, r64)
+    r66 = PyObject_GetItem(r61, r65)
+    dec_ref r61
+    dec_ref r65
+    if is_error(r66) goto L104 (error at export_cell_data:178) else goto L37
+L37:
+    r67 = PyNumber_Add(r58, r66)
+    dec_ref r58
+    dec_ref r66
+    if is_error(r67) goto L101 (error at export_cell_data:178) else goto L38
+L38:
+    r68 = box(float, 0.5)
+    r69 = PyNumber_Multiply(r68, r67)
+    dec_ref r68
+    dec_ref r67
+    if is_error(r69) goto L101 (error at export_cell_data:178) else goto L39
+L39:
+    r70 = load_address PyFloat_Type
+    r71 = [r69]
+    r72 = load_address r71
+    r73 = PyObject_Vectorcall(r70, r72, 1, 0)
+    if is_error(r73) goto L105 (error at export_cell_data:178) else goto L40
+L40:
+    dec_ref r69
+    r74 = unbox(float, r73)
+    dec_ref r73
+    r75 = r74 == -113.0
+    if r75 goto L42 else goto L41 :: bool
+L41:
+    r76 = self.fluid
+    if is_error(r76) goto L101 (error at export_cell_data:184) else goto L43
+L42:
+    r77 = PyErr_Occurred()
+    if not is_error(r77) goto L101 (error at export_cell_data:178) else goto L41
+L43:
+    r78 = 's'
+    r79 = CPyObject_GetAttr(r76, r78)
+    dec_ref r76
+    if is_error(r79) goto L101 (error at export_cell_data:184) else goto L44
+L44:
+    inc_ref r30 :: int
+    r80 = box(int, r30)
+    r81 = PyObject_GetItem(r79, r80)
+    dec_ref r79
+    dec_ref r80
+    if is_error(r81) goto L101 (error at export_cell_data:184) else goto L45
+L45:
+    r82 = load_address PyFloat_Type
+    r83 = [r81]
+    r84 = load_address r83
+    r85 = PyObject_Vectorcall(r82, r84, 1, 0)
+    if is_error(r85) goto L106 (error at export_cell_data:184) else goto L46
+L46:
+    dec_ref r81
+    r86 = unbox(float, r85)
+    dec_ref r85
+    r87 = r86 == -113.0
+    if r87 goto L48 else goto L47 :: bool
+L47:
+    r88 = self.fluid
+    if is_error(r88) goto L101 (error at export_cell_data:185) else goto L49
+L48:
+    r89 = PyErr_Occurred()
+    if not is_error(r89) goto L101 (error at export_cell_data:184) else goto L47
+L49:
+    r90 = 'u'
+    r91 = CPyObject_GetAttr(r88, r90)
+    dec_ref r88
+    if is_error(r91) goto L101 (error at export_cell_data:185) else goto L50
+L50:
+    inc_ref r30 :: int
+    r92 = box(int, r30)
+    r93 = PyObject_GetItem(r91, r92)
+    dec_ref r91
+    dec_ref r92
+    if is_error(r93) goto L101 (error at export_cell_data:185) else goto L51
+L51:
+    r94 = load_address PyFloat_Type
+    r95 = [r93]
+    r96 = load_address r95
+    r97 = PyObject_Vectorcall(r94, r96, 1, 0)
+    if is_error(r97) goto L107 (error at export_cell_data:185) else goto L52
+L52:
+    dec_ref r93
+    r98 = unbox(float, r97)
+    dec_ref r97
+    r99 = r98 == -113.0
+    if r99 goto L54 else goto L53 :: bool
+L53:
+    r100 = self.fluid
+    if is_error(r100) goto L101 (error at export_cell_data:186) else goto L55
+L54:
+    r101 = PyErr_Occurred()
+    if not is_error(r101) goto L101 (error at export_cell_data:185) else goto L53
+L55:
+    r102 = 'v'
+    r103 = CPyObject_GetAttr(r100, r102)
+    dec_ref r100
+    if is_error(r103) goto L101 (error at export_cell_data:186) else goto L56
+L56:
+    inc_ref r30 :: int
+    r104 = box(int, r30)
+    r105 = PyObject_GetItem(r103, r104)
+    dec_ref r103
+    dec_ref r104
+    if is_error(r105) goto L101 (error at export_cell_data:186) else goto L57
+L57:
+    r106 = load_address PyFloat_Type
+    r107 = [r105]
+    r108 = load_address r107
+    r109 = PyObject_Vectorcall(r106, r108, 1, 0)
+    if is_error(r109) goto L108 (error at export_cell_data:186) else goto L58
+L58:
+    dec_ref r105
+    r110 = unbox(float, r109)
+    dec_ref r109
+    r111 = r110 == -113.0
+    if r111 goto L60 else goto L59 :: bool
+L59:
+    r112 = r51 * r51
+    r113 = r74 * r74
+    r114 = r112 + r113
+    r115 = numpy :: module
+    r116 = 'sqrt'
+    r117 = CPyObject_GetAttr(r115, r116)
+    if is_error(r117) goto L101 (error at export_cell_data:189) else goto L61
+L60:
+    r118 = PyErr_Occurred()
+    if not is_error(r118) goto L101 (error at export_cell_data:186) else goto L59
+L61:
+    r119 = box(float, r114)
+    r120 = [r119]
+    r121 = load_address r120
+    r122 = PyObject_Vectorcall(r117, r121, 1, 0)
+    dec_ref r117
+    if is_error(r122) goto L109 (error at export_cell_data:189) else goto L62
+L62:
+    dec_ref r119
+    r123 = load_address PyFloat_Type
+    r124 = [r122]
+    r125 = load_address r124
+    r126 = PyObject_Vectorcall(r123, r125, 1, 0)
+    if is_error(r126) goto L110 (error at export_cell_data:189) else goto L63
+L63:
+    dec_ref r122
+    r127 = unbox(float, r126)
+    dec_ref r126
+    r128 = r127 == -113.0
+    if r128 goto L65 else goto L64 :: bool
+L64:
+    r129 = self.fluid
+    if is_error(r129) goto L101 (error at export_cell_data:190) else goto L66
+L65:
+    r130 = PyErr_Occurred()
+    if not is_error(r130) goto L101 (error at export_cell_data:189) else goto L64
+L66:
+    r131 = 'm'
+    r132 = CPyObject_GetAttr(r129, r131)
+    dec_ref r129
+    if is_error(r132) goto L101 (error at export_cell_data:190) else goto L67
+L67:
+    inc_ref r30 :: int
+    r133 = box(int, r30)
+    r134 = PyObject_GetItem(r132, r133)
+    dec_ref r132
+    dec_ref r133
+    if is_error(r134) goto L101 (error at export_cell_data:190) else goto L68
+L68:
+    r135 = load_address PyFloat_Type
+    r136 = [r134]
+    r137 = load_address r136
+    r138 = PyObject_Vectorcall(r135, r137, 1, 0)
+    if is_error(r138) goto L111 (error at export_cell_data:190) else goto L69
+L69:
+    dec_ref r134
+    r139 = unbox(float, r138)
+    dec_ref r138
+    r140 = r139 == -113.0
+    if r140 goto L71 else goto L70 :: bool
+L70:
+    r141 = self.fluid
+    if is_error(r141) goto L101 (error at export_cell_data:191) else goto L72
+L71:
+    r142 = PyErr_Occurred()
+    if not is_error(r142) goto L101 (error at export_cell_data:190) else goto L70
+L72:
+    r143 = 'p'
+    r144 = CPyObject_GetAttr(r141, r143)
+    dec_ref r141
+    if is_error(r144) goto L101 (error at export_cell_data:191) else goto L73
+L73:
+    inc_ref r30 :: int
+    r145 = box(int, r30)
+    r146 = PyObject_GetItem(r144, r145)
+    dec_ref r144
+    dec_ref r145
+    if is_error(r146) goto L101 (error at export_cell_data:191) else goto L74
+L74:
+    r147 = load_address PyFloat_Type
+    r148 = [r146]
+    r149 = load_address r148
+    r150 = PyObject_Vectorcall(r147, r149, 1, 0)
+    if is_error(r150) goto L112 (error at export_cell_data:191) else goto L75
+L75:
+    dec_ref r146
+    r151 = unbox(float, r150)
+    dec_ref r150
+    r152 = r151 == -113.0
+    if r152 goto L77 else goto L76 :: bool
+L76:
+    inc_ref i :: int
+    r153 = (r30, i, j, r86, r98, r110, r51, r74, r127, r139, r151)
+    r154 = box(tuple[int, int, int, float, float, float, float, float, float, float, float], r153)
+    r155 = PyList_Append(r4, r154)
+    dec_ref r154
+    r156 = r155 >= 0 :: signed
+    if not r156 goto L113 (error at export_cell_data:179) else goto L78 :: bool
+L77:
+    r157 = PyErr_Occurred()
+    if not is_error(r157) goto L101 (error at export_cell_data:191) else goto L76
+L78:
+    r158 = CPyTagged_Add(r22, 2)
+    dec_ref r22 :: int
+    r22 = r158
+    goto L16
+L79:
+    r159 = CPyTagged_Add(r10, 2)
+    dec_ref r10 :: int
+    r10 = r159
+    goto L8
+L80:
+    r160 = 'cell_id'
+    r161 = numpy :: module
+    r162 = 'int32'
+    r163 = CPyObject_GetAttr(r161, r162)
+    if is_error(r163) goto L114 (error at export_cell_data:198) else goto L81
+L81:
+    inc_ref r160
+    r164 = (r160, r163)
+    r165 = 'i'
+    r166 = numpy :: module
+    r167 = 'int32'
+    r168 = CPyObject_GetAttr(r166, r167)
+    if is_error(r168) goto L115 (error at export_cell_data:199) else goto L82
+L82:
+    inc_ref r165
+    r169 = (r165, r168)
+    r170 = 'j'
+    r171 = numpy :: module
+    r172 = 'int32'
+    r173 = CPyObject_GetAttr(r171, r172)
+    if is_error(r173) goto L116 (error at export_cell_data:200) else goto L83
+L83:
+    inc_ref r170
+    r174 = (r170, r173)
+    r175 = 's'
+    r176 = numpy :: module
+    r177 = 'float32'
+    r178 = CPyObject_GetAttr(r176, r177)
+    if is_error(r178) goto L117 (error at export_cell_data:201) else goto L84
+L84:
+    inc_ref r175
+    r179 = (r175, r178)
+    r180 = 'u_face'
+    r181 = numpy :: module
+    r182 = 'float32'
+    r183 = CPyObject_GetAttr(r181, r182)
+    if is_error(r183) goto L118 (error at export_cell_data:202) else goto L85
+L85:
+    inc_ref r180
+    r184 = (r180, r183)
+    r185 = 'v_face'
+    r186 = numpy :: module
+    r187 = 'float32'
+    r188 = CPyObject_GetAttr(r186, r187)
+    if is_error(r188) goto L119 (error at export_cell_data:203) else goto L86
+L86:
+    inc_ref r185
+    r189 = (r185, r188)
+    r190 = 'u_center'
+    r191 = numpy :: module
+    r192 = 'float32'
+    r193 = CPyObject_GetAttr(r191, r192)
+    if is_error(r193) goto L120 (error at export_cell_data:204) else goto L87
+L87:
+    inc_ref r190
+    r194 = (r190, r193)
+    r195 = 'v_center'
+    r196 = numpy :: module
+    r197 = 'float32'
+    r198 = CPyObject_GetAttr(r196, r197)
+    if is_error(r198) goto L121 (error at export_cell_data:205) else goto L88
+L88:
+    inc_ref r195
+    r199 = (r195, r198)
+    r200 = 'speed'
+    r201 = numpy :: module
+    r202 = 'float32'
+    r203 = CPyObject_GetAttr(r201, r202)
+    if is_error(r203) goto L122 (error at export_cell_data:206) else goto L89
+L89:
+    inc_ref r200
+    r204 = (r200, r203)
+    r205 = 'smoke'
+    r206 = numpy :: module
+    r207 = 'float32'
+    r208 = CPyObject_GetAttr(r206, r207)
+    if is_error(r208) goto L123 (error at export_cell_data:207) else goto L90
+L90:
+    inc_ref r205
+    r209 = (r205, r208)
+    r210 = 'pressure'
+    r211 = numpy :: module
+    r212 = 'float32'
+    r213 = CPyObject_GetAttr(r211, r212)
+    if is_error(r213) goto L124 (error at export_cell_data:208) else goto L91
+L91:
+    inc_ref r210
+    r214 = (r210, r213)
+    r215 = box(tuple[str, object], r164)
+    r216 = box(tuple[str, object], r169)
+    r217 = box(tuple[str, object], r174)
+    r218 = box(tuple[str, object], r179)
+    r219 = box(tuple[str, object], r184)
+    r220 = box(tuple[str, object], r189)
+    r221 = box(tuple[str, object], r194)
+    r222 = box(tuple[str, object], r199)
+    r223 = box(tuple[str, object], r204)
+    r224 = box(tuple[str, object], r209)
+    r225 = box(tuple[str, object], r214)
+    r226 = CPyList_Build(11, r215, r216, r217, r218, r219, r220, r221, r222, r223, r224, r225)
+    if is_error(r226) goto L114 (error at export_cell_data:197) else goto L92
+L92:
+    r227 = numpy :: module
+    r228 = 'array'
+    r229 = CPyObject_GetAttr(r227, r228)
+    if is_error(r229) goto L125 (error at export_cell_data:195) else goto L93
+L93:
+    r230 = [r4, r226]
+    r231 = load_address r230
+    r232 = ('dtype',)
+    r233 = PyObject_Vectorcall(r229, r231, 1, r232)
+    dec_ref r229
+    if is_error(r233) goto L125 (error at export_cell_data:195) else goto L94
+L94:
+    dec_ref r4
+    dec_ref r226
+    return r233
+L95:
+    r234 = <error> :: object
+    return r234
+L96:
+    dec_ref r3 :: int
+    goto L95
+L97:
+    dec_ref r3 :: int
+    dec_ref r4
+    goto L95
+L98:
+    dec_ref r3 :: int
+    dec_ref r9 :: int
+    dec_ref r10 :: int
+    goto L80
+L99:
+    dec_ref r3 :: int
+    dec_ref r4
+    dec_ref r9 :: int
+    dec_ref r10 :: int
+    dec_ref i :: int
+    goto L95
+L100:
+    dec_ref i :: int
+    dec_ref r21 :: int
+    dec_ref r22 :: int
+    goto L79
+L101:
+    dec_ref r3 :: int
+    dec_ref r4
+    dec_ref r9 :: int
+    dec_ref r10 :: int
+    dec_ref i :: int
+    dec_ref r21 :: int
+    dec_ref r22 :: int
+    dec_ref j :: int
+    dec_ref r30 :: int
+    goto L95
+L102:
+    dec_ref r3 :: int
+    dec_ref r4
+    dec_ref r9 :: int
+    dec_ref r10 :: int
+    dec_ref i :: int
+    dec_ref r21 :: int
+    dec_ref r22 :: int
+    dec_ref j :: int
+    dec_ref r30 :: int
+    dec_ref r35
+    goto L95
+L103:
+    dec_ref r3 :: int
+    dec_ref r4
+    dec_ref r9 :: int
+    dec_ref r10 :: int
+    dec_ref i :: int
+    dec_ref r21 :: int
+    dec_ref r22 :: int
+    dec_ref j :: int
+    dec_ref r30 :: int
+    dec_ref r46
+    goto L95
+L104:
+    dec_ref r3 :: int
+    dec_ref r4
+    dec_ref r9 :: int
+    dec_ref r10 :: int
+    dec_ref i :: int
+    dec_ref r21 :: int
+    dec_ref r22 :: int
+    dec_ref j :: int
+    dec_ref r30 :: int
+    dec_ref r58
+    goto L95
+L105:
+    dec_ref r3 :: int
+    dec_ref r4
+    dec_ref r9 :: int
+    dec_ref r10 :: int
+    dec_ref i :: int
+    dec_ref r21 :: int
+    dec_ref r22 :: int
+    dec_ref j :: int
+    dec_ref r30 :: int
+    dec_ref r69
+    goto L95
+L106:
+    dec_ref r3 :: int
+    dec_ref r4
+    dec_ref r9 :: int
+    dec_ref r10 :: int
+    dec_ref i :: int
+    dec_ref r21 :: int
+    dec_ref r22 :: int
+    dec_ref j :: int
+    dec_ref r30 :: int
+    dec_ref r81
+    goto L95
+L107:
+    dec_ref r3 :: int
+    dec_ref r4
+    dec_ref r9 :: int
+    dec_ref r10 :: int
+    dec_ref i :: int
+    dec_ref r21 :: int
+    dec_ref r22 :: int
+    dec_ref j :: int
+    dec_ref r30 :: int
+    dec_ref r93
+    goto L95
+L108:
+    dec_ref r3 :: int
+    dec_ref r4
+    dec_ref r9 :: int
+    dec_ref r10 :: int
+    dec_ref i :: int
+    dec_ref r21 :: int
+    dec_ref r22 :: int
+    dec_ref j :: int
+    dec_ref r30 :: int
+    dec_ref r105
+    goto L95
+L109:
+    dec_ref r3 :: int
+    dec_ref r4
+    dec_ref r9 :: int
+    dec_ref r10 :: int
+    dec_ref i :: int
+    dec_ref r21 :: int
+    dec_ref r22 :: int
+    dec_ref j :: int
+    dec_ref r30 :: int
+    dec_ref r119
+    goto L95
+L110:
+    dec_ref r3 :: int
+    dec_ref r4
+    dec_ref r9 :: int
+    dec_ref r10 :: int
+    dec_ref i :: int
+    dec_ref r21 :: int
+    dec_ref r22 :: int
+    dec_ref j :: int
+    dec_ref r30 :: int
+    dec_ref r122
+    goto L95
+L111:
+    dec_ref r3 :: int
+    dec_ref r4
+    dec_ref r9 :: int
+    dec_ref r10 :: int
+    dec_ref i :: int
+    dec_ref r21 :: int
+    dec_ref r22 :: int
+    dec_ref j :: int
+    dec_ref r30 :: int
+    dec_ref r134
+    goto L95
+L112:
+    dec_ref r3 :: int
+    dec_ref r4
+    dec_ref r9 :: int
+    dec_ref r10 :: int
+    dec_ref i :: int
+    dec_ref r21 :: int
+    dec_ref r22 :: int
+    dec_ref j :: int
+    dec_ref r30 :: int
+    dec_ref r146
+    goto L95
+L113:
+    dec_ref r3 :: int
+    dec_ref r4
+    dec_ref r9 :: int
+    dec_ref r10 :: int
+    dec_ref i :: int
+    dec_ref r21 :: int
+    dec_ref r22 :: int
+    goto L95
+L114:
+    dec_ref r4
+    goto L95
+L115:
+    dec_ref r4
+    dec_ref r164
+    goto L95
+L116:
+    dec_ref r4
+    dec_ref r164
+    dec_ref r169
+    goto L95
+L117:
+    dec_ref r4
+    dec_ref r164
+    dec_ref r169
+    dec_ref r174
+    goto L95
+L118:
+    dec_ref r4
+    dec_ref r164
+    dec_ref r169
+    dec_ref r174
+    dec_ref r179
+    goto L95
+L119:
+    dec_ref r4
+    dec_ref r164
+    dec_ref r169
+    dec_ref r174
+    dec_ref r179
+    dec_ref r184
+    goto L95
+L120:
+    dec_ref r4
+    dec_ref r164
+    dec_ref r169
+    dec_ref r174
+    dec_ref r179
+    dec_ref r184
+    dec_ref r189
+    goto L95
+L121:
+    dec_ref r4
+    dec_ref r164
+    dec_ref r169
+    dec_ref r174
+    dec_ref r179
+    dec_ref r184
+    dec_ref r189
+    dec_ref r194
+    goto L95
+L122:
+    dec_ref r4
+    dec_ref r164
+    dec_ref r169
+    dec_ref r174
+    dec_ref r179
+    dec_ref r184
+    dec_ref r189
+    dec_ref r194
+    dec_ref r199
+    goto L95
+L123:
+    dec_ref r4
+    dec_ref r164
+    dec_ref r169
+    dec_ref r174
+    dec_ref r179
+    dec_ref r184
+    dec_ref r189
+    dec_ref r194
+    dec_ref r199
+    dec_ref r204
+    goto L95
+L124:
+    dec_ref r4
+    dec_ref r164
+    dec_ref r169
+    dec_ref r174
+    dec_ref r179
+    dec_ref r184
+    dec_ref r189
+    dec_ref r194
+    dec_ref r199
+    dec_ref r204
+    dec_ref r209
+    goto L95
+L125:
+    dec_ref r4
+    dec_ref r226
+    goto L95
+
+def save_cell_csv(path, cell_data):
+    path, cell_data :: object
+    r0, r1 :: str
+    r2 :: object
+    r3 :: str
+    r4 :: object
+    r5 :: str
+    r6 :: object
+    r7 :: str
+    r8 :: object
+    r9 :: str
+    r10 :: object
+    r11 :: str
+    r12 :: object
+    r13 :: str
+    r14 :: object
+    r15 :: str
+    r16 :: object
+    r17 :: str
+    r18 :: object
+    r19 :: str
+    r20 :: object
+    r21 :: str
+    r22 :: object
+    r23 :: list
+    r24 :: object
+    r25 :: str
+    r26 :: object
+    r27 :: object[1]
+    r28 :: object_ptr
+    r29 :: object
+    r30, r31, r32 :: str
+    r33 :: object
+    r34 :: str
+    r35 :: object
+    r36 :: object[6]
+    r37 :: object_ptr
+    r38, r39 :: object
+    r40 :: None
+L0:
+    r0 = 'cell_id,i,j,s,u_face,v_face,u_center,v_center,speed,smoke,pressure'
+    inc_ref r0
+    r1 = 'cell_id'
+    r2 = PyObject_GetItem(cell_data, r1)
+    if is_error(r2) goto L18 (error at save_cell_csv:217) else goto L1
+L1:
+    r3 = 'i'
+    r4 = PyObject_GetItem(cell_data, r3)
+    if is_error(r4) goto L19 (error at save_cell_csv:218) else goto L2
+L2:
+    r5 = 'j'
+    r6 = PyObject_GetItem(cell_data, r5)
+    if is_error(r6) goto L20 (error at save_cell_csv:219) else goto L3
+L3:
+    r7 = 's'
+    r8 = PyObject_GetItem(cell_data, r7)
+    if is_error(r8) goto L21 (error at save_cell_csv:220) else goto L4
+L4:
+    r9 = 'u_face'
+    r10 = PyObject_GetItem(cell_data, r9)
+    if is_error(r10) goto L22 (error at save_cell_csv:221) else goto L5
+L5:
+    r11 = 'v_face'
+    r12 = PyObject_GetItem(cell_data, r11)
+    if is_error(r12) goto L23 (error at save_cell_csv:222) else goto L6
+L6:
+    r13 = 'u_center'
+    r14 = PyObject_GetItem(cell_data, r13)
+    if is_error(r14) goto L24 (error at save_cell_csv:223) else goto L7
+L7:
+    r15 = 'v_center'
+    r16 = PyObject_GetItem(cell_data, r15)
+    if is_error(r16) goto L25 (error at save_cell_csv:224) else goto L8
+L8:
+    r17 = 'speed'
+    r18 = PyObject_GetItem(cell_data, r17)
+    if is_error(r18) goto L26 (error at save_cell_csv:225) else goto L9
+L9:
+    r19 = 'smoke'
+    r20 = PyObject_GetItem(cell_data, r19)
+    if is_error(r20) goto L27 (error at save_cell_csv:226) else goto L10
+L10:
+    r21 = 'pressure'
+    r22 = PyObject_GetItem(cell_data, r21)
+    if is_error(r22) goto L28 (error at save_cell_csv:227) else goto L11
+L11:
+    r23 = CPyList_Build(11, r2, r4, r6, r8, r10, r12, r14, r16, r18, r20, r22)
+    if is_error(r23) goto L18 (error at save_cell_csv:216) else goto L12
+L12:
+    r24 = numpy :: module
+    r25 = 'column_stack'
+    r26 = CPyObject_GetAttr(r24, r25)
+    if is_error(r26) goto L29 (error at save_cell_csv:215) else goto L13
+L13:
+    r27 = [r23]
+    r28 = load_address r27
+    r29 = PyObject_Vectorcall(r26, r28, 1, 0)
+    dec_ref r26
+    if is_error(r29) goto L29 (error at save_cell_csv:215) else goto L14
+L14:
+    dec_ref r23
+    r30 = ','
+    r31 = ''
+    r32 = '%.6f'
+    r33 = numpy :: module
+    r34 = 'savetxt'
+    r35 = CPyObject_GetAttr(r33, r34)
+    if is_error(r35) goto L30 (error at save_cell_csv:230) else goto L15
+L15:
+    r36 = [path, r29, r30, r0, r31, r32]
+    r37 = load_address r36
+    r38 = ('delimiter', 'header', 'comments', 'fmt')
+    r39 = PyObject_Vectorcall(r35, r37, 2, r38)
+    dec_ref r35
+    if is_error(r39) goto L30 (error at save_cell_csv:230) else goto L31
+L16:
+    dec_ref r29
+    dec_ref r0
+    return 1
+L17:
+    r40 = <error> :: None
+    return r40
+L18:
+    dec_ref r0
+    goto L17
+L19:
+    dec_ref r0
+    dec_ref r2
+    goto L17
+L20:
+    dec_ref r0
+    dec_ref r2
+    dec_ref r4
+    goto L17
+L21:
+    dec_ref r0
+    dec_ref r2
+    dec_ref r4
+    dec_ref r6
+    goto L17
+L22:
+    dec_ref r0
+    dec_ref r2
+    dec_ref r4
+    dec_ref r6
+    dec_ref r8
+    goto L17
+L23:
+    dec_ref r0
+    dec_ref r2
+    dec_ref r4
+    dec_ref r6
+    dec_ref r8
+    dec_ref r10
+    goto L17
+L24:
+    dec_ref r0
+    dec_ref r2
+    dec_ref r4
+    dec_ref r6
+    dec_ref r8
+    dec_ref r10
+    dec_ref r12
+    goto L17
+L25:
+    dec_ref r0
+    dec_ref r2
+    dec_ref r4
+    dec_ref r6
+    dec_ref r8
+    dec_ref r10
+    dec_ref r12
+    dec_ref r14
+    goto L17
+L26:
+    dec_ref r0
+    dec_ref r2
+    dec_ref r4
+    dec_ref r6
+    dec_ref r8
+    dec_ref r10
+    dec_ref r12
+    dec_ref r14
+    dec_ref r16
+    goto L17
+L27:
+    dec_ref r0
+    dec_ref r2
+    dec_ref r4
+    dec_ref r6
+    dec_ref r8
+    dec_ref r10
+    dec_ref r12
+    dec_ref r14
+    dec_ref r16
+    dec_ref r18
+    goto L17
+L28:
+    dec_ref r0
+    dec_ref r2
+    dec_ref r4
+    dec_ref r6
+    dec_ref r8
+    dec_ref r10
+    dec_ref r12
+    dec_ref r14
+    dec_ref r16
+    dec_ref r18
+    dec_ref r20
+    goto L17
+L29:
+    dec_ref r0
+    dec_ref r23
+    goto L17
+L30:
+    dec_ref r0
+    dec_ref r29
+    goto L17
+L31:
+    dec_ref r39
+    goto L16
+
+def save_field_plot(path, speed, smoke, pressure, solid):
+    path, speed, smoke, pressure, solid :: object
+    r0 :: tuple[int, int]
+    r1 :: object
+    r2 :: str
+    r3, r4, r5, r6, r7 :: object
+    r8 :: object[4]
+    r9 :: object_ptr
+    r10, r11 :: object
+    r12 :: tuple[object, object]
+    r13, r14, r15, r16 :: object
+    r17, r18 :: str
+    r19 :: tuple[object, str, str]
+    r20, r21 :: str
+    r22 :: tuple[object, str, str]
+    r23, r24 :: str
+    r25 :: tuple[object, str, str]
+    r26, r27 :: str
+    r28 :: tuple[object, str, str]
+    r29 :: tuple[tuple[object, str, str], tuple[object, str, str], tuple[object, str, str], tuple[object, str, str]]
+    r30 :: object
+    r31 :: str
+    r32 :: object[1]
+    r33 :: object_ptr
+    r34, r35, r36, r37, r38 :: object
+    r39 :: tuple[object, str, str]
+    r40 :: object
+    r41, r42, r43, r44, r45 :: str
+    r46 :: object[5]
+    r47 :: object_ptr
+    r48, r49 :: object
+    r50 :: str
+    r51 :: object[2]
+    r52 :: object_ptr
+    r53 :: object
+    r54, r55 :: str
+    r56 :: object[2]
+    r57 :: object_ptr
+    r58 :: object
+    r59, r60 :: str
+    r61 :: object[2]
+    r62 :: object_ptr
+    r63 :: object
+    r64 :: str
+    r65 :: object
+    r66 :: object[4]
+    r67 :: object_ptr
+    r68, r69 :: object
+    r70, r71 :: bit
+    r72, r73 :: str
+    r74 :: object[2]
+    r75 :: object_ptr
+    r76 :: object
+    r77 :: str
+    r78 :: object
+    r79 :: object[3]
+    r80 :: object_ptr
+    r81, r82, r83 :: object
+    r84 :: str
+    r85 :: object
+    r86 :: object[1]
+    r87 :: object_ptr
+    r88 :: object
+    r89 :: None
+L0:
+    r0 = (24, 16)
+    r1 = matplotlib.pyplot :: module
+    r2 = 'subplots'
+    r3 = CPyObject_GetAttr(r1, r2)
+    if is_error(r3) goto L23 (error at save_field_plot:240) else goto L1
+L1:
+    r4 = object 2
+    r5 = object 2
+    r6 = box(tuple[int, int], r0)
+    r7 = box(bool, 1)
+    r8 = [r4, r5, r6, r7]
+    r9 = load_address r8
+    r10 = ('figsize', 'constrained_layout')
+    r11 = PyObject_Vectorcall(r3, r9, 2, r10)
+    dec_ref r3
+    if is_error(r11) goto L24 (error at save_field_plot:240) else goto L2
+L2:
+    dec_ref r6
+    r12 = unbox(tuple[object, object], r11)
+    dec_ref r11
+    if is_error(r12) goto L22 (error at save_field_plot:240) else goto L3
+L3:
+    r13 = borrow r12[0]
+    r14 = borrow r12[1]
+    r15 = unborrow r13
+    r16 = unborrow r14
+    r17 = 'Smoke'
+    r18 = 'gray'
+    inc_ref smoke
+    inc_ref r17
+    inc_ref r18
+    r19 = (smoke, r17, r18)
+    r20 = 'Speed Magnitude'
+    r21 = 'viridis'
+    inc_ref speed
+    inc_ref r20
+    inc_ref r21
+    r22 = (speed, r20, r21)
+    r23 = 'Pressure'
+    r24 = 'coolwarm'
+    inc_ref pressure
+    inc_ref r23
+    inc_ref r24
+    r25 = (pressure, r23, r24)
+    r26 = 'Solid Mask'
+    r27 = 'binary'
+    inc_ref solid
+    inc_ref r26
+    inc_ref r27
+    r28 = (solid, r26, r27)
+    r29 = (r19, r22, r25, r28)
+    r30 = box(tuple[tuple[object, str, str], tuple[object, str, str], tuple[object, str, str], tuple[object, str, str]], r29)
+    r31 = 'ravel'
+    r32 = [r16]
+    r33 = load_address r32
+    r34 = PyObject_VectorcallMethod(r31, r33, 9223372036854775809, 0)
+    if is_error(r34) goto L25 (error at save_field_plot:248) else goto L4
+L4:
+    dec_ref r16
+    r35 = PyObject_GetIter(r34)
+    dec_ref r34
+    if is_error(r35) goto L26 (error at save_field_plot:248) else goto L5
+L5:
+    r36 = PyObject_GetIter(r30)
+    dec_ref r30
+    if is_error(r36) goto L27 (error at save_field_plot:248) else goto L6
+L6:
+    r37 = PyIter_Next(r35)
+    if is_error(r37) goto L28 else goto L7
+L7:
+    r38 = PyIter_Next(r36)
+    if is_error(r38) goto L29 else goto L8
+L8:
+    r39 = unbox(tuple[object, str, str], r38)
+    dec_ref r38
+    if is_error(r39) goto L30 (error at save_field_plot:248) else goto L9
+L9:
+    r40 = r39[0]
+    r41 = r39[1]
+    r42 = r39[2]
+    dec_ref r39
+    r43 = 'lower'
+    r44 = 'auto'
+    r45 = 'imshow'
+    r46 = [r37, r40, r43, r42, r44]
+    r47 = load_address r46
+    r48 = ('origin', 'cmap', 'aspect')
+    r49 = PyObject_VectorcallMethod(r45, r47, 9223372036854775810, r48)
+    if is_error(r49) goto L31 (error at save_field_plot:249) else goto L10
+L10:
+    dec_ref r40
+    dec_ref r42
+    r50 = 'set_title'
+    r51 = [r37, r41]
+    r52 = load_address r51
+    r53 = PyObject_VectorcallMethod(r50, r52, 9223372036854775810, 0)
+    if is_error(r53) goto L32 (error at save_field_plot:250) else goto L33
+L11:
+    dec_ref r41
+    r54 = 'i'
+    r55 = 'set_xlabel'
+    r56 = [r37, r54]
+    r57 = load_address r56
+    r58 = PyObject_VectorcallMethod(r55, r57, 9223372036854775810, 0)
+    if is_error(r58) goto L34 (error at save_field_plot:251) else goto L35
+L12:
+    r59 = 'j'
+    r60 = 'set_ylabel'
+    r61 = [r37, r59]
+    r62 = load_address r61
+    r63 = PyObject_VectorcallMethod(r60, r62, 9223372036854775810, 0)
+    if is_error(r63) goto L34 (error at save_field_plot:252) else goto L36
+L13:
+    r64 = 'colorbar'
+    r65 = box(float, 0.85)
+    r66 = [r15, r49, r37, r65]
+    r67 = load_address r66
+    r68 = ('ax', 'shrink')
+    r69 = PyObject_VectorcallMethod(r64, r67, 9223372036854775810, r68)
+    if is_error(r69) goto L37 (error at save_field_plot:253) else goto L38
+L14:
+    dec_ref r49
+    dec_ref r37
+    dec_ref r65
+    goto L6
+L15:
+    r70 = CPy_NoErrOccurred()
+    if not r70 goto L39 (error at save_field_plot:248) else goto L16 :: bool
+L16:
+    r71 = CPy_NoErrOccurred()
+    if not r71 goto L39 (error at save_field_plot:248) else goto L17 :: bool
+L17:
+    r72 = 'Airfoil Flow Report'
+    r73 = 'suptitle'
+    r74 = [r15, r72]
+    r75 = load_address r74
+    r76 = PyObject_VectorcallMethod(r73, r75, 9223372036854775810, 0)
+    if is_error(r76) goto L39 (error at save_field_plot:255) else goto L40
+L18:
+    r77 = 'savefig'
+    r78 = object 180
+    r79 = [r15, path, r78]
+    r80 = load_address r79
+    r81 = ('dpi',)
+    r82 = PyObject_VectorcallMethod(r77, r80, 9223372036854775810, r81)
+    if is_error(r82) goto L39 (error at save_field_plot:256) else goto L41
+L19:
+    r83 = matplotlib.pyplot :: module
+    r84 = 'close'
+    r85 = CPyObject_GetAttr(r83, r84)
+    if is_error(r85) goto L39 (error at save_field_plot:257) else goto L20
+L20:
+    r86 = [r15]
+    r87 = load_address r86
+    r88 = PyObject_Vectorcall(r85, r87, 1, 0)
+    dec_ref r85
+    if is_error(r88) goto L39 (error at save_field_plot:257) else goto L42
+L21:
+    dec_ref r15
+    return 1
+L22:
+    r89 = <error> :: None
+    return r89
+L23:
+    dec_ref r0
+    goto L22
+L24:
+    dec_ref r6
+    goto L22
+L25:
+    dec_ref r15
+    dec_ref r16
+    dec_ref r30
+    goto L22
+L26:
+    dec_ref r15
+    dec_ref r30
+    goto L22
+L27:
+    dec_ref r15
+    dec_ref r35
+    goto L22
+L28:
+    dec_ref r35
+    dec_ref r36
+    goto L15
+L29:
+    dec_ref r35
+    dec_ref r36
+    dec_ref r37
+    goto L15
+L30:
+    dec_ref r15
+    dec_ref r35
+    dec_ref r36
+    dec_ref r37
+    goto L22
+L31:
+    dec_ref r15
+    dec_ref r35
+    dec_ref r36
+    dec_ref r37
+    dec_ref r40
+    dec_ref r41
+    dec_ref r42
+    goto L22
+L32:
+    dec_ref r15
+    dec_ref r35
+    dec_ref r36
+    dec_ref r37
+    dec_ref r41
+    dec_ref r49
+    goto L22
+L33:
+    dec_ref r53
+    goto L11
+L34:
+    dec_ref r15
+    dec_ref r35
+    dec_ref r36
+    dec_ref r37
+    dec_ref r49
+    goto L22
+L35:
+    dec_ref r58
+    goto L12
+L36:
+    dec_ref r63
+    goto L13
+L37:
+    dec_ref r15
+    dec_ref r35
+    dec_ref r36
+    dec_ref r37
+    dec_ref r49
+    dec_ref r65
+    goto L22
+L38:
+    dec_ref r69
+    goto L14
+L39:
+    dec_ref r15
+    goto L22
+L40:
+    dec_ref r76
+    goto L18
+L41:
+    dec_ref r82
+    goto L19
+L42:
+    dec_ref r88
+    goto L21
+
+def build_parser():
+    r0 :: str
+    r1 :: object
+    r2 :: str
+    r3 :: object
+    r4 :: object[1]
+    r5 :: object_ptr
+    r6, r7 :: object
+    r8 :: str
+    r9 :: object
+    r10, r11 :: str
+    r12 :: tuple[str, str]
+    r13 :: tuple[int, int]
+    r14 :: str
+    r15, r16, r17 :: object
+    r18 :: object[6]
+    r19 :: object_ptr
+    r20, r21 :: object
+    r22 :: str
+    r23 :: object
+    r24 :: str
+    r25 :: object
+    r26 :: object[4]
+    r27 :: object_ptr
+    r28, r29 :: object
+    r30 :: str
+    r31 :: object
+    r32 :: str
+    r33 :: object
+    r34 :: object[4]
+    r35 :: object_ptr
+    r36, r37 :: object
+    r38 :: str
+    r39 :: object
+    r40 :: str
+    r41 :: object
+    r42 :: object[4]
+    r43 :: object_ptr
+    r44, r45 :: object
+    r46 :: str
+    r47 :: object
+    r48 :: str
+    r49 :: object
+    r50 :: object[4]
+    r51 :: object_ptr
+    r52, r53 :: object
+    r54 :: str
+    r55 :: object
+    r56 :: str
+    r57 :: object
+    r58 :: object[4]
+    r59 :: object_ptr
+    r60, r61 :: object
+    r62 :: str
+    r63 :: object
+    r64 :: str
+    r65 :: object
+    r66 :: object[4]
+    r67 :: object_ptr
+    r68, r69 :: object
+    r70 :: str
+    r71 :: object
+    r72 :: str
+    r73 :: object
+    r74 :: object[4]
+    r75 :: object_ptr
+    r76, r77 :: object
+    r78 :: str
+    r79 :: object
+    r80 :: str
+    r81 :: object
+    r82 :: object[4]
+    r83 :: object_ptr
+    r84, r85 :: object
+    r86 :: str
+    r87 :: object
+    r88 :: str
+    r89 :: object
+    r90 :: object[4]
+    r91 :: object_ptr
+    r92, r93 :: object
+    r94 :: str
+    r95 :: object
+    r96 :: str
+    r97 :: object
+    r98 :: object[4]
+    r99 :: object_ptr
+    r100, r101 :: object
+    r102 :: str
+    r103 :: object
+    r104, r105 :: str
+    r106 :: object[4]
+    r107 :: object_ptr
+    r108, r109 :: object
+    r110 :: str
+    r111 :: object
+    r112 :: str
+    r113 :: object
+    r114 :: object[4]
+    r115 :: object_ptr
+    r116, r117 :: object
+    r118 :: str
+    r119 :: object
+    r120, r121 :: str
+    r122 :: tuple[str, str]
+    r123 :: tuple[float, float]
+    r124 :: str
+    r125, r126, r127 :: object
+    r128 :: object[6]
+    r129 :: object_ptr
+    r130, r131 :: object
+    r132 :: str
+    r133 :: object
+    r134, r135 :: str
+    r136 :: object[4]
+    r137 :: object_ptr
+    r138, r139, r140 :: object
+L0:
+    r0 = 'Run the airfoil simulation and export only the final-state results.'
+    r1 = argparse :: module
+    r2 = 'ArgumentParser'
+    r3 = CPyObject_GetAttr(r1, r2)
+    if is_error(r3) goto L18 (error at build_parser:261) else goto L1
+L1:
+    r4 = [r0]
+    r5 = load_address r4
+    r6 = ('description',)
+    r7 = PyObject_Vectorcall(r3, r5, 0, r6)
+    dec_ref r3
+    if is_error(r7) goto L18 (error at build_parser:261) else goto L2
+L2:
+    r8 = '--resolution'
+    r9 = load_address PyLong_Type
+    r10 = 'NX'
+    r11 = 'NY'
+    inc_ref r10
+    inc_ref r11
+    r12 = (r10, r11)
+    r13 = (400, 200)
+    r14 = 'add_argument'
+    r15 = object 2
+    r16 = box(tuple[str, str], r12)
+    r17 = box(tuple[int, int], r13)
+    r18 = [r7, r8, r15, r9, r16, r17]
+    r19 = load_address r18
+    r20 = ('nargs', 'type', 'metavar', 'default')
+    r21 = PyObject_VectorcallMethod(r14, r19, 9223372036854775810, r20)
+    if is_error(r21) goto L19 (error at build_parser:264) else goto L20
+L3:
+    dec_ref r16
+    dec_ref r17
+    r22 = '--hardstep'
+    r23 = load_address PyLong_Type
+    r24 = 'add_argument'
+    r25 = object 400
+    r26 = [r7, r22, r23, r25]
+    r27 = load_address r26
+    r28 = ('type', 'default')
+    r29 = PyObject_VectorcallMethod(r24, r27, 9223372036854775810, r28)
+    if is_error(r29) goto L21 (error at build_parser:265) else goto L22
+L4:
+    r30 = '--min-steps'
+    r31 = load_address PyLong_Type
+    r32 = 'add_argument'
+    r33 = object 100
+    r34 = [r7, r30, r31, r33]
+    r35 = load_address r34
+    r36 = ('type', 'default')
+    r37 = PyObject_VectorcallMethod(r32, r35, 9223372036854775810, r36)
+    if is_error(r37) goto L21 (error at build_parser:266) else goto L23
+L5:
+    r38 = '--steady-tol'
+    r39 = load_address PyFloat_Type
+    r40 = 'add_argument'
+    r41 = box(float, 0.0001)
+    r42 = [r7, r38, r39, r41]
+    r43 = load_address r42
+    r44 = ('type', 'default')
+    r45 = PyObject_VectorcallMethod(r40, r43, 9223372036854775810, r44)
+    if is_error(r45) goto L24 (error at build_parser:267) else goto L25
+L6:
+    dec_ref r41
+    r46 = '--iterations'
+    r47 = load_address PyLong_Type
+    r48 = 'add_argument'
+    r49 = object 30
+    r50 = [r7, r46, r47, r49]
+    r51 = load_address r50
+    r52 = ('type', 'default')
+    r53 = PyObject_VectorcallMethod(r48, r51, 9223372036854775810, r52)
+    if is_error(r53) goto L21 (error at build_parser:268) else goto L26
+L7:
+    r54 = '--dt'
+    r55 = load_address PyFloat_Type
+    r56 = 'add_argument'
+    r57 = box(float, 0.08)
+    r58 = [r7, r54, r55, r57]
+    r59 = load_address r58
+    r60 = ('type', 'default')
+    r61 = PyObject_VectorcallMethod(r56, r59, 9223372036854775810, r60)
+    if is_error(r61) goto L27 (error at build_parser:269) else goto L28
+L8:
+    dec_ref r57
+    r62 = '--flow-speed'
+    r63 = load_address PyFloat_Type
+    r64 = 'add_argument'
+    r65 = box(float, 9.0)
+    r66 = [r7, r62, r63, r65]
+    r67 = load_address r66
+    r68 = ('type', 'default')
+    r69 = PyObject_VectorcallMethod(r64, r67, 9223372036854775810, r68)
+    if is_error(r69) goto L29 (error at build_parser:270) else goto L30
+L9:
+    dec_ref r65
+    r70 = '--smoke-strength'
+    r71 = load_address PyFloat_Type
+    r72 = 'add_argument'
+    r73 = box(float, 1.0)
+    r74 = [r7, r70, r71, r73]
+    r75 = load_address r74
+    r76 = ('type', 'default')
+    r77 = PyObject_VectorcallMethod(r72, r75, 9223372036854775810, r76)
+    if is_error(r77) goto L31 (error at build_parser:271) else goto L32
+L10:
+    dec_ref r73
+    r78 = '--gravity'
+    r79 = load_address PyFloat_Type
+    r80 = 'add_argument'
+    r81 = box(float, 0.0)
+    r82 = [r7, r78, r79, r81]
+    r83 = load_address r82
+    r84 = ('type', 'default')
+    r85 = PyObject_VectorcallMethod(r80, r83, 9223372036854775810, r84)
+    if is_error(r85) goto L33 (error at build_parser:272) else goto L34
+L11:
+    dec_ref r81
+    r86 = '--over-relax'
+    r87 = load_address PyFloat_Type
+    r88 = 'add_argument'
+    r89 = box(float, 1.9)
+    r90 = [r7, r86, r87, r89]
+    r91 = load_address r90
+    r92 = ('type', 'default')
+    r93 = PyObject_VectorcallMethod(r88, r91, 9223372036854775810, r92)
+    if is_error(r93) goto L35 (error at build_parser:273) else goto L36
+L12:
+    dec_ref r89
+    r94 = '--inlet-columns'
+    r95 = load_address PyLong_Type
+    r96 = 'add_argument'
+    r97 = object 3
+    r98 = [r7, r94, r95, r97]
+    r99 = load_address r98
+    r100 = ('type', 'default')
+    r101 = PyObject_VectorcallMethod(r96, r99, 9223372036854775810, r100)
+    if is_error(r101) goto L21 (error at build_parser:274) else goto L37
+L13:
+    r102 = '--naca-code'
+    r103 = load_address PyUnicode_Type
+    r104 = '2412'
+    r105 = 'add_argument'
+    r106 = [r7, r102, r103, r104]
+    r107 = load_address r106
+    r108 = ('type', 'default')
+    r109 = PyObject_VectorcallMethod(r105, r107, 9223372036854775810, r108)
+    if is_error(r109) goto L21 (error at build_parser:275) else goto L38
+L14:
+    r110 = '--chord-length'
+    r111 = load_address PyFloat_Type
+    r112 = 'add_argument'
+    r113 = box(float, 30.0)
+    r114 = [r7, r110, r111, r113]
+    r115 = load_address r114
+    r116 = ('type', 'default')
+    r117 = PyObject_VectorcallMethod(r112, r115, 9223372036854775810, r116)
+    if is_error(r117) goto L39 (error at build_parser:276) else goto L40
+L15:
+    dec_ref r113
+    r118 = '--center'
+    r119 = load_address PyFloat_Type
+    r120 = 'X'
+    r121 = 'Y'
+    inc_ref r120
+    inc_ref r121
+    r122 = (r120, r121)
+    r123 = (70.0, 51.0)
+    r124 = 'add_argument'
+    r125 = object 2
+    r126 = box(tuple[str, str], r122)
+    r127 = box(tuple[float, float], r123)
+    r128 = [r7, r118, r125, r119, r126, r127]
+    r129 = load_address r128
+    r130 = ('nargs', 'type', 'metavar', 'default')
+    r131 = PyObject_VectorcallMethod(r124, r129, 9223372036854775810, r130)
+    if is_error(r131) goto L41 (error at build_parser:277) else goto L42
+L16:
+    dec_ref r126
+    dec_ref r127
+    r132 = '--output-dir'
+    r133 = load_address PyUnicode_Type
+    r134 = 'outputs'
+    r135 = 'add_argument'
+    r136 = [r7, r132, r133, r134]
+    r137 = load_address r136
+    r138 = ('type', 'default')
+    r139 = PyObject_VectorcallMethod(r135, r137, 9223372036854775810, r138)
+    if is_error(r139) goto L21 (error at build_parser:278) else goto L43
+L17:
+    return r7
+L18:
+    r140 = <error> :: object
+    return r140
+L19:
+    dec_ref r7
+    dec_ref r16
+    dec_ref r17
+    goto L18
+L20:
+    dec_ref r21
+    goto L3
+L21:
+    dec_ref r7
+    goto L18
+L22:
+    dec_ref r29
+    goto L4
+L23:
+    dec_ref r37
+    goto L5
+L24:
+    dec_ref r7
+    dec_ref r41
+    goto L18
+L25:
+    dec_ref r45
+    goto L6
+L26:
+    dec_ref r53
+    goto L7
+L27:
+    dec_ref r7
+    dec_ref r57
+    goto L18
+L28:
+    dec_ref r61
+    goto L8
+L29:
+    dec_ref r7
+    dec_ref r65
+    goto L18
+L30:
+    dec_ref r69
+    goto L9
+L31:
+    dec_ref r7
+    dec_ref r73
+    goto L18
+L32:
+    dec_ref r77
+    goto L10
+L33:
+    dec_ref r7
+    dec_ref r81
+    goto L18
+L34:
+    dec_ref r85
+    goto L11
+L35:
+    dec_ref r7
+    dec_ref r89
+    goto L18
+L36:
+    dec_ref r93
+    goto L12
+L37:
+    dec_ref r101
+    goto L13
+L38:
+    dec_ref r109
+    goto L14
+L39:
+    dec_ref r7
+    dec_ref r113
+    goto L18
+L40:
+    dec_ref r117
+    goto L15
+L41:
+    dec_ref r7
+    dec_ref r126
+    dec_ref r127
+    goto L18
+L42:
+    dec_ref r131
+    goto L16
+L43:
+    dec_ref r139
+    goto L17
+
+def main():
+    r0 :: object
+    r1 :: str
+    r2 :: object[1]
+    r3 :: object_ptr
+    r4 :: object
+    r5 :: str
+    r6, r7, r8, r9 :: object
+    r10 :: object[1]
+    r11 :: object_ptr
+    r12 :: object
+    r13 :: int
+    r14 :: str
+    r15, r16, r17, r18 :: object
+    r19 :: object[1]
+    r20 :: object_ptr
+    r21 :: object
+    r22 :: int
+    r23 :: str
+    r24, r25, r26, r27 :: object
+    r28 :: object[1]
+    r29 :: object_ptr
+    r30 :: object
+    r31 :: float
+    r32 :: bit
+    r33 :: str
+    r34, r35, r36, r37, r38 :: object
+    r39 :: object[1]
+    r40 :: object_ptr
+    r41 :: object
+    r42 :: float
+    r43 :: bit
+    r44 :: str
+    r45, r46, r47 :: object
+    r48 :: object[1]
+    r49 :: object_ptr
+    r50 :: object
+    r51 :: int
+    r52 :: str
+    r53, r54 :: object
+    r55 :: object[1]
+    r56 :: object_ptr
+    r57 :: object
+    r58 :: float
+    r59 :: bit
+    r60 :: str
+    r61, r62, r63 :: object
+    r64 :: object[1]
+    r65 :: object_ptr
+    r66 :: object
+    r67 :: float
+    r68 :: bit
+    r69 :: str
+    r70, r71, r72 :: object
+    r73 :: object[1]
+    r74 :: object_ptr
+    r75 :: object
+    r76 :: float
+    r77 :: bit
+    r78 :: str
+    r79, r80, r81 :: object
+    r82 :: object[1]
+    r83 :: object_ptr
+    r84 :: object
+    r85 :: float
+    r86 :: bit
+    r87 :: str
+    r88, r89, r90 :: object
+    r91 :: object[1]
+    r92 :: object_ptr
+    r93 :: object
+    r94 :: float
+    r95 :: bit
+    r96 :: str
+    r97, r98, r99 :: object
+    r100 :: object[1]
+    r101 :: object_ptr
+    r102 :: object
+    r103 :: int
+    r104 :: simplified.HeadlessWindTunnel
+    r105 :: str
+    r106 :: object
+    r107, r108 :: str
+    r109, r110 :: object
+    r111 :: object[1]
+    r112 :: object_ptr
+    r113 :: object
+    r114 :: float
+    r115 :: bit
+    r116, r117 :: object
+    r118 :: str
+    r119 :: object
+    r120 :: dict
+    r121 :: str
+    r122 :: object
+    r123 :: object[1]
+    r124 :: object_ptr
+    r125 :: object
+    r126 :: str
+    r127, r128 :: object
+    r129 :: object[3]
+    r130 :: object_ptr
+    r131, r132 :: object
+    r133 :: str
+    r134, r135 :: object
+    r136 :: object[1]
+    r137 :: object_ptr
+    r138 :: object
+    r139 :: int
+    r140 :: str
+    r141, r142 :: object
+    r143 :: object[1]
+    r144 :: object_ptr
+    r145 :: object
+    r146 :: int
+    r147 :: str
+    r148, r149 :: object
+    r150 :: object[1]
+    r151 :: object_ptr
+    r152 :: object
+    r153 :: float
+    r154 :: bit
+    r155 :: object
+    previous_speed :: union[object, None]
+    r156 :: list
+    r157, r158 :: object
+    r159 :: str
+    r160, r161 :: object
+    r162 :: float
+    r163 :: bit
+    steps_run, r164, r165, step :: int
+    r166 :: object
+    r167 :: native_int
+    r168 :: bit
+    r169 :: native_int
+    r170, r171, r172 :: bit
+    r173 :: None
+    r174, speed, r175 :: object
+    r176 :: bit
+    r177, r178 :: object
+    r179 :: str
+    r180 :: object
+    r181 :: object[1]
+    r182 :: object_ptr
+    r183, r184 :: object
+    r185 :: str
+    r186 :: object
+    r187 :: object[1]
+    r188 :: object_ptr
+    r189, r190 :: object
+    r191 :: object[1]
+    r192 :: object_ptr
+    r193 :: object
+    r194 :: float
+    r195 :: bit
+    r196 :: tuple[int, float]
+    r197 :: object
+    r198 :: i32
+    r199 :: bit
+    r200 :: object
+    r201 :: bit
+    r202 :: int
+    r203 :: bit
+    r204, r205, r206, r207, r208 :: str
+    r209 :: object
+    r210 :: object[3]
+    r211 :: object_ptr
+    r212 :: object
+    r213, r214, r215, r216, r217 :: str
+    r218 :: object
+    r219 :: object[3]
+    r220 :: object_ptr
+    r221 :: object
+    r222, r223, r224, r225, r226 :: str
+    r227 :: object
+    r228 :: object[3]
+    r229 :: object_ptr
+    r230 :: object
+    r231 :: str
+    r232 :: list
+    r233, r234, r235, r236, r237, r238, r239 :: ptr
+    r240 :: str
+    r241 :: object
+    r242 :: str
+    r243, r244 :: object
+    r245 :: object[2]
+    r246 :: object_ptr
+    r247, r248 :: object
+    r249 :: bit
+    r250 :: native_int
+    r251 :: bit
+    r252 :: native_int
+    r253, r254, r255, r256 :: bit
+    r257, r258, r259, r260, r261 :: str
+    r262 :: object
+    r263 :: object[3]
+    r264 :: object_ptr
+    r265 :: object
+    r266, r267, r268, r269, r270 :: str
+    r271 :: object
+    r272 :: object[3]
+    r273 :: object_ptr
+    r274 :: object
+    r275 :: str
+    r276 :: list
+    r277, r278, r279, r280, r281 :: ptr
+    r282 :: str
+    r283 :: object
+    r284 :: str
+    r285, r286 :: object
+    r287 :: object[2]
+    r288 :: object_ptr
+    r289, r290 :: object
+    r291 :: bit
+    r292, r293, r294, r295, r296, r297 :: str
+    r298 :: object
+    r299 :: str
+    r300, r301 :: object
+    r302 :: object[2]
+    r303 :: object_ptr
+    r304, r305 :: object
+    r306 :: str
+    r307 :: object[1]
+    r308 :: object_ptr
+    r309 :: object
+    r310 :: int
+    r311 :: native_int
+    r312, r313 :: bit
+    r314 :: bool
+    r315 :: bit
+    r316, r317, r318, r319, r320 :: str
+    r321 :: object
+    r322 :: object[3]
+    r323 :: object_ptr
+    r324 :: object
+    r325 :: str
+    r326 :: list
+    r327, r328, r329 :: ptr
+    r330 :: str
+    r331 :: object
+    r332 :: str
+    r333, r334 :: object
+    r335 :: object[2]
+    r336 :: object_ptr
+    r337, r338, r339 :: object
+    r340 :: str
+    r341, r342 :: object
+    r343 :: float
+    r344 :: bit
+    r345 :: float
+    r346, r347, r348, r349, r350, r351 :: object
+    r352 :: str
+    r353 :: object
+    r354 :: None
+    r355 :: str
+    r356 :: object
+    r357 :: None
+    r358 :: ptr
+    r359 :: native_int
+    r360 :: short_int
+    r361 :: bit
+    r362 :: str
+    r363, r364 :: object
+    r365 :: str
+    r366, r367 :: object
+    r368 :: str
+    r369 :: object
+    r370 :: object[2]
+    r371 :: object_ptr
+    r372, r373 :: object
+    r374, r375, r376, r377 :: str
+    r378 :: object
+    r379 :: str
+    r380 :: object
+    r381 :: object[6]
+    r382 :: object_ptr
+    r383, r384 :: object
+    r385, r386, r387 :: str
+    r388 :: object
+    r389 :: str
+    r390 :: object
+    r391 :: object[1]
+    r392 :: object_ptr
+    r393 :: object
+    r394, r395, r396, r397, r398 :: str
+    r399 :: object
+    r400 :: object[3]
+    r401 :: object_ptr
+    r402 :: object
+    r403 :: str
+    r404 :: list
+    r405, r406, r407 :: ptr
+    r408 :: str
+    r409 :: object
+    r410 :: str
+    r411 :: object
+    r412 :: object[1]
+    r413 :: object_ptr
+    r414 :: object
+    r415, r416, r417 :: str
+    r418 :: float
+    r419, r420 :: bit
+    r421 :: object
+    r422 :: bool
+    r423 :: float
+    r424, r425 :: str
+    r426 :: object
+    r427 :: object[3]
+    r428 :: object_ptr
+    r429 :: object
+    r430 :: str
+    r431 :: list
+    r432, r433, r434 :: ptr
+    r435 :: str
+    r436 :: object
+    r437 :: str
+    r438 :: object
+    r439 :: object[1]
+    r440 :: object_ptr
+    r441 :: object
+    r442, r443, r444 :: str
+    r445 :: object
+    r446 :: str
+    r447 :: object
+    r448 :: object[1]
+    r449 :: object_ptr
+    r450, r451 :: object
+    r452 :: object[1]
+    r453 :: object_ptr
+    r454 :: object
+    r455 :: float
+    r456 :: bit
+    r457, r458 :: str
+    r459 :: object
+    r460 :: object[3]
+    r461 :: object_ptr
+    r462, r463 :: object
+    r464 :: str
+    r465 :: list
+    r466, r467, r468 :: ptr
+    r469 :: str
+    r470 :: object
+    r471 :: str
+    r472 :: object
+    r473 :: object[1]
+    r474 :: object_ptr
+    r475 :: object
+    r476, r477, r478 :: str
+    r479 :: object
+    r480 :: str
+    r481 :: object
+    r482 :: object[1]
+    r483 :: object_ptr
+    r484, r485 :: object
+    r486 :: object[1]
+    r487 :: object_ptr
+    r488 :: object
+    r489 :: float
+    r490 :: bit
+    r491, r492 :: str
+    r493 :: object
+    r494 :: object[3]
+    r495 :: object_ptr
+    r496, r497 :: object
+    r498 :: str
+    r499 :: list
+    r500, r501, r502 :: ptr
+    r503 :: str
+    r504 :: object
+    r505 :: str
+    r506 :: object
+    r507 :: object[1]
+    r508 :: object_ptr
+    r509 :: object
+    r510, r511 :: str
+    r512 :: object[1]
+    r513 :: object_ptr
+    r514 :: object
+    r515, r516 :: str
+    r517 :: object
+    r518 :: str
+    r519 :: object
+    r520 :: object[1]
+    r521 :: object_ptr
+    r522 :: object
+    r523 :: None
+L0:
+    r0 = build_parser()
+    if is_error(r0) goto L209 (error at main:283) else goto L1
+L1:
+    r1 = 'parse_args'
+    r2 = [r0]
+    r3 = load_address r2
+    r4 = PyObject_VectorcallMethod(r1, r3, 9223372036854775809, 0)
+    if is_error(r4) goto L210 (error at main:283) else goto L2
+L2:
+    dec_ref r0
+    r5 = 'resolution'
+    r6 = CPyObject_GetAttr(r4, r5)
+    if is_error(r6) goto L211 (error at main:285) else goto L3
+L3:
+    r7 = object 0
+    r8 = PyObject_GetItem(r6, r7)
+    dec_ref r6
+    if is_error(r8) goto L211 (error at main:285) else goto L4
+L4:
+    r9 = load_address PyLong_Type
+    r10 = [r8]
+    r11 = load_address r10
+    r12 = PyObject_Vectorcall(r9, r11, 1, 0)
+    if is_error(r12) goto L212 (error at main:285) else goto L5
+L5:
+    dec_ref r8
+    r13 = unbox(int, r12)
+    dec_ref r12
+    if is_error(r13) goto L211 (error at main:285) else goto L6
+L6:
+    r14 = 'resolution'
+    r15 = CPyObject_GetAttr(r4, r14)
+    if is_error(r15) goto L213 (error at main:285) else goto L7
+L7:
+    r16 = object 1
+    r17 = PyObject_GetItem(r15, r16)
+    dec_ref r15
+    if is_error(r17) goto L213 (error at main:285) else goto L8
+L8:
+    r18 = load_address PyLong_Type
+    r19 = [r17]
+    r20 = load_address r19
+    r21 = PyObject_Vectorcall(r18, r20, 1, 0)
+    if is_error(r21) goto L214 (error at main:285) else goto L9
+L9:
+    dec_ref r17
+    r22 = unbox(int, r21)
+    dec_ref r21
+    if is_error(r22) goto L213 (error at main:285) else goto L10
+L10:
+    r23 = 'center'
+    r24 = CPyObject_GetAttr(r4, r23)
+    if is_error(r24) goto L215 (error at main:286) else goto L11
+L11:
+    r25 = object 0
+    r26 = PyObject_GetItem(r24, r25)
+    dec_ref r24
+    if is_error(r26) goto L215 (error at main:286) else goto L12
+L12:
+    r27 = load_address PyFloat_Type
+    r28 = [r26]
+    r29 = load_address r28
+    r30 = PyObject_Vectorcall(r27, r29, 1, 0)
+    if is_error(r30) goto L216 (error at main:286) else goto L13
+L13:
+    dec_ref r26
+    r31 = unbox(float, r30)
+    dec_ref r30
+    r32 = r31 == -113.0
+    if r32 goto L15 else goto L14 :: bool
+L14:
+    r33 = 'center'
+    r34 = CPyObject_GetAttr(r4, r33)
+    if is_error(r34) goto L215 (error at main:286) else goto L16
+L15:
+    r35 = PyErr_Occurred()
+    if not is_error(r35) goto L215 (error at main:286) else goto L14
+L16:
+    r36 = object 1
+    r37 = PyObject_GetItem(r34, r36)
+    dec_ref r34
+    if is_error(r37) goto L215 (error at main:286) else goto L17
+L17:
+    r38 = load_address PyFloat_Type
+    r39 = [r37]
+    r40 = load_address r39
+    r41 = PyObject_Vectorcall(r38, r40, 1, 0)
+    if is_error(r41) goto L217 (error at main:286) else goto L18
+L18:
+    dec_ref r37
+    r42 = unbox(float, r41)
+    dec_ref r41
+    r43 = r42 == -113.0
+    if r43 goto L20 else goto L19 :: bool
+L19:
+    r44 = 'iterations'
+    r45 = CPyObject_GetAttr(r4, r44)
+    if is_error(r45) goto L215 (error at main:291) else goto L21
+L20:
+    r46 = PyErr_Occurred()
+    if not is_error(r46) goto L215 (error at main:286) else goto L19
+L21:
+    r47 = load_address PyLong_Type
+    r48 = [r45]
+    r49 = load_address r48
+    r50 = PyObject_Vectorcall(r47, r49, 1, 0)
+    if is_error(r50) goto L218 (error at main:291) else goto L22
+L22:
+    dec_ref r45
+    r51 = unbox(int, r50)
+    dec_ref r50
+    if is_error(r51) goto L215 (error at main:291) else goto L23
+L23:
+    r52 = 'dt'
+    r53 = CPyObject_GetAttr(r4, r52)
+    if is_error(r53) goto L219 (error at main:292) else goto L24
+L24:
+    r54 = load_address PyFloat_Type
+    r55 = [r53]
+    r56 = load_address r55
+    r57 = PyObject_Vectorcall(r54, r56, 1, 0)
+    if is_error(r57) goto L220 (error at main:292) else goto L25
+L25:
+    dec_ref r53
+    r58 = unbox(float, r57)
+    dec_ref r57
+    r59 = r58 == -113.0
+    if r59 goto L27 else goto L26 :: bool
+L26:
+    r60 = 'flow_speed'
+    r61 = CPyObject_GetAttr(r4, r60)
+    if is_error(r61) goto L219 (error at main:293) else goto L28
+L27:
+    r62 = PyErr_Occurred()
+    if not is_error(r62) goto L219 (error at main:292) else goto L26
+L28:
+    r63 = load_address PyFloat_Type
+    r64 = [r61]
+    r65 = load_address r64
+    r66 = PyObject_Vectorcall(r63, r65, 1, 0)
+    if is_error(r66) goto L221 (error at main:293) else goto L29
+L29:
+    dec_ref r61
+    r67 = unbox(float, r66)
+    dec_ref r66
+    r68 = r67 == -113.0
+    if r68 goto L31 else goto L30 :: bool
+L30:
+    r69 = 'smoke_strength'
+    r70 = CPyObject_GetAttr(r4, r69)
+    if is_error(r70) goto L219 (error at main:294) else goto L32
+L31:
+    r71 = PyErr_Occurred()
+    if not is_error(r71) goto L219 (error at main:293) else goto L30
+L32:
+    r72 = load_address PyFloat_Type
+    r73 = [r70]
+    r74 = load_address r73
+    r75 = PyObject_Vectorcall(r72, r74, 1, 0)
+    if is_error(r75) goto L222 (error at main:294) else goto L33
+L33:
+    dec_ref r70
+    r76 = unbox(float, r75)
+    dec_ref r75
+    r77 = r76 == -113.0
+    if r77 goto L35 else goto L34 :: bool
+L34:
+    r78 = 'gravity'
+    r79 = CPyObject_GetAttr(r4, r78)
+    if is_error(r79) goto L219 (error at main:295) else goto L36
+L35:
+    r80 = PyErr_Occurred()
+    if not is_error(r80) goto L219 (error at main:294) else goto L34
+L36:
+    r81 = load_address PyFloat_Type
+    r82 = [r79]
+    r83 = load_address r82
+    r84 = PyObject_Vectorcall(r81, r83, 1, 0)
+    if is_error(r84) goto L223 (error at main:295) else goto L37
+L37:
+    dec_ref r79
+    r85 = unbox(float, r84)
+    dec_ref r84
+    r86 = r85 == -113.0
+    if r86 goto L39 else goto L38 :: bool
+L38:
+    r87 = 'over_relax'
+    r88 = CPyObject_GetAttr(r4, r87)
+    if is_error(r88) goto L219 (error at main:296) else goto L40
+L39:
+    r89 = PyErr_Occurred()
+    if not is_error(r89) goto L219 (error at main:295) else goto L38
+L40:
+    r90 = load_address PyFloat_Type
+    r91 = [r88]
+    r92 = load_address r91
+    r93 = PyObject_Vectorcall(r90, r92, 1, 0)
+    if is_error(r93) goto L224 (error at main:296) else goto L41
+L41:
+    dec_ref r88
+    r94 = unbox(float, r93)
+    dec_ref r93
+    r95 = r94 == -113.0
+    if r95 goto L43 else goto L42 :: bool
+L42:
+    r96 = 'inlet_columns'
+    r97 = CPyObject_GetAttr(r4, r96)
+    if is_error(r97) goto L219 (error at main:297) else goto L44
+L43:
+    r98 = PyErr_Occurred()
+    if not is_error(r98) goto L219 (error at main:296) else goto L42
+L44:
+    r99 = load_address PyLong_Type
+    r100 = [r97]
+    r101 = load_address r100
+    r102 = PyObject_Vectorcall(r99, r101, 1, 0)
+    if is_error(r102) goto L225 (error at main:297) else goto L45
+L45:
+    dec_ref r97
+    r103 = unbox(int, r102)
+    dec_ref r102
+    if is_error(r103) goto L219 (error at main:297) else goto L46
+L46:
+    r104 = HeadlessWindTunnel(r13, r22, 0.0, r67, r76, r85, r58, r51, r94, r103, 62)
+    dec_ref r13 :: int
+    dec_ref r22 :: int
+    dec_ref r51 :: int
+    dec_ref r103 :: int
+    if is_error(r104) goto L211 (error at main:288) else goto L47
+L47:
+    r105 = 'naca_code'
+    r106 = CPyObject_GetAttr(r4, r105)
+    if is_error(r106) goto L226 (error at main:300) else goto L48
+L48:
+    r107 = PyObject_Str(r106)
+    dec_ref r106
+    if is_error(r107) goto L226 (error at main:300) else goto L49
+L49:
+    r108 = 'chord_length'
+    r109 = CPyObject_GetAttr(r4, r108)
+    if is_error(r109) goto L227 (error at main:301) else goto L50
+L50:
+    r110 = load_address PyFloat_Type
+    r111 = [r109]
+    r112 = load_address r111
+    r113 = PyObject_Vectorcall(r110, r112, 1, 0)
+    if is_error(r113) goto L228 (error at main:301) else goto L51
+L51:
+    dec_ref r109
+    r114 = unbox(float, r113)
+    dec_ref r113
+    r115 = r114 == -113.0
+    if r115 goto L53 else goto L52 :: bool
+L52:
+    r116 = r104.set_obstacle_airfoil(r107, r114, r31, r42)
+    dec_ref r107
+    if is_error(r116) goto L226 (error at main:299) else goto L229
+L53:
+    r117 = PyErr_Occurred()
+    if not is_error(r117) goto L227 (error at main:301) else goto L52
+L54:
+    r118 = 'output_dir'
+    r119 = CPyObject_GetAttr(r4, r118)
+    if is_error(r119) goto L226 (error at main:306) else goto L55
+L55:
+    r120 = simplified.globals :: static
+    r121 = 'Path'
+    r122 = CPyDict_GetItem(r120, r121)
+    if is_error(r122) goto L230 (error at main:306) else goto L56
+L56:
+    r123 = [r119]
+    r124 = load_address r123
+    r125 = PyObject_Vectorcall(r122, r124, 1, 0)
+    dec_ref r122
+    if is_error(r125) goto L230 (error at main:306) else goto L57
+L57:
+    dec_ref r119
+    r126 = 'mkdir'
+    r127 = box(bool, 1)
+    r128 = box(bool, 1)
+    r129 = [r125, r127, r128]
+    r130 = load_address r129
+    r131 = ('parents', 'exist_ok')
+    r132 = PyObject_VectorcallMethod(r126, r130, 9223372036854775809, r131)
+    if is_error(r132) goto L231 (error at main:307) else goto L232
+L58:
+    r133 = 'hardstep'
+    r134 = CPyObject_GetAttr(r4, r133)
+    if is_error(r134) goto L231 (error at main:309) else goto L59
+L59:
+    r135 = load_address PyLong_Type
+    r136 = [r134]
+    r137 = load_address r136
+    r138 = PyObject_Vectorcall(r135, r137, 1, 0)
+    if is_error(r138) goto L233 (error at main:309) else goto L60
+L60:
+    dec_ref r134
+    r139 = unbox(int, r138)
+    dec_ref r138
+    if is_error(r139) goto L231 (error at main:309) else goto L61
+L61:
+    r140 = 'min_steps'
+    r141 = CPyObject_GetAttr(r4, r140)
+    if is_error(r141) goto L234 (error at main:310) else goto L62
+L62:
+    r142 = load_address PyLong_Type
+    r143 = [r141]
+    r144 = load_address r143
+    r145 = PyObject_Vectorcall(r142, r144, 1, 0)
+    if is_error(r145) goto L235 (error at main:310) else goto L63
+L63:
+    dec_ref r141
+    r146 = unbox(int, r145)
+    dec_ref r145
+    if is_error(r146) goto L234 (error at main:310) else goto L64
+L64:
+    r147 = 'steady_tol'
+    r148 = CPyObject_GetAttr(r4, r147)
+    dec_ref r4
+    if is_error(r148) goto L236 (error at main:311) else goto L65
+L65:
+    r149 = load_address PyFloat_Type
+    r150 = [r148]
+    r151 = load_address r150
+    r152 = PyObject_Vectorcall(r149, r151, 1, 0)
+    if is_error(r152) goto L237 (error at main:311) else goto L66
+L66:
+    dec_ref r148
+    r153 = unbox(float, r152)
+    dec_ref r152
+    r154 = r153 == -113.0
+    if r154 goto L68 else goto L67 :: bool
+L67:
+    r155 = box(None, 1)
+    inc_ref r155
+    previous_speed = r155
+    r156 = PyList_New(0)
+    if is_error(r156) goto L238 (error at main:313) else goto L69
+L68:
+    r157 = PyErr_Occurred()
+    if not is_error(r157) goto L236 (error at main:311) else goto L67
+L69:
+    r158 = time :: module
+    r159 = 'perf_counter'
+    r160 = CPyObject_GetAttr(r158, r159)
+    if is_error(r160) goto L239 (error at main:315) else goto L70
+L70:
+    r161 = PyObject_Vectorcall(r160, 0, 0, 0)
+    dec_ref r160
+    if is_error(r161) goto L239 (error at main:315) else goto L71
+L71:
+    r162 = unbox(float, r161)
+    dec_ref r161
+    r163 = r162 == -113.0
+    if r163 goto L73 else goto L72 :: bool
+L72:
+    inc_ref r139 :: int
+    steps_run = r139
+    r164 = CPyTagged_Add(r139, 2)
+    r165 = 2
+    inc_ref r165 :: int
+    step = r165
+    dec_ref step :: int
+    goto L74
+L73:
+    r166 = PyErr_Occurred()
+    if not is_error(r166) goto L239 (error at main:315) else goto L72
+L74:
+    r167 = r165 & 1
+    r168 = r167 != 0
+    if r168 goto L76 else goto L75 :: bool
+L75:
+    r169 = r164 & 1
+    r170 = r169 != 0
+    if r170 goto L76 else goto L77 :: bool
+L76:
+    r171 = CPyTagged_IsLt_(r165, r164)
+    if r171 goto L78 else goto L240 :: bool
+L77:
+    r172 = r165 < r164 :: signed
+    if r172 goto L78 else goto L240 :: bool
+L78:
+    inc_ref r165 :: int
+    step = r165
+    r173 = r104.step(2)
+    if is_error(r173) goto L241 (error at main:319) else goto L79
+L79:
+    r174 = r104.speed_field()
+    if is_error(r174) goto L241 (error at main:320) else goto L80
+L80:
+    speed = r174
+    r175 = load_address _Py_NoneStruct
+    r176 = previous_speed != r175
+    if r176 goto L81 else goto L242 :: bool
+L81:
+    r177 = PyNumber_Subtract(speed, previous_speed)
+    dec_ref previous_speed
+    if is_error(r177) goto L243 (error at main:323) else goto L82
+L82:
+    r178 = numpy :: module
+    r179 = 'abs'
+    r180 = CPyObject_GetAttr(r178, r179)
+    if is_error(r180) goto L244 (error at main:323) else goto L83
+L83:
+    r181 = [r177]
+    r182 = load_address r181
+    r183 = PyObject_Vectorcall(r180, r182, 1, 0)
+    dec_ref r180
+    if is_error(r183) goto L244 (error at main:323) else goto L84
+L84:
+    dec_ref r177
+    r184 = numpy :: module
+    r185 = 'max'
+    r186 = CPyObject_GetAttr(r184, r185)
+    if is_error(r186) goto L245 (error at main:323) else goto L85
+L85:
+    r187 = [r183]
+    r188 = load_address r187
+    r189 = PyObject_Vectorcall(r186, r188, 1, 0)
+    dec_ref r186
+    if is_error(r189) goto L245 (error at main:323) else goto L86
+L86:
+    dec_ref r183
+    r190 = load_address PyFloat_Type
+    r191 = [r189]
+    r192 = load_address r191
+    r193 = PyObject_Vectorcall(r190, r192, 1, 0)
+    if is_error(r193) goto L246 (error at main:323) else goto L87
+L87:
+    dec_ref r189
+    r194 = unbox(float, r193)
+    dec_ref r193
+    r195 = r194 == -113.0
+    if r195 goto L89 else goto L88 :: bool
+L88:
+    inc_ref step :: int
+    r196 = (step, r194)
+    r197 = box(tuple[int, float], r196)
+    r198 = PyList_Append(r156, r197)
+    dec_ref r197
+    r199 = r198 >= 0 :: signed
+    if not r199 goto L243 (error at main:324) else goto L90 :: bool
+L89:
+    r200 = PyErr_Occurred()
+    if not is_error(r200) goto L243 (error at main:323) else goto L88
+L90:
+    r201 = step == 4
+    if r201 goto L93 else goto L91 :: bool
+L91:
+    r202 = CPyTagged_Remainder(step, 20)
+    if is_error(r202) goto L243 (error at main:325) else goto L92
+L92:
+    r203 = r202 == 0
+    dec_ref r202 :: int
+    if r203 goto L93 else goto L104 :: bool
+L93:
+    r204 = ''
+    r205 = 'step '
+    r206 = '{:{}}'
+    r207 = ''
+    r208 = 'format'
+    inc_ref step :: int
+    r209 = box(int, step)
+    r210 = [r206, r209, r207]
+    r211 = load_address r210
+    r212 = PyObject_VectorcallMethod(r208, r211, 9223372036854775811, 0)
+    if is_error(r212) goto L247 (error at main:326) else goto L94
+L94:
+    dec_ref r209
+    r213 = cast(str, r212)
+    if is_error(r213) goto L243 (error at main:326) else goto L95
+L95:
+    r214 = '/'
+    r215 = '{:{}}'
+    r216 = ''
+    r217 = 'format'
+    inc_ref r139 :: int
+    r218 = box(int, r139)
+    r219 = [r215, r218, r216]
+    r220 = load_address r219
+    r221 = PyObject_VectorcallMethod(r217, r220, 9223372036854775811, 0)
+    if is_error(r221) goto L248 (error at main:326) else goto L96
+L96:
+    dec_ref r218
+    r222 = cast(str, r221)
+    if is_error(r222) goto L249 (error at main:326) else goto L97
+L97:
+    r223 = ' | max_speed_change='
+    r224 = '{:{}}'
+    r225 = '.6e'
+    r226 = 'format'
+    r227 = box(float, r194)
+    r228 = [r224, r227, r225]
+    r229 = load_address r228
+    r230 = PyObject_VectorcallMethod(r226, r229, 9223372036854775811, 0)
+    if is_error(r230) goto L250 (error at main:326) else goto L98
+L98:
+    dec_ref r227
+    r231 = cast(str, r230)
+    if is_error(r231) goto L251 (error at main:326) else goto L99
+L99:
+    r232 = PyList_New(6)
+    if is_error(r232) goto L252 (error at main:326) else goto L100
+L100:
+    r233 = get_element_ptr r232 ob_item :: PyListObject
+    r234 = load_mem r233 :: ptr*
+    inc_ref r205
+    set_mem r234, r205 :: builtins.object*
+    r235 = r234 + 8
+    set_mem r235, r213 :: builtins.object*
+    inc_ref r214
+    r236 = r234 + 16
+    set_mem r236, r214 :: builtins.object*
+    r237 = r234 + 24
+    set_mem r237, r222 :: builtins.object*
+    inc_ref r223
+    r238 = r234 + 32
+    set_mem r238, r223 :: builtins.object*
+    r239 = r234 + 40
+    set_mem r239, r231 :: builtins.object*
+    r240 = PyUnicode_Join(r204, r232)
+    dec_ref r232
+    if is_error(r240) goto L243 (error at main:326) else goto L101
+L101:
+    r241 = builtins :: module
+    r242 = 'print'
+    r243 = CPyObject_GetAttr(r241, r242)
+    if is_error(r243) goto L253 (error at main:326) else goto L102
+L102:
+    r244 = box(bool, 1)
+    r245 = [r240, r244]
+    r246 = load_address r245
+    r247 = ('flush',)
+    r248 = PyObject_Vectorcall(r243, r246, 1, r247)
+    dec_ref r243
+    if is_error(r248) goto L253 (error at main:326) else goto L254
+L103:
+    dec_ref r240
+L104:
+    r249 = r194 < r153
+    if r249 goto L105 else goto L255 :: bool
+L105:
+    r250 = step & 1
+    r251 = r250 != 0
+    if r251 goto L107 else goto L106 :: bool
+L106:
+    r252 = r146 & 1
+    r253 = r252 != 0
+    if r253 goto L107 else goto L108 :: bool
+L107:
+    r254 = CPyTagged_IsLt_(step, r146)
+    r255 = r254 ^ 1
+    if r255 goto L256 else goto L255 :: bool
+L108:
+    r256 = step >= r146 :: signed
+    if r256 goto L256 else goto L255 :: bool
+L109:
+    inc_ref step :: int
+    steps_run = step
+    r257 = ''
+    r258 = 'steady state reached at step '
+    r259 = '{:{}}'
+    r260 = ''
+    r261 = 'format'
+    r262 = box(int, step)
+    r263 = [r259, r262, r260]
+    r264 = load_address r263
+    r265 = PyObject_VectorcallMethod(r261, r264, 9223372036854775811, 0)
+    if is_error(r265) goto L257 (error at main:330) else goto L110
+L110:
+    dec_ref r262
+    r266 = cast(str, r265)
+    if is_error(r266) goto L258 (error at main:330) else goto L111
+L111:
+    r267 = ' | max_speed_change='
+    r268 = '{:{}}'
+    r269 = '.6e'
+    r270 = 'format'
+    r271 = box(float, r194)
+    r272 = [r268, r271, r269]
+    r273 = load_address r272
+    r274 = PyObject_VectorcallMethod(r270, r273, 9223372036854775811, 0)
+    if is_error(r274) goto L259 (error at main:330) else goto L112
+L112:
+    dec_ref r271
+    r275 = cast(str, r274)
+    if is_error(r275) goto L260 (error at main:330) else goto L113
+L113:
+    r276 = PyList_New(4)
+    if is_error(r276) goto L261 (error at main:330) else goto L114
+L114:
+    r277 = get_element_ptr r276 ob_item :: PyListObject
+    r278 = load_mem r277 :: ptr*
+    inc_ref r258
+    set_mem r278, r258 :: builtins.object*
+    r279 = r278 + 8
+    set_mem r279, r266 :: builtins.object*
+    inc_ref r267
+    r280 = r278 + 16
+    set_mem r280, r267 :: builtins.object*
+    r281 = r278 + 24
+    set_mem r281, r275 :: builtins.object*
+    r282 = PyUnicode_Join(r257, r276)
+    dec_ref r276
+    if is_error(r282) goto L258 (error at main:330) else goto L115
+L115:
+    r283 = builtins :: module
+    r284 = 'print'
+    r285 = CPyObject_GetAttr(r283, r284)
+    if is_error(r285) goto L262 (error at main:329) else goto L116
+L116:
+    r286 = box(bool, 1)
+    r287 = [r282, r286]
+    r288 = load_address r287
+    r289 = ('flush',)
+    r290 = PyObject_Vectorcall(r285, r288, 1, r289)
+    dec_ref r285
+    if is_error(r290) goto L262 (error at main:329) else goto L263
+L117:
+    dec_ref r282
+    goto L128
+L118:
+    r291 = step == 2
+    if r291 goto L119 else goto L255 :: bool
+L119:
+    r292 = 'step '
+    r293 = CPyTagged_Str(step)
+    dec_ref step :: int
+    if is_error(r293) goto L264 (error at main:335) else goto L120
+L120:
+    r294 = '/'
+    r295 = CPyTagged_Str(r139)
+    if is_error(r295) goto L265 (error at main:335) else goto L121
+L121:
+    r296 = ' | initializing flow field'
+    r297 = CPyStr_Build(5, r292, r293, r294, r295, r296)
+    dec_ref r293
+    dec_ref r295
+    if is_error(r297) goto L264 (error at main:335) else goto L122
+L122:
+    r298 = builtins :: module
+    r299 = 'print'
+    r300 = CPyObject_GetAttr(r298, r299)
+    if is_error(r300) goto L266 (error at main:335) else goto L123
+L123:
+    r301 = box(bool, 1)
+    r302 = [r297, r301]
+    r303 = load_address r302
+    r304 = ('flush',)
+    r305 = PyObject_Vectorcall(r300, r303, 1, r304)
+    dec_ref r300
+    if is_error(r305) goto L266 (error at main:335) else goto L267
+L124:
+    dec_ref r297
+L125:
+    r306 = 'copy'
+    r307 = [speed]
+    r308 = load_address r307
+    r309 = PyObject_VectorcallMethod(r306, r308, 9223372036854775809, 0)
+    if is_error(r309) goto L264 (error at main:337) else goto L126
+L126:
+    dec_ref speed
+    previous_speed = r309
+L127:
+    r310 = CPyTagged_Add(r165, 2)
+    dec_ref r165 :: int
+    r165 = r310
+    goto L74
+L128:
+    r311 = steps_run & 1
+    r312 = r311 != 0
+    if r312 goto L129 else goto L130 :: bool
+L129:
+    r313 = CPyTagged_IsEq_(steps_run, r139)
+    r314 = r313
+    goto L131
+L130:
+    r315 = steps_run == r139
+    r314 = r315
+L131:
+    dec_ref r139 :: int
+    if r314 goto L132 else goto L139 :: bool
+L132:
+    r316 = ''
+    r317 = 'max steps reached without meeting steady tolerance '
+    r318 = '{:{}}'
+    r319 = '.1e'
+    r320 = 'format'
+    r321 = box(float, r153)
+    r322 = [r318, r321, r319]
+    r323 = load_address r322
+    r324 = PyObject_VectorcallMethod(r320, r323, 9223372036854775811, 0)
+    if is_error(r324) goto L268 (error at main:340) else goto L133
+L133:
+    dec_ref r321
+    r325 = cast(str, r324)
+    if is_error(r325) goto L269 (error at main:340) else goto L134
+L134:
+    r326 = PyList_New(2)
+    if is_error(r326) goto L270 (error at main:340) else goto L135
+L135:
+    r327 = get_element_ptr r326 ob_item :: PyListObject
+    r328 = load_mem r327 :: ptr*
+    inc_ref r317
+    set_mem r328, r317 :: builtins.object*
+    r329 = r328 + 8
+    set_mem r329, r325 :: builtins.object*
+    r330 = PyUnicode_Join(r316, r326)
+    dec_ref r326
+    if is_error(r330) goto L269 (error at main:340) else goto L136
+L136:
+    r331 = builtins :: module
+    r332 = 'print'
+    r333 = CPyObject_GetAttr(r331, r332)
+    if is_error(r333) goto L271 (error at main:340) else goto L137
+L137:
+    r334 = box(bool, 1)
+    r335 = [r330, r334]
+    r336 = load_address r335
+    r337 = ('flush',)
+    r338 = PyObject_Vectorcall(r333, r336, 1, r337)
+    dec_ref r333
+    if is_error(r338) goto L271 (error at main:340) else goto L272
+L138:
+    dec_ref r330
+L139:
+    r339 = time :: module
+    r340 = 'perf_counter'
+    r341 = CPyObject_GetAttr(r339, r340)
+    if is_error(r341) goto L269 (error at main:342) else goto L140
+L140:
+    r342 = PyObject_Vectorcall(r341, 0, 0, 0)
+    dec_ref r341
+    if is_error(r342) goto L269 (error at main:342) else goto L141
+L141:
+    r343 = unbox(float, r342)
+    dec_ref r342
+    r344 = r343 == -113.0
+    if r344 goto L143 else goto L142 :: bool
+L142:
+    r345 = r343 - r162
+    r346 = r104.speed_field()
+    if is_error(r346) goto L269 (error at main:344) else goto L144
+L143:
+    r347 = PyErr_Occurred()
+    if not is_error(r347) goto L269 (error at main:342) else goto L142
+L144:
+    speed = r346
+    r348 = r104.smoke_field()
+    if is_error(r348) goto L273 (error at main:345) else goto L145
+L145:
+    r349 = r104.pressure_field()
+    if is_error(r349) goto L274 (error at main:346) else goto L146
+L146:
+    r350 = r104.solid_field()
+    if is_error(r350) goto L275 (error at main:347) else goto L147
+L147:
+    r351 = r104.export_cell_data()
+    dec_ref r104
+    if is_error(r351) goto L276 (error at main:348) else goto L148
+L148:
+    r352 = 'airfoil_cells.csv'
+    r353 = PyNumber_TrueDivide(r125, r352)
+    if is_error(r353) goto L277 (error at main:350) else goto L149
+L149:
+    r354 = save_cell_csv(r353, r351)
+    dec_ref r353
+    dec_ref r351
+    if is_error(r354) goto L276 (error at main:350) else goto L150
+L150:
+    r355 = 'airfoil_fields.png'
+    r356 = PyNumber_TrueDivide(r125, r355)
+    if is_error(r356) goto L276 (error at main:351) else goto L151
+L151:
+    r357 = save_field_plot(r356, speed, r348, r349, r350)
+    dec_ref r356
+    dec_ref r349
+    dec_ref r350
+    if is_error(r357) goto L278 (error at main:351) else goto L152
+L152:
+    r358 = get_element_ptr r156 ob_size :: PyVarObject
+    r359 = load_mem r358 :: native_int*
+    r360 = r359 << 1
+    r361 = r360 != 0
+    if r361 goto L153 else goto L279 :: bool
+L153:
+    r362 = 'residual_history.csv'
+    r363 = PyNumber_TrueDivide(r125, r362)
+    if is_error(r363) goto L278 (error at main:355) else goto L154
+L154:
+    r364 = numpy :: module
+    r365 = 'float64'
+    r366 = CPyObject_GetAttr(r364, r365)
+    if is_error(r366) goto L280 (error at main:356) else goto L155
+L155:
+    r367 = numpy :: module
+    r368 = 'array'
+    r369 = CPyObject_GetAttr(r367, r368)
+    if is_error(r369) goto L281 (error at main:356) else goto L156
+L156:
+    r370 = [r156, r366]
+    r371 = load_address r370
+    r372 = ('dtype',)
+    r373 = PyObject_Vectorcall(r369, r371, 1, r372)
+    dec_ref r369
+    if is_error(r373) goto L281 (error at main:356) else goto L157
+L157:
+    dec_ref r156
+    dec_ref r366
+    r374 = ','
+    r375 = 'step,max_speed_change'
+    r376 = ''
+    r377 = '%.6f'
+    r378 = numpy :: module
+    r379 = 'savetxt'
+    r380 = CPyObject_GetAttr(r378, r379)
+    if is_error(r380) goto L282 (error at main:354) else goto L158
+L158:
+    r381 = [r363, r373, r374, r375, r376, r377]
+    r382 = load_address r381
+    r383 = ('delimiter', 'header', 'comments', 'fmt')
+    r384 = PyObject_Vectorcall(r380, r382, 2, r383)
+    dec_ref r380
+    if is_error(r384) goto L282 (error at main:354) else goto L283
+L159:
+    dec_ref r363
+    dec_ref r373
+L160:
+    r385 = 'steps: '
+    r386 = CPyTagged_Str(steps_run)
+    if is_error(r386) goto L284 (error at main:363) else goto L161
+L161:
+    r387 = CPyStr_Build(2, r385, r386)
+    dec_ref r386
+    if is_error(r387) goto L284 (error at main:363) else goto L162
+L162:
+    r388 = builtins :: module
+    r389 = 'print'
+    r390 = CPyObject_GetAttr(r388, r389)
+    if is_error(r390) goto L285 (error at main:363) else goto L163
+L163:
+    r391 = [r387]
+    r392 = load_address r391
+    r393 = PyObject_Vectorcall(r390, r392, 1, 0)
+    dec_ref r390
+    if is_error(r393) goto L285 (error at main:363) else goto L286
+L164:
+    dec_ref r387
+    r394 = ''
+    r395 = 'elapsed_seconds: '
+    r396 = '{:{}}'
+    r397 = '.3f'
+    r398 = 'format'
+    r399 = box(float, r345)
+    r400 = [r396, r399, r397]
+    r401 = load_address r400
+    r402 = PyObject_VectorcallMethod(r398, r401, 9223372036854775811, 0)
+    if is_error(r402) goto L287 (error at main:364) else goto L165
+L165:
+    dec_ref r399
+    r403 = cast(str, r402)
+    if is_error(r403) goto L284 (error at main:364) else goto L166
+L166:
+    r404 = PyList_New(2)
+    if is_error(r404) goto L288 (error at main:364) else goto L167
+L167:
+    r405 = get_element_ptr r404 ob_item :: PyListObject
+    r406 = load_mem r405 :: ptr*
+    inc_ref r395
+    set_mem r406, r395 :: builtins.object*
+    r407 = r406 + 8
+    set_mem r407, r403 :: builtins.object*
+    r408 = PyUnicode_Join(r394, r404)
+    dec_ref r404
+    if is_error(r408) goto L284 (error at main:364) else goto L168
+L168:
+    r409 = builtins :: module
+    r410 = 'print'
+    r411 = CPyObject_GetAttr(r409, r410)
+    if is_error(r411) goto L289 (error at main:364) else goto L169
+L169:
+    r412 = [r408]
+    r413 = load_address r412
+    r414 = PyObject_Vectorcall(r411, r413, 1, 0)
+    dec_ref r411
+    if is_error(r414) goto L289 (error at main:364) else goto L290
+L170:
+    dec_ref r408
+    r415 = ''
+    r416 = 'steps_per_second: '
+    r417 = '{:{}}'
+    r418 = CPyFloat_FromTagged(steps_run)
+    dec_ref steps_run :: int
+    r419 = r418 == -113.0
+    if r419 goto L172 else goto L171 :: bool
+L171:
+    r420 = r345 == 0.0
+    if r420 goto L291 else goto L175 :: bool
+L172:
+    r421 = PyErr_Occurred()
+    if not is_error(r421) goto L292 (error at main:365) else goto L171
+L173:
+    r422 = raise ZeroDivisionError('float division by zero')
+    if not r422 goto L209 (error at main:365) else goto L174 :: bool
+L174:
+    unreachable
+L175:
+    r423 = r418 / r345
+    r424 = '.2f'
+    r425 = 'format'
+    r426 = box(float, r423)
+    r427 = [r417, r426, r424]
+    r428 = load_address r427
+    r429 = PyObject_VectorcallMethod(r425, r428, 9223372036854775811, 0)
+    if is_error(r429) goto L293 (error at main:365) else goto L176
+L176:
+    dec_ref r426
+    r430 = cast(str, r429)
+    if is_error(r430) goto L292 (error at main:365) else goto L177
+L177:
+    r431 = PyList_New(2)
+    if is_error(r431) goto L294 (error at main:365) else goto L178
+L178:
+    r432 = get_element_ptr r431 ob_item :: PyListObject
+    r433 = load_mem r432 :: ptr*
+    inc_ref r416
+    set_mem r433, r416 :: builtins.object*
+    r434 = r433 + 8
+    set_mem r434, r430 :: builtins.object*
+    r435 = PyUnicode_Join(r415, r431)
+    dec_ref r431
+    if is_error(r435) goto L292 (error at main:365) else goto L179
+L179:
+    r436 = builtins :: module
+    r437 = 'print'
+    r438 = CPyObject_GetAttr(r436, r437)
+    if is_error(r438) goto L295 (error at main:365) else goto L180
+L180:
+    r439 = [r435]
+    r440 = load_address r439
+    r441 = PyObject_Vectorcall(r438, r440, 1, 0)
+    dec_ref r438
+    if is_error(r441) goto L295 (error at main:365) else goto L296
+L181:
+    dec_ref r435
+    r442 = ''
+    r443 = 'max_speed: '
+    r444 = '{:{}}'
+    r445 = numpy :: module
+    r446 = 'max'
+    r447 = CPyObject_GetAttr(r445, r446)
+    if is_error(r447) goto L292 (error at main:366) else goto L182
+L182:
+    r448 = [speed]
+    r449 = load_address r448
+    r450 = PyObject_Vectorcall(r447, r449, 1, 0)
+    dec_ref r447
+    if is_error(r450) goto L292 (error at main:366) else goto L183
+L183:
+    dec_ref speed
+    r451 = load_address PyFloat_Type
+    r452 = [r450]
+    r453 = load_address r452
+    r454 = PyObject_Vectorcall(r451, r453, 1, 0)
+    if is_error(r454) goto L297 (error at main:366) else goto L184
+L184:
+    dec_ref r450
+    r455 = unbox(float, r454)
+    dec_ref r454
+    r456 = r455 == -113.0
+    if r456 goto L186 else goto L185 :: bool
+L185:
+    r457 = '.3f'
+    r458 = 'format'
+    r459 = box(float, r455)
+    r460 = [r444, r459, r457]
+    r461 = load_address r460
+    r462 = PyObject_VectorcallMethod(r458, r461, 9223372036854775811, 0)
+    if is_error(r462) goto L298 (error at main:366) else goto L187
+L186:
+    r463 = PyErr_Occurred()
+    if not is_error(r463) goto L299 (error at main:366) else goto L185
+L187:
+    dec_ref r459
+    r464 = cast(str, r462)
+    if is_error(r464) goto L299 (error at main:366) else goto L188
+L188:
+    r465 = PyList_New(2)
+    if is_error(r465) goto L300 (error at main:366) else goto L189
+L189:
+    r466 = get_element_ptr r465 ob_item :: PyListObject
+    r467 = load_mem r466 :: ptr*
+    inc_ref r443
+    set_mem r467, r443 :: builtins.object*
+    r468 = r467 + 8
+    set_mem r468, r464 :: builtins.object*
+    r469 = PyUnicode_Join(r442, r465)
+    dec_ref r465
+    if is_error(r469) goto L299 (error at main:366) else goto L190
+L190:
+    r470 = builtins :: module
+    r471 = 'print'
+    r472 = CPyObject_GetAttr(r470, r471)
+    if is_error(r472) goto L301 (error at main:366) else goto L191
+L191:
+    r473 = [r469]
+    r474 = load_address r473
+    r475 = PyObject_Vectorcall(r472, r474, 1, 0)
+    dec_ref r472
+    if is_error(r475) goto L301 (error at main:366) else goto L302
+L192:
+    dec_ref r469
+    r476 = ''
+    r477 = 'mean_smoke: '
+    r478 = '{:{}}'
+    r479 = numpy :: module
+    r480 = 'mean'
+    r481 = CPyObject_GetAttr(r479, r480)
+    if is_error(r481) goto L299 (error at main:367) else goto L193
+L193:
+    r482 = [r348]
+    r483 = load_address r482
+    r484 = PyObject_Vectorcall(r481, r483, 1, 0)
+    dec_ref r481
+    if is_error(r484) goto L299 (error at main:367) else goto L194
+L194:
+    dec_ref r348
+    r485 = load_address PyFloat_Type
+    r486 = [r484]
+    r487 = load_address r486
+    r488 = PyObject_Vectorcall(r485, r487, 1, 0)
+    if is_error(r488) goto L303 (error at main:367) else goto L195
+L195:
+    dec_ref r484
+    r489 = unbox(float, r488)
+    dec_ref r488
+    r490 = r489 == -113.0
+    if r490 goto L197 else goto L196 :: bool
+L196:
+    r491 = '.3f'
+    r492 = 'format'
+    r493 = box(float, r489)
+    r494 = [r478, r493, r491]
+    r495 = load_address r494
+    r496 = PyObject_VectorcallMethod(r492, r495, 9223372036854775811, 0)
+    if is_error(r496) goto L304 (error at main:367) else goto L198
+L197:
+    r497 = PyErr_Occurred()
+    if not is_error(r497) goto L305 (error at main:367) else goto L196
+L198:
+    dec_ref r493
+    r498 = cast(str, r496)
+    if is_error(r498) goto L305 (error at main:367) else goto L199
+L199:
+    r499 = PyList_New(2)
+    if is_error(r499) goto L306 (error at main:367) else goto L200
+L200:
+    r500 = get_element_ptr r499 ob_item :: PyListObject
+    r501 = load_mem r500 :: ptr*
+    inc_ref r477
+    set_mem r501, r477 :: builtins.object*
+    r502 = r501 + 8
+    set_mem r502, r498 :: builtins.object*
+    r503 = PyUnicode_Join(r476, r499)
+    dec_ref r499
+    if is_error(r503) goto L305 (error at main:367) else goto L201
+L201:
+    r504 = builtins :: module
+    r505 = 'print'
+    r506 = CPyObject_GetAttr(r504, r505)
+    if is_error(r506) goto L307 (error at main:367) else goto L202
+L202:
+    r507 = [r503]
+    r508 = load_address r507
+    r509 = PyObject_Vectorcall(r506, r508, 1, 0)
+    dec_ref r506
+    if is_error(r509) goto L307 (error at main:367) else goto L308
+L203:
+    dec_ref r503
+    r510 = 'output_dir: '
+    r511 = 'resolve'
+    r512 = [r125]
+    r513 = load_address r512
+    r514 = PyObject_VectorcallMethod(r511, r513, 9223372036854775809, 0)
+    if is_error(r514) goto L305 (error at main:368) else goto L204
+L204:
+    dec_ref r125
+    r515 = PyObject_Str(r514)
+    dec_ref r514
+    if is_error(r515) goto L209 (error at main:368) else goto L205
+L205:
+    r516 = CPyStr_Build(2, r510, r515)
+    dec_ref r515
+    if is_error(r516) goto L209 (error at main:368) else goto L206
+L206:
+    r517 = builtins :: module
+    r518 = 'print'
+    r519 = CPyObject_GetAttr(r517, r518)
+    if is_error(r519) goto L309 (error at main:368) else goto L207
+L207:
+    r520 = [r516]
+    r521 = load_address r520
+    r522 = PyObject_Vectorcall(r519, r521, 1, 0)
+    dec_ref r519
+    if is_error(r522) goto L309 (error at main:368) else goto L310
+L208:
+    dec_ref r516
+    return 1
+L209:
+    r523 = <error> :: None
+    return r523
+L210:
+    dec_ref r0
+    goto L209
+L211:
+    dec_ref r4
+    goto L209
+L212:
+    dec_ref r4
+    dec_ref r8
+    goto L209
+L213:
+    dec_ref r4
+    dec_ref r13 :: int
+    goto L209
+L214:
+    dec_ref r4
+    dec_ref r13 :: int
+    dec_ref r17
+    goto L209
+L215:
+    dec_ref r4
+    dec_ref r13 :: int
+    dec_ref r22 :: int
+    goto L209
+L216:
+    dec_ref r4
+    dec_ref r13 :: int
+    dec_ref r22 :: int
+    dec_ref r26
+    goto L209
+L217:
+    dec_ref r4
+    dec_ref r13 :: int
+    dec_ref r22 :: int
+    dec_ref r37
+    goto L209
+L218:
+    dec_ref r4
+    dec_ref r13 :: int
+    dec_ref r22 :: int
+    dec_ref r45
+    goto L209
+L219:
+    dec_ref r4
+    dec_ref r13 :: int
+    dec_ref r22 :: int
+    dec_ref r51 :: int
+    goto L209
+L220:
+    dec_ref r4
+    dec_ref r13 :: int
+    dec_ref r22 :: int
+    dec_ref r51 :: int
+    dec_ref r53
+    goto L209
+L221:
+    dec_ref r4
+    dec_ref r13 :: int
+    dec_ref r22 :: int
+    dec_ref r51 :: int
+    dec_ref r61
+    goto L209
+L222:
+    dec_ref r4
+    dec_ref r13 :: int
+    dec_ref r22 :: int
+    dec_ref r51 :: int
+    dec_ref r70
+    goto L209
+L223:
+    dec_ref r4
+    dec_ref r13 :: int
+    dec_ref r22 :: int
+    dec_ref r51 :: int
+    dec_ref r79
+    goto L209
+L224:
+    dec_ref r4
+    dec_ref r13 :: int
+    dec_ref r22 :: int
+    dec_ref r51 :: int
+    dec_ref r88
+    goto L209
+L225:
+    dec_ref r4
+    dec_ref r13 :: int
+    dec_ref r22 :: int
+    dec_ref r51 :: int
+    dec_ref r97
+    goto L209
+L226:
+    dec_ref r4
+    dec_ref r104
+    goto L209
+L227:
+    dec_ref r4
+    dec_ref r104
+    dec_ref r107
+    goto L209
+L228:
+    dec_ref r4
+    dec_ref r104
+    dec_ref r107
+    dec_ref r109
+    goto L209
+L229:
+    dec_ref r116
+    goto L54
+L230:
+    dec_ref r4
+    dec_ref r104
+    dec_ref r119
+    goto L209
+L231:
+    dec_ref r4
+    dec_ref r104
+    dec_ref r125
+    goto L209
+L232:
+    dec_ref r132
+    goto L58
+L233:
+    dec_ref r4
+    dec_ref r104
+    dec_ref r125
+    dec_ref r134
+    goto L209
+L234:
+    dec_ref r4
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    goto L209
+L235:
+    dec_ref r4
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r141
+    goto L209
+L236:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r146 :: int
+    goto L209
+L237:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r146 :: int
+    dec_ref r148
+    goto L209
+L238:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r146 :: int
+    dec_ref previous_speed
+    goto L209
+L239:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r146 :: int
+    dec_ref previous_speed
+    dec_ref r156
+    goto L209
+L240:
+    dec_ref r146 :: int
+    dec_ref previous_speed
+    dec_ref r164 :: int
+    dec_ref r165 :: int
+    goto L128
+L241:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r146 :: int
+    dec_ref previous_speed
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r164 :: int
+    dec_ref r165 :: int
+    dec_ref step :: int
+    goto L209
+L242:
+    dec_ref previous_speed
+    goto L118
+L243:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r146 :: int
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r164 :: int
+    dec_ref r165 :: int
+    dec_ref step :: int
+    dec_ref speed
+    goto L209
+L244:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r146 :: int
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r164 :: int
+    dec_ref r165 :: int
+    dec_ref step :: int
+    dec_ref speed
+    dec_ref r177
+    goto L209
+L245:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r146 :: int
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r164 :: int
+    dec_ref r165 :: int
+    dec_ref step :: int
+    dec_ref speed
+    dec_ref r183
+    goto L209
+L246:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r146 :: int
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r164 :: int
+    dec_ref r165 :: int
+    dec_ref step :: int
+    dec_ref speed
+    dec_ref r189
+    goto L209
+L247:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r146 :: int
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r164 :: int
+    dec_ref r165 :: int
+    dec_ref step :: int
+    dec_ref speed
+    dec_ref r209
+    goto L209
+L248:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r146 :: int
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r164 :: int
+    dec_ref r165 :: int
+    dec_ref step :: int
+    dec_ref speed
+    dec_ref r213
+    dec_ref r218
+    goto L209
+L249:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r146 :: int
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r164 :: int
+    dec_ref r165 :: int
+    dec_ref step :: int
+    dec_ref speed
+    dec_ref r213
+    goto L209
+L250:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r146 :: int
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r164 :: int
+    dec_ref r165 :: int
+    dec_ref step :: int
+    dec_ref speed
+    dec_ref r213
+    dec_ref r222
+    dec_ref r227
+    goto L209
+L251:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r146 :: int
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r164 :: int
+    dec_ref r165 :: int
+    dec_ref step :: int
+    dec_ref speed
+    dec_ref r213
+    dec_ref r222
+    goto L209
+L252:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r146 :: int
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r164 :: int
+    dec_ref r165 :: int
+    dec_ref step :: int
+    dec_ref speed
+    dec_ref r213
+    dec_ref r222
+    dec_ref r231
+    goto L209
+L253:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r146 :: int
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r164 :: int
+    dec_ref r165 :: int
+    dec_ref step :: int
+    dec_ref speed
+    dec_ref r240
+    goto L209
+L254:
+    dec_ref r248
+    goto L103
+L255:
+    dec_ref step :: int
+    goto L125
+L256:
+    dec_ref r146 :: int
+    dec_ref steps_run :: int
+    dec_ref r164 :: int
+    dec_ref r165 :: int
+    dec_ref speed
+    goto L109
+L257:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r262
+    goto L209
+L258:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r156
+    dec_ref steps_run :: int
+    goto L209
+L259:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r266
+    dec_ref r271
+    goto L209
+L260:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r266
+    goto L209
+L261:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r266
+    dec_ref r275
+    goto L209
+L262:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r282
+    goto L209
+L263:
+    dec_ref r290
+    goto L117
+L264:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r146 :: int
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r164 :: int
+    dec_ref r165 :: int
+    dec_ref speed
+    goto L209
+L265:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r146 :: int
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r164 :: int
+    dec_ref r165 :: int
+    dec_ref speed
+    dec_ref r293
+    goto L209
+L266:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r139 :: int
+    dec_ref r146 :: int
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r164 :: int
+    dec_ref r165 :: int
+    dec_ref speed
+    dec_ref r297
+    goto L209
+L267:
+    dec_ref r305
+    goto L124
+L268:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r321
+    goto L209
+L269:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r156
+    dec_ref steps_run :: int
+    goto L209
+L270:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r325
+    goto L209
+L271:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref r330
+    goto L209
+L272:
+    dec_ref r338
+    goto L138
+L273:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref speed
+    goto L209
+L274:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref speed
+    dec_ref r348
+    goto L209
+L275:
+    dec_ref r104
+    dec_ref r125
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref speed
+    dec_ref r348
+    dec_ref r349
+    goto L209
+L276:
+    dec_ref r125
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref speed
+    dec_ref r348
+    dec_ref r349
+    dec_ref r350
+    goto L209
+L277:
+    dec_ref r125
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref speed
+    dec_ref r348
+    dec_ref r349
+    dec_ref r350
+    dec_ref r351
+    goto L209
+L278:
+    dec_ref r125
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref speed
+    dec_ref r348
+    goto L209
+L279:
+    dec_ref r156
+    goto L160
+L280:
+    dec_ref r125
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref speed
+    dec_ref r348
+    dec_ref r363
+    goto L209
+L281:
+    dec_ref r125
+    dec_ref r156
+    dec_ref steps_run :: int
+    dec_ref speed
+    dec_ref r348
+    dec_ref r363
+    dec_ref r366
+    goto L209
+L282:
+    dec_ref r125
+    dec_ref steps_run :: int
+    dec_ref speed
+    dec_ref r348
+    dec_ref r363
+    dec_ref r373
+    goto L209
+L283:
+    dec_ref r384
+    goto L159
+L284:
+    dec_ref r125
+    dec_ref steps_run :: int
+    dec_ref speed
+    dec_ref r348
+    goto L209
+L285:
+    dec_ref r125
+    dec_ref steps_run :: int
+    dec_ref speed
+    dec_ref r348
+    dec_ref r387
+    goto L209
+L286:
+    dec_ref r393
+    goto L164
+L287:
+    dec_ref r125
+    dec_ref steps_run :: int
+    dec_ref speed
+    dec_ref r348
+    dec_ref r399
+    goto L209
+L288:
+    dec_ref r125
+    dec_ref steps_run :: int
+    dec_ref speed
+    dec_ref r348
+    dec_ref r403
+    goto L209
+L289:
+    dec_ref r125
+    dec_ref steps_run :: int
+    dec_ref speed
+    dec_ref r348
+    dec_ref r408
+    goto L209
+L290:
+    dec_ref r414
+    goto L170
+L291:
+    dec_ref r125
+    dec_ref speed
+    dec_ref r348
+    goto L173
+L292:
+    dec_ref r125
+    dec_ref speed
+    dec_ref r348
+    goto L209
+L293:
+    dec_ref r125
+    dec_ref speed
+    dec_ref r348
+    dec_ref r426
+    goto L209
+L294:
+    dec_ref r125
+    dec_ref speed
+    dec_ref r348
+    dec_ref r430
+    goto L209
+L295:
+    dec_ref r125
+    dec_ref speed
+    dec_ref r348
+    dec_ref r435
+    goto L209
+L296:
+    dec_ref r441
+    goto L181
+L297:
+    dec_ref r125
+    dec_ref r348
+    dec_ref r450
+    goto L209
+L298:
+    dec_ref r125
+    dec_ref r348
+    dec_ref r459
+    goto L209
+L299:
+    dec_ref r125
+    dec_ref r348
+    goto L209
+L300:
+    dec_ref r125
+    dec_ref r348
+    dec_ref r464
+    goto L209
+L301:
+    dec_ref r125
+    dec_ref r348
+    dec_ref r469
+    goto L209
+L302:
+    dec_ref r475
+    goto L192
+L303:
+    dec_ref r125
+    dec_ref r484
+    goto L209
+L304:
+    dec_ref r125
+    dec_ref r493
+    goto L209
+L305:
+    dec_ref r125
+    goto L209
+L306:
+    dec_ref r125
+    dec_ref r498
+    goto L209
+L307:
+    dec_ref r125
+    dec_ref r503
+    goto L209
+L308:
+    dec_ref r509
+    goto L203
+L309:
+    dec_ref r516
+    goto L209
+L310:
+    dec_ref r522
+    goto L208
+
+def __top_level__():
+    r0, r1 :: object
+    r2 :: bit
+    r3 :: str
+    r4, r5 :: object
+    r6 :: str
+    r7 :: dict
+    r8 :: object
+    r9, r10 :: object_ptr
+    r11 :: object_ptr[2]
+    r12 :: c_ptr
+    r13 :: native_int[2]
+    r14 :: c_ptr
+    r15 :: object
+    r16 :: dict
+    r17, r18 :: str
+    r19 :: bit
+    r20 :: object
+    r21 :: str
+    r22 :: dict
+    r23, r24 :: object
+    r25 :: str
+    r26 :: dict
+    r27 :: object
+    r28 :: object_ptr
+    r29 :: object_ptr[1]
+    r30 :: c_ptr
+    r31 :: native_int[1]
+    r32 :: c_ptr
+    r33 :: object
+    r34 :: dict
+    r35, r36 :: str
+    r37 :: bit
+    r38 :: str
+    r39 :: object
+    r40 :: str
+    r41 :: object
+    r42 :: object[1]
+    r43 :: object_ptr
+    r44 :: object
+    r45, r46, r47 :: object_ptr
+    r48 :: object_ptr[3]
+    r49 :: c_ptr
+    r50 :: native_int[3]
+    r51 :: c_ptr
+    r52 :: object
+    r53 :: dict
+    r54, r55 :: str
+    r56 :: bit
+    r57 :: object
+    r58 :: str
+    r59 :: dict
+    r60, r61 :: object
+    r62 :: str
+    r63 :: dict
+    r64, r65 :: object
+    r66 :: str
+    r67, r68 :: object
+    r69 :: str
+    r70, r71 :: object
+    r72 :: dict
+    r73 :: str
+    r74 :: i32
+    r75 :: bit
+    r76 :: object
+    r77 :: str
+    r78, r79 :: object
+    r80 :: str
+    r81, r82 :: object
+    r83 :: dict
+    r84 :: str
+    r85 :: i32
+    r86 :: bit
+    r87 :: object
+    r88 :: str
+    r89, r90 :: object
+    r91, r92 :: bool
+    r93, r94, r95, r96, r97, r98, r99, r100, r101, r102, r103, r104 :: str
+    r105 :: tuple
+    r106 :: i32
+    r107 :: bit
+    r108 :: dict
+    r109 :: str
+    r110 :: i32
+    r111 :: bit
+    r112 :: bool
+    r113 :: dict
+    r114 :: str
+    r115 :: object
+    r116, r117 :: str
+    r118 :: bool
+    r119, r120 :: None
+L0:
+    r0 = builtins :: module
+    r1 = load_address _Py_NoneStruct
+    r2 = r0 != r1
+    if r2 goto L3 else goto L1 :: bool
+L1:
+    r3 = 'builtins'
+    r4 = PyImport_Import(r3)
+    if is_error(r4) goto L33 (error at <module>:1) else goto L2
+L2:
+    builtins = r4 :: module
+    dec_ref r4
+L3:
+    r5 = ('annotations',)
+    r6 = '__future__'
+    r7 = simplified.globals :: static
+    r8 = CPyImport_ImportFromMany(r6, r5, r5, r7)
+    if is_error(r8) goto L33 (error at <module>:1) else goto L4
+L4:
+    __future__ = r8 :: module
+    dec_ref r8
+    r9 = load_address argparse :: module
+    r10 = load_address time :: module
+    r11 = [r9, r10]
+    r12 = load_address r11
+    r13 = [3, 4]
+    r14 = load_address r13
+    r15 = (('argparse', 'argparse', 'argparse'), ('time', 'time', 'time'))
+    r16 = simplified.globals :: static
+    r17 = 'simplified.py'
+    r18 = '<module>'
+    r19 = CPyImport_ImportMany(r15, r12, r16, r17, r18, r14)
+    if not r19 goto L33 else goto L5 :: bool
+L5:
+    r20 = ('Path',)
+    r21 = 'pathlib'
+    r22 = simplified.globals :: static
+    r23 = CPyImport_ImportFromMany(r21, r20, r20, r22)
+    if is_error(r23) goto L33 (error at <module>:5) else goto L6
+L6:
+    pathlib = r23 :: module
+    dec_ref r23
+    r24 = ('Sequence',)
+    r25 = 'typing'
+    r26 = simplified.globals :: static
+    r27 = CPyImport_ImportFromMany(r25, r24, r24, r26)
+    if is_error(r27) goto L33 (error at <module>:6) else goto L7
+L7:
+    typing = r27 :: module
+    dec_ref r27
+    r28 = load_address matplotlib :: module
+    r29 = [r28]
+    r30 = load_address r29
+    r31 = [8]
+    r32 = load_address r31
+    r33 = (('matplotlib', 'matplotlib', 'matplotlib'),)
+    r34 = simplified.globals :: static
+    r35 = 'simplified.py'
+    r36 = '<module>'
+    r37 = CPyImport_ImportMany(r33, r30, r34, r35, r36, r32)
+    if not r37 goto L33 else goto L8 :: bool
+L8:
+    r38 = 'Agg'
+    r39 = matplotlib :: module
+    r40 = 'use'
+    r41 = CPyObject_GetAttr(r39, r40)
+    if is_error(r41) goto L33 (error at <module>:10) else goto L9
+L9:
+    r42 = [r38]
+    r43 = load_address r42
+    r44 = PyObject_Vectorcall(r41, r43, 1, 0)
+    dec_ref r41
+    if is_error(r44) goto L33 (error at <module>:10) else goto L34
+L10:
+    r45 = load_address matplotlib.pyplot :: module
+    r46 = load_address numpy :: module
+    r47 = load_address numpy.typing :: module
+    r48 = [r45, r46, r47]
+    r49 = load_address r48
+    r50 = [11, 12, 13]
+    r51 = load_address r50
+    r52 = (('matplotlib.pyplot', 'matplotlib.pyplot', 'plt'), ('numpy', 'numpy', 'np'), ('numpy.typing', 'numpy.typing', 'npt'))
+    r53 = simplified.globals :: static
+    r54 = 'simplified.py'
+    r55 = '<module>'
+    r56 = CPyImport_ImportMany(r52, r49, r53, r54, r55, r51)
+    if not r56 goto L33 else goto L11 :: bool
+L11:
+    r57 = ('apply_naca_airfoil',)
+    r58 = 'airfoil'
+    r59 = simplified.globals :: static
+    r60 = CPyImport_ImportFromMany(r58, r57, r57, r59)
+    if is_error(r60) goto L33 (error at <module>:15) else goto L12
+L12:
+    airfoil = r60 :: module
+    dec_ref r60
+    r61 = ('FLUID', 'set_over_relaxation')
+    r62 = 'sovler'
+    r63 = simplified.globals :: static
+    r64 = CPyImport_ImportFromMany(r62, r61, r61, r63)
+    if is_error(r64) goto L33 (error at <module>:16) else goto L13
+L13:
+    sovler = r64 :: module
+    dec_ref r64
+    r65 = numpy.typing :: module
+    r66 = 'NDArray'
+    r67 = CPyObject_GetAttr(r65, r66)
+    if is_error(r67) goto L33 (error at <module>:19) else goto L14
+L14:
+    r68 = numpy :: module
+    r69 = 'float32'
+    r70 = CPyObject_GetAttr(r68, r69)
+    if is_error(r70) goto L35 (error at <module>:19) else goto L15
+L15:
+    r71 = PyObject_GetItem(r67, r70)
+    dec_ref r67
+    dec_ref r70
+    if is_error(r71) goto L33 (error at <module>:19) else goto L16
+L16:
+    r72 = simplified.globals :: static
+    r73 = 'FloatArray'
+    r74 = CPyDict_SetItem(r72, r73, r71)
+    dec_ref r71
+    r75 = r74 >= 0 :: signed
+    if not r75 goto L33 (error at <module>:19) else goto L17 :: bool
+L17:
+    r76 = numpy.typing :: module
+    r77 = 'NDArray'
+    r78 = CPyObject_GetAttr(r76, r77)
+    if is_error(r78) goto L33 (error at <module>:20) else goto L18
+L18:
+    r79 = numpy :: module
+    r80 = 'void'
+    r81 = CPyObject_GetAttr(r79, r80)
+    if is_error(r81) goto L36 (error at <module>:20) else goto L19
+L19:
+    r82 = PyObject_GetItem(r78, r81)
+    dec_ref r78
+    dec_ref r81
+    if is_error(r82) goto L33 (error at <module>:20) else goto L20
+L20:
+    r83 = simplified.globals :: static
+    r84 = 'StructuredCellArray'
+    r85 = CPyDict_SetItem(r83, r84, r82)
+    dec_ref r82
+    r86 = r85 >= 0 :: signed
+    if not r86 goto L33 (error at <module>:20) else goto L21 :: bool
+L21:
+    r87 = <error> :: object
+    r88 = 'simplified'
+    r89 = simplified.HeadlessWindTunnel_template :: type
+    r90 = CPyType_FromTemplate(r89, r87, r88)
+    if is_error(r90) goto L33 (error at <module>:23) else goto L22
+L22:
+    r91 = HeadlessWindTunnel_trait_vtable_setup()
+    if is_error(r91) goto L37 (error at <module>:23) else goto L23
+L23:
+    r92 = HeadlessWindTunnel_coroutine_setup(r90)
+    if is_error(r92) goto L37 (error at <module>:23) else goto L24
+L24:
+    r93 = '__mypyc_attrs__'
+    r94 = 'grid_w'
+    r95 = 'grid_h'
+    r96 = 'density'
+    r97 = 'flow_speed'
+    r98 = 'smoke_strength'
+    r99 = 'gravity'
+    r100 = 'dt'
+    r101 = 'iterations'
+    r102 = 'over_relax'
+    r103 = 'inlet_columns'
+    r104 = 'fluid'
+    r105 = PyTuple_Pack(11, r94, r95, r96, r97, r98, r99, r100, r101, r102, r103, r104)
+    if is_error(r105) goto L37 (error at <module>:23) else goto L25
+L25:
+    r106 = PyObject_SetAttr(r90, r93, r105)
+    dec_ref r105
+    r107 = r106 >= 0 :: signed
+    if not r107 goto L37 (error at <module>:23) else goto L26 :: bool
+L26:
+    simplified.HeadlessWindTunnel = r90 :: type
+    r108 = simplified.globals :: static
+    r109 = 'HeadlessWindTunnel'
+    r110 = PyDict_SetItem(r108, r109, r90)
+    r111 = r110 >= 0 :: signed
+    if not r111 goto L37 (error at <module>:23) else goto L27 :: bool
+L27:
+    r112 = CPy_InitSubclass(r90)
+    dec_ref r90
+    if not r112 goto L33 (error at <module>:23) else goto L28 :: bool
+L28:
+    r113 = simplified.globals :: static
+    r114 = '__name__'
+    r115 = CPyDict_GetItem(r113, r114)
+    if is_error(r115) goto L33 (error at <module>:371) else goto L29
+L29:
+    r116 = cast(str, r115)
+    if is_error(r116) goto L33 (error at <module>:371) else goto L30
+L30:
+    r117 = '__main__'
+    r118 = CPyStr_EqualLiteral(r116, r117, 8)
+    dec_ref r116
+    if r118 goto L31 else goto L32 :: bool
+L31:
+    r119 = main()
+    if is_error(r119) goto L33 (error at <module>:372) else goto L32
+L32:
+    return 1
+L33:
+    r120 = <error> :: None
+    return r120
+L34:
+    dec_ref r44
+    goto L10
+L35:
+    dec_ref r67
+    goto L33
+L36:
+    dec_ref r78
+    goto L33
+L37:
+    dec_ref r90
+    goto L33

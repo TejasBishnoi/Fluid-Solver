@@ -1,12 +1,10 @@
 import argparse
 from pathlib import Path
 
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 import numpy as np
 
-from visualizer import wt
+from simplified import HeadlessWindTunnel
+
 
 def save_cell_csv(path, cell_data):
     header = "cell_id,i,j,s,u_face,v_face,u_center,v_center,speed,smoke,pressure"
@@ -29,6 +27,11 @@ def save_cell_csv(path, cell_data):
 
 
 def plot_fields(output_path, speed, smoke, pressure, solid):
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
     fig, axes = plt.subplots(2, 2, figsize=(12, 8), constrained_layout=True)
 
     plots = [
@@ -51,7 +54,7 @@ def plot_fields(output_path, speed, smoke, pressure, solid):
 
 
 def run_case(args):
-    sim = wt(
+    sim = HeadlessWindTunnel(
         grid_w=args.grid_w,
         grid_h=args.grid_h,
         density=args.density,

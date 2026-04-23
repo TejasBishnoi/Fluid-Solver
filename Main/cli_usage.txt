@@ -1,0 +1,138 @@
+Headless Airfoil CLI Usage
+==========================
+
+This project can run a headless CFD simulation with a NACA airfoil and export the
+final-state results to a folder.
+
+Run Command
+-----------
+
+Basic run:
+
+python3 simplified.py
+
+If matplotlib needs a writable cache/config directory:
+
+MPLCONFIGDIR=/tmp/mpl python3 simplified.py
+
+
+Main CLI Arguments
+------------------
+
+--resolution NX NY
+Set the simulation resolution in cells.
+Example:
+python3 simplified.py --resolution 100 100
+
+--hardstep N
+Maximum number of time steps before the run stops even if steady state is not reached.
+Example:
+python3 simplified.py --hardstep 400
+
+--min-steps N
+Minimum number of steps before steady-state detection is allowed.
+Default: 100
+
+--steady-tol VALUE
+Steady-state tolerance based on:
+max(abs(speed_current - speed_previous))
+If this falls below the tolerance after `--min-steps`, the simulation stops early.
+Default: 1e-4
+
+--iterations N
+Pressure solve iterations per time step.
+
+--dt VALUE
+Simulation time step size.
+
+--flow-speed VALUE
+Inlet velocity magnitude.
+
+--smoke-strength VALUE
+Inlet smoke scalar value.
+
+--gravity VALUE
+Vertical acceleration term.
+
+--over-relax VALUE
+Over-relaxation factor for the incompressibility solve.
+
+--inlet-columns N
+Number of inlet columns on the left side.
+
+--naca-code CODE
+4-digit NACA airfoil code.
+Examples:
+2412
+0012
+
+--chord-length VALUE
+Airfoil chord length in grid cells.
+
+--center X Y
+Airfoil center position in grid coordinates.
+Example:
+python3 simplified.py --center 70 51
+
+--output-dir DIR
+Folder where the final outputs are saved.
+Default: outputs
+
+
+What Gets Exported
+------------------
+
+Only the final state is exported.
+That final state is either:
+1. The converged step, if the steady-state criterion is met
+2. The last hard-stop step, if convergence is not reached in time
+
+Files written:
+
+airfoil_cells.csv
+Per-cell data for the final exported step only.
+Columns:
+cell_id,i,j,s,u_face,v_face,u_center,v_center,speed,smoke,pressure
+
+airfoil_fields.png
+A 2x2 image showing:
+- smoke
+- speed magnitude
+- pressure
+- solid mask
+
+residual_history.csv
+Residual history over the run.
+Columns:
+step,max_speed_change
+
+
+Progress Output
+---------------
+
+The terminal prints progress while the simulation runs.
+Examples:
+
+step 1/400 | initializing flow field
+step 10/400 | max_speed_change=...
+steady state reached at step 137 | max_speed_change=...
+
+If steady state is not reached:
+
+max steps reached without meeting steady tolerance 1.0e-04
+
+
+Example Commands
+----------------
+
+Default case:
+python3 simplified.py
+
+100 x 100 grid with a 400-step cap:
+python3 simplified.py --resolution 100 100 --hardstep 400
+
+Custom airfoil case:
+python3 simplified.py --resolution 200 100 --hardstep 400 --naca-code 2412 --chord-length 30 --center 70 51
+
+Write outputs to a custom folder:
+python3 simplified.py --output-dir run_outputs
